@@ -24,7 +24,7 @@
                     <td align="left" width="57%">
                       <div name='user'>
                         <input type="text" value="" name="user"
-                        placeholder="Digite seu nome de Usuário">
+                        placeholder="Digite seu nome de Usuário" required>
                       </div>
                     </td>
                 </tr>
@@ -34,7 +34,7 @@
                     <td align="left" width="57%">
                       <div name='user'>
                         <input type="text" value="" name="mail"
-                        placeholder="Digite seu  Email">
+                        placeholder="Digite seu  Email" required>
                       </div>
                     </td>
                 </tr>
@@ -44,7 +44,7 @@
                     <td align="left" width="57%">
                       <div name='user'>
                         <input type="text" value="" name="tel"
-                        placeholder="Digite seu Numero de telefone">
+                        placeholder="Digite seu Numero de telefone" required>
                       </div>
                     </td>
                 </tr>
@@ -52,7 +52,7 @@
                  <td align="right" width="25%">Senha: </td>
                  <td align="left" width="57%">
                   <div name="senha">
-                  <input type="password" name="senha" placeholder="Digite a Senha">
+                  <input type="password" name="senha" placeholder="Digite a Senha" required>
                   <img src="olhorisc.png" name="senha">
                   </div>
                  </td>
@@ -61,7 +61,7 @@
                  <td align="right" width="25%">Repita senha: </td>
                  <td align="left" width="57%">
                   <div name="repsenha">
-                  <input type="password" name="repsenha" placeholder="Repita a Senha">
+                  <input type="password" name="repsenha" placeholder="Repita a Senha" required>
                   <img src="olhorisc.png" name="repsenha">
                   </div>
                  </td>
@@ -153,15 +153,14 @@
         $erro.="A senha não pode conter espaços<br>";
       }
        if($erro==''){
-        $sql = "INSERT INTO tb_usuario (nome, email, senha, numero, tipo, data_cadastro) VALUES ('$user', '$mail', '$senha', '$tel', '0', '$data')";
+        $sql = "INSERT INTO tb_usuario (nome_usuario, email, senha, numero, tipo, data_cadastro, modo_tela) VALUES ('$user', '$mail', '$senha', '$tel', '0', '$data', '0')";
          $r= mysqli_query($con,$sql);
-         $usuario = mysqli_fetch_assoc($r);
          session_start();
-        $_SESSION['id_usuario'] = $usuario['id_usuario'];
+       $_SESSION['id_usuario'] = mysqli_insert_id($con);
          echo"<font color=green size=4>Usuario Cadastrado com Sucesso</font>";
          //header("Location: menu_principal.php");
        }
-     else{
+      else{
        echo"<font color=red size=4>$erro</font>";
      }
      }
