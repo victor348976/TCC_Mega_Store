@@ -155,13 +155,11 @@
        if($erro==''){
         $sql = "INSERT INTO tb_usuario (nome, email, senha, numero, tipo, data_cadastro) VALUES ('$user', '$mail', '$senha', '$tel', '0', '$data')";
          $r= mysqli_query($con,$sql);
+         $usuario = mysqli_fetch_assoc($r);
          session_start();
-         $_SESSION['user']=$user;
-         $_SESSION['senha']=$senha;
+        $_SESSION['id_usuario'] = $usuario['id_usuario'];
          echo"<font color=green size=4>Usuario Cadastrado com Sucesso</font>";
-         echo"<form action='logon.php'>
-              <input type='submit' value='Logar'>
-              </form>";
+         //header("Location: menu_principal.php");
        }
      else{
        echo"<font color=red size=4>$erro</font>";
