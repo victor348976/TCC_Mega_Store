@@ -24,7 +24,7 @@
                     <td align="left" width="57%">
                       <div name='user'>
                         <input type="text" value="" name="user"
-                        placeholder="Digite seu nome de Usuário">
+                        placeholder="Digite seu nome de Usuário" required>
                       </div>
                     </td>
                 </tr>
@@ -34,7 +34,7 @@
                     <td align="left" width="57%">
                       <div name='user'>
                         <input type="text" value="" name="mail"
-                        placeholder="Digite seu  Email">
+                        placeholder="Digite seu  Email" required>
                       </div>
                     </td>
                 </tr>
@@ -44,7 +44,7 @@
                     <td align="left" width="57%">
                       <div name='user'>
                         <input type="text" value="" name="tel"
-                        placeholder="Digite seu Numero de telefone">
+                        placeholder="Digite seu Numero de telefone" required>
                       </div>
                     </td>
                 </tr>
@@ -52,7 +52,7 @@
                  <td align="right" width="25%">Senha: </td>
                  <td align="left" width="57%">
                   <div name="senha">
-                  <input type="password" name="senha" placeholder="Digite a Senha">
+                  <input type="password" name="senha" placeholder="Digite a Senha" required>
                   <img src="olhorisc.png" name="senha">
                   </div>
                  </td>
@@ -61,7 +61,7 @@
                  <td align="right" width="25%">Repita senha: </td>
                  <td align="left" width="57%">
                   <div name="repsenha">
-                  <input type="password" name="repsenha" placeholder="Repita a Senha">
+                  <input type="password" name="repsenha" placeholder="Repita a Senha" required>
                   <img src="olhorisc.png" name="repsenha">
                   </div>
                  </td>
