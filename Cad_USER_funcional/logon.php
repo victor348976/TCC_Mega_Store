@@ -1,3 +1,6 @@
+<?php
+  include("conexao.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,18 +10,18 @@
 </head>
 <body>
     <center>
-        <form method="post" action="Logon.php">
+        <form method="get" action="Logon.php">
             <table border="0">
                 <tr>
                     <td align="center" colspan="2">
-                      <h2><strong>Cadastro Usuário</strong></h2>
+                      <h2><strong>Login Usuário</strong></h2>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right" width="25%">Usuário:
+                    <td align="right" width="25%">Email:
                     </td>
                     <td align="left" width="57%">
-                        <input type="text" value="" name="user"
+                        <input type="mail" value="" name="mail"
                         placeholder="Digite o Usuário">
                     </td>
                 </tr>
@@ -43,44 +46,43 @@
         </form>
         <script src="logsenha.js"></script>
         <?php
-             if(isset($_POST["Entrar"])){
-                $user=$_POST["user"];
-                $senha=$_POST["logsenha"];
+             if(isset($_GET["Entrar"])){
+                $email=$_GET["mail"];
+                $senha=$_GET["logsenha"];
                 $erro='';
-                if($user==''){
+                if($email==''){
                     $erro="Digite o Usuário<br>";
                 }
                 if($senha==''){
                     $erro.="Digite a Senha<br>";
                 } 
                 if($erro==''){
-                    session_start();
-                    if(isset($_SESSION['user'])and isset($_SESSION['senha'])){
-                        $cad_user=$_SESSION['user'];
-                        $cad_senha=$_SESSION['senha'];
-                    }else{
-                        echo"<font color='red' size='4'>Sem cadastros salvos</font>";
-                        exit;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                    $sql = "SELECT * FROM tb_usuario WHERE email = '$email'";
+                    $r = mysqli_query($con, $sql);
+                    if (mysqli_num_rows($r) > 0) {
+                     $usuario = mysqli_fetch_assoc($r);
+                        if($senha == $usuario['senha']){  
+                            session_start();
+                            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+                            echo "Login realizado com sucesso!";
+                            //header("Location: menu_principal.php");
+                        }else{
+                            $erro.="Senha incorreta!";
+                        }
+                    } else {
+                        $erro.="Usuário não encontrado!";
                     }
-                    if($user==$cad_user && $senha==$cad_senha){
-                        echo"<font color='green' size='4'>Bem Vindo</font>";
-                        echo"<form action='logon.php' method='post'>
-                                <input type='submit' value='Destruir' name='destruir'>
-                            </form>";
+                    if($erro==''){
+
                     }else{
-                        echo"<font color='red' size='4'>Senha e Usuário Incorretos</font>";
+                        echo"<font color='red' size='4'>$erro</font>";
                     }
                 }else{
                     echo"<font color='red' size='4'>$erro</font>";
                 }
              }
-             if(isset($_POST['destruir'])){
-                session_start();
-                session_destroy();
-                echo"<font color='red' size='4'>Sessão destruida com sucesso</font>";
-             }
-             if(!isset($_POST['Entrar'])){
-                echo"<form method='post' action='Cad_User.php'>
+             if(!isset($_GET['Entrar'])){
+                echo"<form method='GET' action='Cad_User.php'>
                         <table border='0'>
                             <tr>
                                 <td align='center'>
