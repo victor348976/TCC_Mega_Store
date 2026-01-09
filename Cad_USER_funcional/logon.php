@@ -57,7 +57,9 @@
                     $erro.="Digite a Senha<br>";
                 } 
                 if($erro==''){
-                    $sql = "SELECT * FROM tb_usuario WHERE email = '$email'";
+                    $sql = "SELECT * 
+                            FROM tb_usuario 
+                            WHERE email = '$email'";
                     $r = mysqli_query($con, $sql);
                     if (mysqli_num_rows($r) > 0) {
                      $usuario = mysqli_fetch_assoc($r);

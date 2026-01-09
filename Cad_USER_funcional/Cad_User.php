@@ -153,15 +153,14 @@
         $erro.="A senha não pode conter espaços<br>";
       }
        if($erro==''){
-        $sql = "INSERT INTO tb_usuario (nome, email, senha, numero, tipo, data_cadastro) VALUES ('$user', '$mail', '$senha', '$tel', '0', '$data')";
+        $sql = "INSERT INTO tb_usuario (nome_usuario, email, senha, numero, tipo, data_cadastro, modo_tela) VALUES ('$user', '$mail', '$senha', '$tel', '0', '$data', '0')";
          $r= mysqli_query($con,$sql);
-         $usuario = mysqli_fetch_assoc($r);
          session_start();
-        $_SESSION['id_usuario'] = $usuario['id_usuario'];
+       $_SESSION['id_usuario'] = mysqli_insert_id($con);
          echo"<font color=green size=4>Usuario Cadastrado com Sucesso</font>";
          //header("Location: menu_principal.php");
        }
-     else{
+      else{
        echo"<font color=red size=4>$erro</font>";
      }
      }

@@ -11,7 +11,7 @@
 </head>
 <body>
     <center>
-        <form method="get" action="Cad_Produto.php">
+        <form method="post" action="Cad_Produto.php" enctype="multipart/form-data">
             <table border="0">
                 <tr>
                     <td align="center" colspan="2">
@@ -59,7 +59,7 @@
                             FROM   tb_genero";
                       $r= mysqli_query($con,$sql);
                       while($x = mysqli_fetch_assoc($r)){
-                        echo"<option value=".$x["id_genero"].">".$x["nome"]."</option>";
+                        echo"<option value=".$x["id_genero"].">".$x["nome_genero"]."</option>";
                       }
                       ?>
                     </select>
@@ -77,10 +77,18 @@
                             FROM   tb_categoria";
                       $r= mysqli_query($con,$sql);
                       while($x = mysqli_fetch_assoc($r)){
-                        echo"<option value=".$x["id_categoria"].">".$x["nome"]."</option>";
+                        echo"<option value=".$x["id_categoria"].">".$x["nome_categoria"]."</option>";
                       }
                       ?>
                     </select>
+                  </div>
+                 </td>
+                </tr>
+                <tr>
+                 <td align="right" width="25%">Imagem: </td>
+                 <td align="left" width="57%">
+                  <div name="repsenha">
+                    <input type="file" name="imagem" accept="image/*" required>
                   </div>
                  </td>
                 </tr>
@@ -96,41 +104,68 @@
         </form>
     </body>
     <?php
-    $data = date('Y/m/d');
-    echo "$data";
-     if(isset($_GET["cadastrar"])){
-       $produto=$_GET["produto"];
-       $desc=$_GET["desc"];
-       $preco=$_GET["preco"];
-       $genero=$_GET["genero"];
-       $categoria=$_GET["categoria"];
-       $erro='';
-       if($produto==''){//verifica se o nome do produto não é vazio
-         $erro.="Digite o nome do produto<br>";
-       }
-       if($desc==''){//verifica se a descricao não é vazio
-         $erro.="Digite seu Email<br>";
-       }
-       if($preco==''){//verifica se o preco não é vazio
-         $erro.="Digite um preco<br>";
-       }
-       if($genero==''){//verifica se o genero não é vazia
-         $erro.="Selecione o genero do produto<br>";
-       } 
-       if($categoria==''){//verifica se a rcategoria  não é vazia
-         $erro.="Selecione a categoria do produto<br>";
-       }
-       //variaveis para verificar se o preco tem virgula
-       $precoP = str_replace(",", ".", $preco);
-       if($erro==''){
-        $sql = "INSERT INTO tb_produto (nome, descricao, preco, id_categoria, id_genero, ativo, data_cadastro) VALUES ('$produto', '$desc', '$preco', '$categoria', '$genero', '1', '$data')";
-         $r= mysqli_query($con,$sql);
-         echo"<font color=green size=4>Produto Cadastrado com Sucesso</font>";
-       }
-     else{
-       echo"<font color=red size=4>$erro</font>";
-     }
-     }
-    ?>
+$data = date('Y/m/d');
+echo $data;
+
+if (isset($_POST["cadastrar"])) {
+
+    $produto   = $_POST["produto"];
+    $desc      = $_POST["desc"];
+    $preco     = $_POST["preco"];
+    $genero    = $_POST["genero"];
+    $categoria = $_POST["categoria"];
+    $erro = '';
+
+    if ($produto == '') {
+        $erro .= "Digite o nome do produto<br>";
+    }
+    if ($desc == '') {
+        $erro .= "Digite a descrição<br>";
+    }
+    if ($preco == '') {
+        $erro .= "Digite um preço<br>";
+    }
+    if ($genero == '') {
+        $erro .= "Selecione o gênero<br>";
+    }
+    if ($categoria == '') {
+        $erro .= "Selecione a categoria<br>";
+    }
+
+    if ($erro == '') {
+
+        $sql = "INSERT INTO tb_produto 
+        (nome_produto, descricao_produto, preco, id_categoria, id_genero, ativo, data_cadastro) 
+        VALUES 
+        ('$produto', '$desc', '$preco', '$categoria', '$genero', '1', '$data')";
+        mysqli_query($con, $sql);
+
+        $id_produto = mysqli_insert_id($con);
+
+        $imagem = $_FILES['imagem'];
+        $nomeOriginal = $imagem['name'];
+        $tmp = $imagem['tmp_name'];
+        $extensao = pathinfo($nomeOriginal, PATHINFO_EXTENSION);
+
+        $novoNome = uniqid() . "." . $extensao;
+        $pasta = "uploads/produtos/";
+
+        if (!is_dir($pasta)) {
+            mkdir($pasta, 0777, true);
+        }
+
+        move_uploaded_file($tmp, $pasta . $novoNome);
+
+        $sql = "INSERT INTO tb_imagem_produto (id_produto, caminho_imagem)
+                VALUES ('$id_produto', '$novoNome')";
+        mysqli_query($con, $sql);
+
+        echo "<font color=green size=4>Produto Cadastrado com Sucesso</font>";
+    } else {
+        echo "<font color=red size=4>$erro</font>";
+    }
+}
+?>
+
     </center>
 </html>
