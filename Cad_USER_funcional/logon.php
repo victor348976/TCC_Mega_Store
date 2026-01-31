@@ -6,11 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Senha</title>
+    <title>Logon</title>
 </head>
 <body>
     <center>
-        <form method="get" action="Logon.php">
+        <form method="post" action="Logon.php">
             <table border="0">
                 <tr>
                     <td align="center" colspan="2">
@@ -46,12 +46,12 @@
         </form>
         <script src="logsenha.js"></script>
         <?php
-             if(isset($_GET["Entrar"])){
-                $email=$_GET["mail"];
-                $senha=$_GET["logsenha"];
+             if(isset($_POST["Entrar"])){
+                $email=$_POST["mail"];
+                $senha=$_POST["logsenha"];
                 $erro='';
                 if($email==''){
-                    $erro="Digite o Usuário<br>";
+                    $erro.="Digite o email<br>";
                 }
                 if($senha==''){
                     $erro.="Digite a Senha<br>";
@@ -63,7 +63,7 @@
                     $r = mysqli_query($con, $sql);
                     if (mysqli_num_rows($r) > 0) {
                      $usuario = mysqli_fetch_assoc($r);
-                        if($senha == $usuario['senha']){  
+                        if(password_verify($senha, $usuario["senha"])){  
                             session_start();
                             $_SESSION['id_usuario'] = $usuario['id_usuario'];
                             echo "Login realizado com sucesso!";
@@ -72,7 +72,7 @@
                             $erro.="Senha incorreta!";
                         }
                     } else {
-                        $erro.="Usuário não encontrado!";
+                        $erro.="Email não encontrado!";
                     }
                     if($erro==''){
 
@@ -83,7 +83,7 @@
                     echo"<font color='red' size='4'>$erro</font>";
                 }
              }
-             if(!isset($_GET['Entrar'])){
+             if(!isset($_POST['Entrar'])){
                 echo"<form method='GET' action='Cad_User.php'>
                         <table border='0'>
                             <tr>

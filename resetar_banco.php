@@ -37,6 +37,7 @@ $tabelas = [
     'tb_usuario',
     'tb_imagem_produto',
     'tb_produto',
+    'tb_variacao_produto'
 ];
 
 mysqli_query($con, "SET FOREIGN_KEY_CHECKS = 0");
