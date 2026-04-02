@@ -1,0 +1,17 @@
+.texto {
+    font-size: 100px;
+    font-weight: bold;
+    text-align: center;
+    font-family: Arial Black, Impact, sans-serif;
+
+    background-image: url('img1.jpg');
+    background-size: cover;
+    background-position: center;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body {
+    background: black;
+}
