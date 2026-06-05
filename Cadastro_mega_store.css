@@ -1,0 +1,387 @@
+:root {
+  --cor-color: #000000;
+  --cor-hover: #000000;
+  --secondary-color: #ffffff;
+  --bg-color: #f3f3f3;
+  --form-bg: #ffffff;
+  --text-main: #181818;
+  --text-light: #1b1b1b;
+  --input-bg: #f0f2f5;
+  --input-icon: #f3f3f3;
+  --border-radius-lg: 24px;
+  --border-radius-sm: 12px;
+  --transition-speed: 1s;
+  --transition-easing: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  
+}
+
+/* Master Container */
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-color);
+  display: flex;
+}
+
+/* Forms Container (Left Side 50%) */
+.form-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: var(--form-bg);
+  z-index: 5;
+  transition: transform var(--transition-speed) ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Moving the Form Container to the Right in Sign-In Mode */
+.container.sign-in-mode .form-container {
+  transform: translateX(100%);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+  /* Swap drop shadow direction */
+}
+
+/* Wrapper for the two overlapping forms */
+.forms-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  height: 600px;
+  
+}
+
+/* Base styles for both forms */
+.account-form {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  transition: opacity 0.5s ease, transform 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Initial State: Registration Active */
+.sign-up-form {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(-50%);
+}
+
+.sign-in-form {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-40%);
+}
+
+/* Sign-In Mode: Swap Active Forms */
+.container.sign-in-mode .sign-up-form {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-60%);
+}
+
+.container.sign-in-mode .sign-in-form {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(-50%);
+}
+
+/* Logo */
+.logo-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.brand-logo {
+  max-width: 180px;
+  height: auto;
+  object-fit: contain;
+}
+
+
+.title {
+  font-size: 2.2rem;
+  color: var(--text-main);
+  margin-bottom: 10px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+/* Input Fields Styling */
+.input-field {
+  max-width: 100%;
+  width: 100%;
+  background-color: #dfdfdf;
+  margin: 10px 0;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.8rem;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  border: 1px solid transparent;
+}
+
+.input-field:focus-within {
+  background-color: #dfdfdf;
+  border: 1px solid var(--cor-color);
+  box-shadow: 0 5px 15px rgba(108, 99, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.input-field i {
+  color: var(--input-icon);
+  font-size: 1.1rem;
+  padding: 0 10px;
+  transition: color 0.3s;
+}
+
+.input-field:focus-within i {
+  color: var(--cor-color);
+}
+
+.input-field input {
+  background: none;
+  outline: none;
+  border: none;
+  line-height: 1;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--text-main);
+  width: 100%;
+  padding-left: 10px;
+}
+
+.input-field input::placeholder {
+  color: #a8abad;
+  font-weight: 400;
+}
+
+/* butaoo */
+.btn {
+  width: 100%;
+  height: 55px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.solid {
+  background-color: black;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 8px 20px rgba(170, 170, 170, 0.3);
+}
+
+.solid:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(198, 198, 198, 0.4);
+}
+
+.outline {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.outline:hover {
+  background-color: black;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(108, 99, 255, 0.2);
+}
+
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 15px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #dfe6e9;
+}
+
+.divider span {
+  padding: 0 15px;
+  font-weight: 500;
+}
+
+/* carrossel */
+.carousel-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 4;
+  overflow: hidden;
+  transition: transform var(--transition-speed) ease-in-out;
+  background-color: var(--secondary-color);
+}
+
+/* movendo carrossel para a esquerda no modo de login */
+.container.sign-in-mode .carousel-container {
+  transform: translateX(-100%);
+}
+
+.carousel-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* gradiente da imagem saindo */
+.carousel-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Texto no carrossel */
+.carousel-text {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  right: 10%;
+  color: white;
+  z-index: 15;
+  text-align: left;
+  pointer-events: none;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+.carousel-text h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  line-height: 1.1;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-text p {
+  font-size: 1.1rem;
+  font-weight: 400;
+  opacity: 0.9;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Fade Carousel Animation */
+.vertical-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.img-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: fadeCarousel 15s infinite;
+}
+
+.vertical-carousel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+}
+
+@keyframes fadeCarousel {
+  0% { opacity: 1; }
+  15% { opacity: 1; }
+  20% { opacity: 0; }
+  95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.img-wrapper:nth-child(1) { animation-delay: 0s; }
+.img-wrapper:nth-child(2) { animation-delay: -3s; }
+.img-wrapper:nth-child(3) { animation-delay: -6s; }
+.img-wrapper:nth-child(4) { animation-delay: -9s; }
+.img-wrapper:nth-child(5) { animation-delay: -12s; }
+
+/* Responsive (for small screens, stack them) */
+@media (max-width: 870px) {
+  .container {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .form-container,
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    transform: none !important;
+  }
+
+  .container.sign-in-mode .form-container,
+  .container.sign-in-mode .carousel-container {
+    transform: none !important;
+  }
+
+  /* Fallback swapping effect for mobile via display blocks or simple crossfade */
+  /* Here we just adjust heights or use scrolling */
+  .carousel-container {
+    height: 50vh;
+    order: -1;
+    /* Carousel on top for mobile */
+  }
+
+  .form-container {
+    height: auto;
+    min-height: 600px;
+  }
+}
+    
