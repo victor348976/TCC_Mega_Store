@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/02/2026 às 10:17
+-- Tempo de geração: 19/03/2026 às 17:55
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -122,7 +122,7 @@ INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_variacao`, `caminho_imagem`) V
 CREATE TABLE `tb_pagamento` (
   `id_pagamento` int(11) NOT NULL,
   `id_venda` int(11) NOT NULL,
-  `forma_pagamento` int(11) NOT NULL,
+  `id_forma_pagamento` int(11) NOT NULL,
   `status_pagamento` tinyint(1) NOT NULL,
   `data_pagamento` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -150,6 +150,25 @@ CREATE TABLE `tb_produto` (
 
 INSERT INTO `tb_produto` (`id_produto`, `nome_produto`, `descricao_produto`, `preco`, `id_categoria`, `id_genero`, `ativo`, `data_cadastro`) VALUES
 (1, 'Joao', 'Joao sendo o Joao', 0.00, 2, 1, 1, '2026-01-21');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tb_produto_salvo`
+--
+
+CREATE TABLE `tb_produto_salvo` (
+  `id_produto_salvo` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tb_produto_salvo`
+--
+
+INSERT INTO `tb_produto_salvo` (`id_produto_salvo`, `id_produto`, `id_usuario`) VALUES
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -187,7 +206,8 @@ CREATE TABLE `tb_usuario` (
 --
 
 INSERT INTO `tb_usuario` (`id_usuario`, `nome_usuario`, `email`, `senha`, `cpf`, `numero`, `tipo`, `data_cadastro`, `modo_tela`) VALUES
-(1, 'Gustavo', 'gutolindo@gmail.com', '$2y$10$MgSYDeXd7c6.VTj1aNZ/C.SlucbfWUqfJI80gMS4AuZm.jt1GnvBq', NULL, 40028922, 0, '2026-01-21', 0);
+(1, 'Gustavo', 'gutolindo@gmail.com', '$2y$10$MgSYDeXd7c6.VTj1aNZ/C.SlucbfWUqfJI80gMS4AuZm.jt1GnvBq', NULL, 40028922, 0, '2026-01-21', 0),
+(2, 'V', 'v@gmail.com', '$2y$10$oCU1Qbqnvuu6/n9PPXBBCeO0fewqGt.J9n7UpQGFeBubJ0gxNmkwu', NULL, 2147483647, 0, '2026-02-21', 0);
 
 -- --------------------------------------------------------
 
@@ -266,7 +286,8 @@ ALTER TABLE `tb_imagem_produto`
 --
 ALTER TABLE `tb_pagamento`
   ADD PRIMARY KEY (`id_pagamento`),
-  ADD KEY `id_venda` (`id_venda`);
+  ADD KEY `id_venda` (`id_venda`),
+  ADD KEY `forma_pagamento` (`id_forma_pagamento`);
 
 --
 -- Índices de tabela `tb_produto`
@@ -275,6 +296,14 @@ ALTER TABLE `tb_produto`
   ADD PRIMARY KEY (`id_produto`),
   ADD KEY `id_genero` (`id_genero`),
   ADD KEY `id_categoria` (`id_categoria`);
+
+--
+-- Índices de tabela `tb_produto_salvo`
+--
+ALTER TABLE `tb_produto_salvo`
+  ADD PRIMARY KEY (`id_produto_salvo`),
+  ADD KEY `id_produto` (`id_produto`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Índices de tabela `tb_produto_venda`
@@ -351,6 +380,12 @@ ALTER TABLE `tb_produto`
   MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de tabela `tb_produto_salvo`
+--
+ALTER TABLE `tb_produto_salvo`
+  MODIFY `id_produto_salvo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `tb_produto_venda`
 --
 ALTER TABLE `tb_produto_venda`
@@ -360,7 +395,7 @@ ALTER TABLE `tb_produto_venda`
 -- AUTO_INCREMENT de tabela `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tb_variacao_produto`
@@ -385,12 +420,6 @@ ALTER TABLE `tb_endereco`
   ADD CONSTRAINT `tb_endereco_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`);
 
 --
--- Restrições para tabelas `tb_forma_pagamento`
---
-ALTER TABLE `tb_forma_pagamento`
-  ADD CONSTRAINT `tb_forma_pagamento_ibfk_1` FOREIGN KEY (`id_forma_pagamento`) REFERENCES `tb_pagamento` (`id_pagamento`);
-
---
 -- Restrições para tabelas `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
@@ -400,7 +429,8 @@ ALTER TABLE `tb_imagem_produto`
 -- Restrições para tabelas `tb_pagamento`
 --
 ALTER TABLE `tb_pagamento`
-  ADD CONSTRAINT `tb_pagamento_ibfk_1` FOREIGN KEY (`id_venda`) REFERENCES `tb_venda` (`id_venda`);
+  ADD CONSTRAINT `tb_pagamento_ibfk_1` FOREIGN KEY (`id_venda`) REFERENCES `tb_venda` (`id_venda`),
+  ADD CONSTRAINT `tb_pagamento_ibfk_2` FOREIGN KEY (`id_forma_pagamento`) REFERENCES `tb_forma_pagamento` (`id_forma_pagamento`);
 
 --
 -- Restrições para tabelas `tb_produto`
@@ -408,6 +438,13 @@ ALTER TABLE `tb_pagamento`
 ALTER TABLE `tb_produto`
   ADD CONSTRAINT `tb_produto_ibfk_1` FOREIGN KEY (`id_genero`) REFERENCES `tb_genero` (`id_genero`),
   ADD CONSTRAINT `tb_produto_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `tb_categoria` (`id_categoria`);
+
+--
+-- Restrições para tabelas `tb_produto_salvo`
+--
+ALTER TABLE `tb_produto_salvo`
+  ADD CONSTRAINT `tb_produto_salvo_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`),
+  ADD CONSTRAINT `tb_produto_salvo_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`);
 
 --
 -- Restrições para tabelas `tb_produto_venda`
