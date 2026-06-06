@@ -1,5 +1,7 @@
-   
-
+   <?php
+        session_start();
+        include("conexao.php");
+   ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -121,7 +123,140 @@
 
 
 </body>
+   <?php
+   //CADASTRO USUUUUUUUUUUUU
+    $data = date('Y/m/d');
+    //echo "$data";
+     if(isset($_POST["cadastrar"])){
+       $user="Nome Generico da Silva";//$_POST["user"];
+       $mail=$_POST["mail"];
+       $tel=$_POST["tel"];
+       $senha=$_POST["senha"];
+       $repsenha=$_POST["repsenha"];
+       $erro='';
+       if($user==''){//verifica se o nome de usuario não é vazio
+         $erro.="Digite seu nome de Usuário<br>";
+       }
+       if($mail==''){//verifica se o email não é vazio
+         $erro.="Digite seu Email<br>";
+       }
+       if($tel==''){//verifica se o telefone não é vazio
+         $erro.="Digite seu Telefone<br>";
+       }
+       if($senha==''){//verifica se a senha não é vazia
+         $erro.="Digite a Senha<br>";
+       } 
+       if($repsenha==''){//verifica se a repete senha  não é vazia
+         $erro.="Repita a Senha<br>";
+       }
+       if($senha!=$repsenha and $senha!='' and $repsenha!=''){
+         $erro.="Senha e Repete Senha são diferentes";
+       } 
+       //variaveis para verificar se a senha é valida
+        $tamanhoMinimo = false;
+        $temMaiuscula = false;
+        $temMinuscula = false;
+        $temNumero = false;
+        $temEspecial = false;
+        $temEspaco = false;
+       for ($i = 0; $i < strlen($senha); $i++) {
+    $char = $senha[$i];
+    if (8< strlen($senha)) {//verifica se a senha tem no minimo 8 characteres
+        $tamanhoMinimo = true;
+    } 
+    if (ctype_upper($char)) {//Verifica se possui letra maiuscula
+        $temMaiuscula = true;
+    } 
+    if (ctype_lower($char)) {//Verifica se possui letra minuscula
+        $temMinuscula = true;
+    } 
+    if (ctype_digit($char)) {//Verifica se possui numeros
+        $temNumero = true;
+    } 
+    if (!ctype_alnum($char)) {//Verifica se possui characteres especiais
+        $temEspecial = true;
+    }
+    if ($char == " ") {//Verifica se possui letra maiuscula
+        $temEspaco = true;
+    }
+}
+      if(!$tamanhoMinimo){
+        $erro.="A senha deve conter no mínimo 8 characteres<br>";
+      }
+      if(!$temMaiuscula){
+        $erro.="A senha deve conter no mínimo 1 letra maiuscula<br>";
+      }
+      if(!$temMinuscula){
+        $erro.="A senha deve conter no mínimo 1 letra minuscula<br>";
+      }
+      if(!$temNumero){
+        $erro.="A senha deve conter no mínimo 1 numero<br>";
+      }
+     // if(!$temEspecial){
+     //   $erro.="A senha deve conter no mínimo 1 character especial<br>";
+     // }
+      if($temEspaco){
+        $erro.="A senha não pode conter espaços<br>";
+      }
+      $sql = "SELECT *
+              FROM tb_usuario
+              WHERE email = '$mail'";
+      $r = mysqli_query($con, $sql);
+      if (mysqli_num_rows($r) > 0) {
+        $erro.="Este email ja esta cadastrado!<br>";
+      }
+       if($erro==''){
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO tb_usuario (nome_usuario, email, senha, numero, tipo, data_cadastro, modo_tela) 
+                VALUES ('$user', '$mail', '$senha_hash', '$tel', '0', '$data', '0')";
+         $r= mysqli_query($con,$sql);
+       $_SESSION['id_usuario'] = mysqli_insert_id($con);
+         echo"<font color=green size=4>Usuario Cadastrado com Sucesso</font>";
+         //header("Location: menu_principal.php");
 
+       }
+      else{
+       echo"<font color=red size=4>$erro</font>";
+     }
+     }
+     //LOGIN USUUUUUUUUUUUU
+     if(isset($_POST["login"])){
+                $email=$_POST["loginmail"];
+                $senha=$_POST["loginsenha"];
+                $erro='';
+                if($email==''){
+                    $erro.="Digite o email<br>";
+                }
+                if($senha==''){
+                    $erro.="Digite a Senha<br>";
+                } 
+                if($erro==''){
+                    $sql = "SELECT * 
+                            FROM tb_usuario 
+                            WHERE email = '$email'";
+                    $r = mysqli_query($con, $sql);
+                    if (mysqli_num_rows($r) > 0) {
+                     $usuario = mysqli_fetch_assoc($r);
+                        if(password_verify($senha, $usuario["senha"])){  
+                            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+                            echo "Login realizado com sucesso!";
+                            //header("Location: menu_principal.php");
+                        }else{
+                            $erro.="Senha incorreta!";
+                        }
+                    } else {
+                        $erro.="Email não encontrado!";
+                    }
+                    if($erro==''){
+
+                    }else{
+                        echo"<font color='red' size='4'>$erro</font>";
+                    }
+                }else{
+                    echo"<font color='red' size='4'>$erro</font>";
+                }
+             }
+    ?>
 <script>
     const signInBtn = document.querySelector("#sign-in-btn");
     const signUpBtn = document.querySelector("#sign-up-btn");
