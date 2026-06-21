@@ -11,7 +11,7 @@
 </head>
 <body>
     <center>
-        <form id="productForm" method="POST" style="width:40%" action="Cad_Produto.php" enctype="multipart/form-data">
+        <form id="productForm" method="POST" style="width:40%" action="Cad_Produto3.php" enctype="multipart/form-data">
             <table border="0">
                 <tr>
                     <td align="center" colspan="2">
@@ -285,11 +285,11 @@ if (isset($_POST["cadastrar"])) {
     $novoNome = uniqid() . "." . $extensao;
 
     // Define o destino final
-    $destino = "uploads/" . $novoNome;
+    $destino = "../uploads/produtos/" . $novoNome;
 
     // Garante que a pasta exista
     if (!is_dir("uploads")) {
-        mkdir("uploads", 0777, true);
+        mkdir("uploads/produtos/", 0777, true);
     }
 
     // Move o arquivo para a pasta final
@@ -297,7 +297,7 @@ if (isset($_POST["cadastrar"])) {
 
     // Salva o caminho no banco ligado à variação
     $sql = "INSERT INTO tb_imagem_produto (id_variacao, caminho_imagem)
-            VALUES ('$id_variacao', '$destino')";
+            VALUES ('$id_variacao', '$novoNome')";
     mysqli_query($con, $sql);
 }
 
