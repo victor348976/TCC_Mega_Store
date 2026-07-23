@@ -1,5 +1,6 @@
 <?php
   include("../geral/head.php");
+  include("../geral/conexao.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -29,7 +30,6 @@
 </html>
 
 <?php
-include("../geral/conexao.php");
 
 if (!isset($_POST['confirmacao'])) {
     die("Ação não autorizada.");

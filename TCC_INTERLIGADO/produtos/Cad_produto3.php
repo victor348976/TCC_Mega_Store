@@ -385,7 +385,40 @@ flex-wrap:wrap;
 
   // Índice usado para identificar cada variação
   let varIndex = 0;
+// Verifica se existem cores repetidas
+function validarCores() {
 
+  const selects = document.querySelectorAll(
+    'select[name="var_cor[]"]'
+  );
+
+  const cores = [];
+
+  for (const select of selects) {
+
+    if (select.value == '') {
+      continue;
+    }
+
+    if (cores.includes(select.value)) {
+
+      alert(
+        "Essa cor já foi selecionada em outra variação."
+      );
+
+      select.value = "";
+
+      return false;
+
+    }
+
+    cores.push(select.value);
+
+  }
+
+  return true;
+
+}
   // Cria uma nova variação
   function addVariation() {
 
@@ -405,10 +438,18 @@ flex-wrap:wrap;
     const block = tmp.firstElementChild;
 
     // Botão para remover variação
-    block
-      .querySelector('.removeBtn')
-      .addEventListener('click', () => block.remove());
+block
+  .querySelector('.removeBtn')
+  .addEventListener('click', () => block.remove());
 
+
+// Verifica se a cor já foi usada
+block
+  .querySelector('select[name="var_cor[]"]')
+  .addEventListener(
+    'change',
+    validarCores
+  );
     // Adiciona a variação na tela
     document
       .getElementById('variationsContainer')
@@ -569,6 +610,13 @@ if (isset($_POST["cadastrar"])) {
   $cores     = $_POST['var_cor'] ?? [];
   $stocks    = $_POST['var_estoque'] ?? [];
 
+  // Verifica cores repetidas
+if(count($cores) != count(array_unique($cores))) {
+
+  $erro .=
+    "Não é permitido utilizar a mesma cor em duas variações.<br>";
+
+}
   // Recebe as imagens
   $images = $_FILES['variation_images'] ?? [];
 
