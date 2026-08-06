@@ -1,5 +1,6 @@
 <?php
-  include("conexao.php");
+  include("../geral/conexao.php");
+  include("../geral/head.php");
 ?>
 
 <!DOCTYPE html>
@@ -71,12 +72,12 @@
                   <br>
                   <input type="submit" value="Cadastrar" name="cadastrar">
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="button" onclick="location.replace('Cad_user.php');" value="Limpar"><br>
+                  <input type="button" onclick="location.replace('Cad_User.php');" value="Limpar"><br>
                  </td>
                 </tr>
             </table>
         </form>
-        <script src="senha.js"></script>
+        <script src="func/senha.js"></script>
     </body>
     <?php
     $data = date('Y/m/d');
@@ -167,7 +168,7 @@
          session_start();
        $_SESSION['id_usuario'] = mysqli_insert_id($con);
          echo"<font color=green size=4>Usuario Cadastrado com Sucesso</font>";
-         header("Location:principal.php");
+         //header("Location: menu_principal.php");
 
        }
       else{

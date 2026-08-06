@@ -1,5 +1,6 @@
 <?php
-  include("conexao.php");
+  include("../geral/conexao.php");
+  include("../geral/head.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +11,7 @@
 </head>
 <body>
     <center>
-        <form method="post" action="Logon.php">
+        <form method="post" action="Log_User.php">
             <table border="0">
                 <tr>
                     <td align="center" colspan="2">
@@ -39,7 +40,7 @@
                   <br>
                   <input type="submit" value="Entrar" name="Entrar">
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="button" onclick="location.replace('logon.php');" value="Limpar"><br>
+                  <input type="button" onclick="location.replace('Log_User.php');" value="Limpar"><br>
                  </td>
                 </tr>
             </table>

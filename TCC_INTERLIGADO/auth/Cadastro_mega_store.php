@@ -1,6 +1,6 @@
    <?php
         session_start();
-        include("conexao.php");
+        include("../geral/conexao.php");
    ?>
 <!DOCTYPE html>
 <html lang="pt-br">
