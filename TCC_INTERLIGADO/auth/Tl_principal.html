@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mega Store — Alta costura, tecidos finos e roupas exclusivas. Descubra a arte da trama e a elegância do vestir.">
+    <title>Mega Store | Alta Costura & Tecidos Finos</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="Tl_princip.css">
+</head>
+<body>
+
+    <!-- ═══════════════ HEADER / NAVBAR ═══════════════ -->
+    <header id="main-header" class="header">
+        <div class="header__inner">
+            <!-- Logo -->
+            <a href="#" class="header__logo" id="logo">
+                <span class="header__logo-text">MEGA</span>
+                <span class="header__logo-sub">STORE</span>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="header__nav" id="main-nav" aria-label="Navegação principal">
+                <ul class="header__nav-list">
+                    <li><a href="#colecoes" class="header__nav-link">Coleções</a></li>
+                    <li><a href="#tecidos" class="header__nav-link">Tecidos</a></li>
+                    <li><a href="#sobre" class="header__nav-link">Sobre</a></li>
+                    <li><a href="#contato" class="header__nav-link">Contato</a></li>
+                </ul>
+            </nav>
+
+            <!-- Icons -->
+            <div class="header__icons">
+                <button class="header__icon-btn" id="search-btn" aria-label="Buscar">
+                    <!-- Search SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+                
+                <button class="header__icon-btn" id="perfil-btn" aria-label="Perfil">
+                    <!-- Cart SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span class="header__cart-count" id="cart-count">0</span>
+                </button>
+                    <button class="header__icon-btn" id="cart-btn" aria-label="Carrinho">
+                    <a href=""> @PERFIL </a>
+                    </button>
+                     <button class="header__icon-btn" id="cart-btn" aria-label="Carrinho">
+                    <a href="../TCC_INTERLIGADO/auth/Cadastro_mega_store.php"> LOGIN </a>
+                    </button>
+                <!-- Mobile Menu Toggle -->
+                <button class="header__hamburger" id="hamburger-btn" aria-label="Abrir menu">d
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Overlay -->
+        <div class="mobile-nav" id="mobile-nav">
+            <ul class="mobile-nav__list">
+                <li><a href="#colecoes" class="mobile-nav__link">Coleções</a></li>
+                <li><a href="#tecidos" class="mobile-nav__link">Tecidos</a></li>
+                <li><a href="#sobre" class="mobile-nav__link">Sobre</a></li>
+                <li><a href="#contato" class="mobile-nav__link">Contato</a></li>
+            </ul>
+        </div>
+    </header>
+
+    
+    <section class="hero" id="hero">
+        <div class="hero__image-wrapper">
+            <img src="img/hero.png" alt="Mega Store — Alta costura e elegância" class="hero__image" id="hero-image">
+            <div class="hero__overlay"></div>
+        </div>
+        <div class="hero__content reveal">
+            <p class="hero__subtitle">Alta Costura & Tecidos Finos</p>
+            <h1 class="hero__title">A Arte da Trama,<br>a Elegância do Vestir</h1>
+            <div class="hero__divider"></div>
+            <a href="#colecoes" class="hero__cta" id="hero-cta">Explorar Coleção</a>
+        </div>
+    </section>
+
+   
+    <section class="categories" id="colecoes">
+        <div class="categories__grid">
+            <!-- Card 1: Tecidos Nobres -->
+            <a href="#tecidos" class="category-card reveal" id="card-tecidos">
+                <div class="category-card__image-wrapper">
+                    <img src="img/tecidos-nobres.png" alt="Tecidos Nobres — Seda, Cashmere e Linho" class="category-card__image">
+                </div>
+                <div class="category-card__content">
+                    <span class="category-card__label">Descubra</span>
+                    <h2 class="category-card__title">Tecidos Nobres</h2>
+                    <p class="category-card__desc">Seda italiana, cashmere mongol e linho belga — matérias-primas selecionadas com rigor artesanal.</p>
+                    <span class="category-card__link">Ver Tecidos &rarr;</span>
+                </div>
+            </a>
+
+            <!-- Card 2: Ready-to-Wear -->
+            <a href="#destaques" class="category-card reveal" id="card-rtw">
+                <div class="category-card__image-wrapper">
+                    <img src="img/ready-to-wear.png" alt="Coleções Ready-to-Wear" class="category-card__image">
+                </div>
+                <div class="category-card__content">
+                    <span class="category-card__label">Explore</span>
+                    <h2 class="category-card__title">Coleções Ready-to-Wear</h2>
+                    <p class="category-card__desc">Peças exclusivas que transitam do ateliê à vida. Alfaiataria impecável e design contemporâneo.</p>
+                    <span class="category-card__link">Ver Coleção &rarr;</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+            <span>SEDA &nbsp;◆&nbsp; CASHMERE &nbsp;◆&nbsp; LINHO &nbsp;◆&nbsp; ALGODÃO EGÍPCIO &nbsp;◆&nbsp; LÃ MERINO &nbsp;◆&nbsp; ALTA COSTURA &nbsp;◆&nbsp; EXCLUSIVIDADE &nbsp;◆&nbsp; ELEGÂNCIA &nbsp;◆&nbsp;</span>
+            <span>SEDA &nbsp;◆&nbsp; CASHMERE &nbsp;◆&nbsp; LINHO &nbsp;◆&nbsp; ALGODÃO EGÍPCIO &nbsp;◆&nbsp; LÃ MERINO &nbsp;◆&nbsp; ALTA COSTURA &nbsp;◆&nbsp; EXCLUSIVIDADE &nbsp;◆&nbsp; ELEGÂNCIA &nbsp;◆&nbsp;</span>
+        </div>
+    </div>
+
+  
+    <section class="products" id="destaques">
+        <div class="products__header reveal">
+            <span class="products__label">Curadoria</span>
+            <h2 class="products__title">Destaques da Coleção</h2>
+            <p class="products__subtitle">Peças selecionadas que definem a estação.</p>
+        </div>
+
+        <div class="products__grid">
+            <!-- Product 1 -->
+            <article class="product-card reveal" id="product-1">
+                <div class="product-card__image-wrapper">
+                    <img src="img/product-dress.png" alt="Vestido Noir Éternel" class="product-card__image">
+                    <span class="product-card__badge">Novo</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Vestido Noir Éternel</h3>
+                    <p class="product-card__category">Alta Costura</p>
+                    <p class="product-card__price">R$ 12.890</p>
+                </div>
+            </article>
+
+            <!-- Product 2 -->
+            <article class="product-card reveal" id="product-2">
+                <div class="product-card__image-wrapper">
+                    <img src="img/product-silk.png" alt="Seda Italiana Branca" class="product-card__image">
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Seda Italiana Pura</h3>
+                    <p class="product-card__category">Tecidos Premium</p>
+                    <p class="product-card__price">R$ 890 /metro</p>
+                </div>
+            </article>
+
+            <!-- Product 3 -->
+            <article class="product-card reveal" id="product-3">
+                <div class="product-card__image-wrapper">
+                    <img src="img/product-blazer.png" alt="Blazer Grafite Tailored" class="product-card__image">
+                    <span class="product-card__badge">Exclusivo</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Blazer Grafite Tailored</h3>
+                    <p class="product-card__category">Ready-to-Wear</p>
+                    <p class="product-card__price">R$ 4.590</p>
+                </div>
+            </article>
+
+            <!-- Product 4 -->
+            <article class="product-card reveal" id="product-4">
+                <div class="product-card__image-wrapper">
+                    <img src="img/tecidos-nobres.png" alt="Cashmere Mongol" class="product-card__image">
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Cashmere Mongol</h3>
+                    <p class="product-card__category">Tecidos Premium</p>
+                    <p class="product-card__price">R$ 1.290 /metro</p>
+                </div>
+            </article>
+
+            <!-- Product 5 -->
+            <article class="product-card reveal" id="product-5">
+                <div class="product-card__image-wrapper">
+                    <img src="img/ready-to-wear.png" alt="Trench Coat Ivoire" class="product-card__image">
+                    <span class="product-card__badge">Novo</span>
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Trench Coat Ivoire</h3>
+                    <p class="product-card__category">Alta Costura</p>
+                    <p class="product-card__price">R$ 8.750</p>
+                </div>
+            </article>
+
+            <!-- Product 6 -->
+            <article class="product-card reveal" id="product-6">
+                <div class="product-card__image-wrapper">
+                    <img src="img/product-silk.png" alt="Linho Belga Natural" class="product-card__image">
+                </div>
+                <div class="product-card__info">
+                    <h3 class="product-card__name">Linho Belga Natural</h3>
+                    <p class="product-card__category">Tecidos Premium</p>
+                    <p class="product-card__price">R$ 690 /metro</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ═══════════════ ABOUT / STORY ═══════════════ -->
+    <section class="story" id="sobre">
+        <div class="story__inner">
+            <div class="story__text reveal">
+                <span class="story__label">Nossa Essência</span>
+                <h2 class="story__title">Tradição, Artesania<br>& Inovação</h2>
+                <p class="story__desc">Desde 1987, a Mega Store cultiva a arte de vestir com excelência. Cada peça é um encontro entre a tradição da alfaiataria europeia e a ousadia do design contemporâneo. Nossos tecidos são selecionados nas melhores tecelagens do mundo — de Como a Kyoto — para oferecer uma experiência sensorial única.</p>
+                <a href="#contato" class="story__cta">Conheça Nossa História &rarr;</a>
+            </div>
+            <div class="story__visual reveal">
+                <div class="story__image-frame">
+                    <img src="img/product-dress.png" alt="Ateliê Mega Store" class="story__image">
+                </div>
+                <div class="story__accent-line"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════ NEWSLETTER ═══════════════ -->
+    <section class="newsletter" id="contato">
+        <div class="newsletter__inner reveal">
+            <span class="newsletter__label">Exclusividade</span>
+            <h2 class="newsletter__title">Receba Primeiro</h2>
+            <p class="newsletter__desc">Inscreva-se para acesso antecipado a novas coleções, tecidos exclusivos e convites para eventos privados.</p>
+            <form class="newsletter__form" id="newsletter-form">
+                <div class="newsletter__input-wrapper">
+                    <input type="email" class="newsletter__input" id="newsletter-email" placeholder="seu@email.com" required aria-label="Seu e-mail">
+                    <button type="submit" class="newsletter__btn" id="newsletter-submit">Assinar</button>
+                </div>
+                <p class="newsletter__feedback" id="newsletter-feedback"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer class="footer" id="footer">
+        <div class="footer__inner">
+            <div class="footer__brand">
+                <div class="footer__logo">
+                    <span class="footer__logo-text">MEGA</span>
+                    <span class="footer__logo-sub">STORE</span>
+                </div>
+                <p class="footer__tagline">A Arte da Trama, a Elegância do Vestir.</p>
+            </div>
+
+            <div class="footer__links">
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Navegação</h4>
+                    <ul>
+                        <li><a href="#colecoes">Coleções</a></li>
+                        <li><a href="#tecidos">Tecidos</a></li>
+                        <li><a href="#destaques">Destaques</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                    </ul>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Atendimento</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Entregas</a></li>
+                        <li><a href="#">Trocas & Devoluções</a></li>
+                        <li><a href="#">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__col-title">Social</h4>
+                    <ul>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Pinterest</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p>&copy; 2026 Mega Store. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="Teste_prompt.js"></script>
+</body>
+</html>
