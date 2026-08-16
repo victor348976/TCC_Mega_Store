@@ -13,7 +13,7 @@
                       AND vp.id_variacao = ip.id_variacao 
                       AND gen.id_genero = p.id_genero 
                       AND ct.id_categoria = p.id_categoria
-                      -- A mágica acontece aqui: filtramos apenas a primeira variação encontrada
+                      -- filtramos apenas a primeira variação encontrada
                       AND vp.id_variacao = (
                          SELECT MIN(id_variacao) 
                          FROM tb_variacao_produto 
