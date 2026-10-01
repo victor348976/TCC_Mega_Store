@@ -1,6 +1,11 @@
    <?php
         session_start();
         include("../geral/conexao.php");
+
+        $alerta = array(
+            'tipo' => '',
+            'texto' => ''
+        );
    ?>
    <?php
    //CADASTRO USUUUUUUUUUUUU
@@ -8,109 +13,110 @@
     //echo "$data";
      if(isset($_POST["cadastrar"])){
        $user="Nome Generico da Silva";//$_POST["user"];
-       $mail=$_POST["mail"];
-       $tel=$_POST["tel"];
-       $senha=$_POST["senha"];
-       $repsenha=$_POST["repsenha"];
-       $erro='';
-       if($user==''){//verifica se o nome de usuario não é vazio
-         $erro.="Digite seu nome de Usuário<br>";
+       $mail = isset($_POST["mail"]) ? trim($_POST["mail"]) : '';
+       $tel = isset($_POST["tel"]) ? trim($_POST["tel"]) : '';
+       $senha = isset($_POST["senha"]) ? $_POST["senha"] : '';
+       $repsenha = isset($_POST["repsenha"]) ? $_POST["repsenha"] : '';
+
+       $mailErro = '';
+       $telErro = '';
+       $senhaErro = '';
+       $repsenhaErro = '';
+
+       if($mail == ''){
+         $mailErro = 'Digite seu email';
        }
-       if($mail==''){//verifica se o email não é vazio
-         $erro.="Digite seu Email<br>";
+       if($tel == ''){
+         $telErro = 'Digite seu telefone';
        }
-       if($tel==''){//verifica se o telefone não é vazio
-         $erro.="Digite seu Telefone<br>";
+       if($senha == ''){
+         $senhaErro = 'Digite a senha';
        }
-       if($senha==''){//verifica se a senha não é vazia
-         $erro.="Digite a Senha<br>";
-       } 
-       if($repsenha==''){//verifica se a repete senha  não é vazia
-         $erro.="Repita a Senha<br>";
+       if($repsenha == ''){
+         $repsenhaErro = 'Repita a senha';
        }
-       if($senha!=$repsenha and $senha!='' and $repsenha!=''){
-         $erro.="Senha e Repete Senha são diferentes";
-       } 
+
+       if($senha != $repsenha && $senha != '' && $repsenha != ''){
+         $repsenhaErro = 'As senhas não coincidem';
+       }
+
        //variaveis para verificar se a senha é valida
         $tamanhoMinimo = false;
         $temMaiuscula = false;
         $temMinuscula = false;
         $temNumero = false;
-        $temEspecial = false;
         $temEspaco = false;
        for ($i = 0; $i < strlen($senha); $i++) {
-    $char = $senha[$i];
-    if (8< strlen($senha)) {//verifica se a senha tem no minimo 8 characteres
-        $tamanhoMinimo = true;
-    } 
-    if (ctype_upper($char)) {//Verifica se possui letra maiuscula
-        $temMaiuscula = true;
-    } 
-    if (ctype_lower($char)) {//Verifica se possui letra minuscula
-        $temMinuscula = true;
-    } 
-    if (ctype_digit($char)) {//Verifica se possui numeros
-        $temNumero = true;
-    } 
-    if (!ctype_alnum($char)) {//Verifica se possui characteres especiais
-        $temEspecial = true;
-    }
-    if ($char == " ") {//Verifica se possui letra maiuscula
-        $temEspaco = true;
-    }
-}
-      if(!$tamanhoMinimo){
-        $erro.="A senha deve conter no mínimo 8 characteres<br>";
+          $char = $senha[$i];
+          if (strlen($senha) >= 8) {
+              $tamanhoMinimo = true;
+          }
+          if (ctype_upper($char)) {
+              $temMaiuscula = true;
+          }
+          if (ctype_lower($char)) {
+              $temMinuscula = true;
+          }
+          if (ctype_digit($char)) {
+              $temNumero = true;
+          }
+          if ($char == " ") {
+              $temEspaco = true;
+          }
+       }
+
+      if($senha != '' && !$tamanhoMinimo){
+        $senhaErro = 'A senha deve ter no mínimo 8 caracteres';
       }
-      if(!$temMaiuscula){
-        $erro.="A senha deve conter no mínimo 1 letra maiuscula<br>";
+      if($senha != '' && !$temMaiuscula){
+        $senhaErro = 'A senha deve ter pelo menos 1 letra maiúscula';
       }
-      if(!$temMinuscula){
-        $erro.="A senha deve conter no mínimo 1 letra minuscula<br>";
+      if($senha != '' && !$temMinuscula){
+        $senhaErro = 'A senha deve ter pelo menos 1 letra minúscula';
       }
-      if(!$temNumero){
-        $erro.="A senha deve conter no mínimo 1 numero<br>";
+      if($senha != '' && !$temNumero){
+        $senhaErro = 'A senha deve ter pelo menos 1 número';
       }
-     // if(!$temEspecial){
-     //   $erro.="A senha deve conter no mínimo 1 character especial<br>";
-     // }
       if($temEspaco){
-        $erro.="A senha não pode conter espaços<br>";
+        $senhaErro = 'A senha não pode conter espaços';
       }
+
       $sql = "SELECT *
               FROM tb_usuario
               WHERE email = '$mail'";
       $r = mysqli_query($con, $sql);
-      if (mysqli_num_rows($r) > 0) {
-        $erro.="Este email ja esta cadastrado!<br>";
+      if ($mail != '' && mysqli_num_rows($r) > 0) {
+        $mailErro = 'Este email já está cadastrado';
       }
-       if($erro==''){
+
+       if($mailErro == '' && $telErro == '' && $senhaErro == '' && $repsenhaErro == ''){
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
         $sql = "INSERT INTO tb_usuario (nome_usuario, email, senha, numero, tipo, data_cadastro, modo_tela) 
                 VALUES ('$user', '$mail', '$senha_hash', '$tel', '0', '$data', '0')";
          $r= mysqli_query($con,$sql);
        $_SESSION['id_usuario'] = mysqli_insert_id($con);
-         echo"<font color=green size=4>Usuario Cadastrado com Sucesso</font>";
+         $alerta['tipo'] = 'sucesso';
+         $alerta['texto'] = 'Usuario cadastrado com sucesso.';
          header("Location: ../home/Tl_principal.html");
          exit;
 
        }
-      else{
-       echo"<font color=red size=4>$erro</font>";
-     }
      }
      //LOGIN USUUUUUUUUUUUU
      if(isset($_POST["login"])){
-                $email=$_POST["loginmail"];
-                $senha=$_POST["loginsenha"];
-                $erro='';
-                if($email==''){
-                    $erro.="Digite o email<br>";
+                $email = isset($_POST["loginmail"]) ? trim($_POST["loginmail"]) : '';
+                $senha = isset($_POST["loginsenha"]) ? $_POST["loginsenha"] : '';
+                $loginEmailErro = '';
+                $loginSenhaErro = '';
+
+                if($email == ''){
+                    $loginEmailErro = 'Digite o email';
                 }
-                if($senha==''){
-                    $erro.="Digite a Senha<br>";
-                } 
-                if($erro==''){
+                if($senha == ''){
+                    $loginSenhaErro = 'Digite a senha';
+                }
+
+                if($loginEmailErro == '' && $loginSenhaErro == ''){
                     $sql = "SELECT * 
                             FROM tb_usuario 
                             WHERE email = '$email'";
@@ -119,22 +125,21 @@
                      $usuario = mysqli_fetch_assoc($r);
                         if(password_verify($senha, $usuario["senha"])){  
                             $_SESSION['id_usuario'] = $usuario['id_usuario'];
-                            echo "Login realizado com sucesso!";
+                            $alerta['tipo'] = 'sucesso';
+                            $alerta['texto'] = 'Login realizado com sucesso!';
                             header("Location: ../home/Tl_principal.html");
                             exit;
                         }else{
-                            $erro.="Senha incorreta!";
+                            $loginSenhaErro = 'Senha incorreta';
                         }
                     } else {
-                        $erro.="Email não encontrado!";
+                        $loginEmailErro = 'Email não encontrado';
                     }
-                    if($erro==''){
+                }
 
-                    }else{
-                        echo"<font color='red' size='4'>$erro</font>";
-                    }
-                }else{
-                    echo"<font color='red' size='4'>$erro</font>";
+                if($loginEmailErro != '' || $loginSenhaErro != ''){
+                    $alerta['tipo'] = 'erro';
+                    $alerta['texto'] = $loginEmailErro != '' ? $loginEmailErro : $loginSenhaErro;
                 }
              }
     ?>
@@ -160,7 +165,7 @@
             <div class="forms-wrapper">
 
                 <!-- Cadastro Form -->
-                <form method="POST" action="Cadastro_mega_store.php" class="account-form sign-up-form" id="formcad">
+                <form method="POST" action="" class="account-form sign-up-form" id="formcad">
                     <div class="logo-container">
                         <img src="img/logo.png" alt="Mega Store Logo" class="brand-logo"
                             onerror="this.src='https://via.placeholder.com/150x50?text=MEGA+STORE';this.style.width='150px';">
@@ -168,23 +173,44 @@
                     <h2 class="title">Criar nova conta</h2>
                     <p class="subtitle">Junte-se à Mega Store e aproveite ofertas exclusivas.</p>
 
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Email" name="mail" id="mailcad" />
-                        
-                       
+                    <div class="input-wrap">
+                        <div class="input-field">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="Email" name="mail" id="mailcad" value="<?= htmlspecialchars($mail ?? '') ?>" />
+                        </div>
+                        <?php if (!empty($mailErro)): ?>
+                            <div class="zara-field-error" role="alert"><?= htmlspecialchars($mailErro) ?></div>
+                        <?php endif; ?>
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Senha" name="senha" />
+
+                    <div class="input-wrap">
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Senha" name="senha" value="<?= htmlspecialchars($senha ?? '') ?>" />
+                        </div>
+                        <?php if (!empty($senhaErro)): ?>
+                            <div class="zara-field-error" role="alert"><?= htmlspecialchars($senhaErro) ?></div>
+                        <?php endif; ?>
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Confirmar Senha" name="repsenha" />
+
+                    <div class="input-wrap">
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Confirmar Senha" name="repsenha" value="<?= htmlspecialchars($repsenha ?? '') ?>" />
+                        </div>
+                        <?php if (!empty($repsenhaErro)): ?>
+                            <div class="zara-field-error" role="alert"><?= htmlspecialchars($repsenhaErro) ?></div>
+                        <?php endif; ?>
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-phone"></i>
-                        <input type="tel" placeholder="Telefone" name="tel" />
+
+                    <div class="input-wrap">
+                        <div class="input-field">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" placeholder="Telefone" name="tel" value="<?= htmlspecialchars($tel ?? '') ?>" />
+                        </div>
+                        <?php if (!empty($telErro)): ?>
+                            <div class="zara-field-error" role="alert"><?= htmlspecialchars($telErro) ?></div>
+                        <?php endif; ?>
                     </div>
 
                     <button type="submit" class="btn solid" name="cadastrar">Cadastrar-se</button>
@@ -197,7 +223,7 @@
                 </form>
 
                 <!-- Login Form -->
-                <form method="POST" action="#" class="account-form sign-in-form" id="formlogin">
+                <form method="POST" action="" class="account-form sign-in-form" id="formlogin">
                     <div class="logo-container">
                         <img src="img/logo.png" alt="Mega Store Logo" class="brand-logo"
                             onerror="this.src='https://via.placeholder.com/150x50?text=MEGA+STORE';this.style.width='150px';">
@@ -205,13 +231,24 @@
                     <h2 class="title">Bem-vindo de volta!</h2>
                     <p class="subtitle">Acesse sua conta e continue comprando com a gente.</p>
 
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Email" name="loginmail" />
+                    <div class="input-wrap">
+                        <div class="input-field">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="Email" name="loginmail" value="<?= htmlspecialchars($email ?? '') ?>" />
+                        </div>
+                        <?php if (!empty($loginEmailErro)): ?>
+                            <div class="zara-field-error" role="alert"><?= htmlspecialchars($loginEmailErro) ?></div>
+                        <?php endif; ?>
                     </div>
-                    <div class="input-field">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Senha" name="loginsenha" />
+
+                    <div class="input-wrap">
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Senha" name="loginsenha" value="<?= htmlspecialchars($senha ?? '') ?>" />
+                        </div>
+                        <?php if (!empty($loginSenhaErro)): ?>
+                            <div class="zara-field-error" role="alert"><?= htmlspecialchars($loginSenhaErro) ?></div>
+                        <?php endif; ?>
                     </div>
 
                     <button type="submit" class="btn solid" name="login">Fazer Login</button>

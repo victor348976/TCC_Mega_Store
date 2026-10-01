@@ -65,7 +65,21 @@ body {
   width: 100%;
   max-width: 450px;
   height: 600px;
-  
+}
+
+.input-wrap {
+  width: 100%;
+}
+
+.zara-field-error {
+  margin-top: 6px;
+  margin-bottom: 4px;
+  color: #111111;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  padding-left: 2px;
 }
 
 /* Base styles for both forms */
