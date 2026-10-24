@@ -2,6 +2,18 @@
         session_start();
         include("../geral/conexao.php");
 
+        $mail = '';
+        $tel = '';
+        $senha = '';
+        $repsenha = '';
+        $email = '';
+        $mailErro = '';
+        $telErro = '';
+        $senhaErro = '';
+        $repsenhaErro = '';
+        $loginEmailErro = '';
+        $loginSenhaErro = '';
+
         $alerta = array(
             'tipo' => '',
             'texto' => ''
@@ -94,12 +106,12 @@
         $sql = "INSERT INTO tb_usuario (nome_usuario, email, senha, numero, tipo, data_cadastro, modo_tela) 
                 VALUES ('$user', '$mail', '$senha_hash', '$tel', '0', '$data', '0')";
          $r= mysqli_query($con,$sql);
-       $_SESSION['id_usuario'] = mysqli_insert_id($con);
+         $_SESSION['id_usuario'] = mysqli_insert_id($con);
+         $_SESSION['usuario_logado'] = true;
          $alerta['tipo'] = 'sucesso';
          $alerta['texto'] = 'Usuario cadastrado com sucesso.';
          header("Location: ../home/Tl_principal.html");
          exit;
-
        }
      }
      //LOGIN USUUUUUUUUUUUU
@@ -125,6 +137,7 @@
                      $usuario = mysqli_fetch_assoc($r);
                         if(password_verify($senha, $usuario["senha"])){  
                             $_SESSION['id_usuario'] = $usuario['id_usuario'];
+                            $_SESSION['usuario_logado'] = true;
                             $alerta['tipo'] = 'sucesso';
                             $alerta['texto'] = 'Login realizado com sucesso!';
                             header("Location: ../home/Tl_principal.html");
