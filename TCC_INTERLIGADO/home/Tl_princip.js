@@ -223,3 +223,7 @@
     initImageFadeIn();
 
 })();
+const Carrinho = document.getElementById('perfil-btn');
+        Carrinho.addEventListener('click', function(){
+             window.location.href = '../carrinho.html'; 
+        });
