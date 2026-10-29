@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/03/2026 às 17:55
+-- Tempo de geração: 29/10/2026 às 18:33
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -38,8 +38,20 @@ CREATE TABLE `tb_categoria` (
 --
 
 INSERT INTO `tb_categoria` (`id_categoria`, `nome_categoria`, `descricao_categoria`) VALUES
-(1, 'Calça', 'É uma calça'),
-(2, 'Camiseta', 'É uma camiseta, n camisa, por favor, não confunda');
+(1, 'Acessório', 'Produtos complementares utilizados para compor estilos, facilitar atividades do dia a dia ou agregar funcionalidade, como bolsas, cintos, bonés, carteiras e outros itens.'),
+(2, 'Bermuda', 'Peças de vestuário com comprimento geralmente até os joelhos, disponíveis em diferentes modelos, materiais e estilos para diversas ocasiões.'),
+(3, 'Body', 'Peça de vestuário que cobre o tronco e possui fechamento na parte inferior, podendo ser utilizada em diferentes combinações e estilos.'),
+(4, 'Calça', 'Peça de vestuário que cobre as pernas, disponível em diferentes cortes, tecidos e modelos, atendendo a diversas necessidades e ocasiões.'),
+(5, 'Calçado', 'Produtos utilizados para proteger e vestir os pés, incluindo tênis, sapatos, sandálias, botas, chinelos e outros modelos.'),
+(6, 'Camisa', 'Peça de vestuário geralmente caracterizada por gola, abertura frontal e botões, disponível em diferentes tecidos e estilos para ocasiões casuais ou formais.'),
+(7, 'Camiseta', 'Peça de vestuário geralmente confeccionada em malha, com mangas curtas ou longas, disponível em diferentes cores, estampas e modelos.'),
+(8, 'Casaco', 'Peça utilizada para proteger o corpo do frio ou complementar o visual, incluindo jaquetas, blusas de frio, cardigãs e outros modelos.'),
+(9, 'Conjunto', 'Conjunto de peças comercializadas em combinação, desenvolvidas para serem utilizadas juntas ou separadamente, conforme o modelo e a finalidade.'),
+(10, 'Macacão', 'Peça única que combina a parte superior e inferior do vestuário, disponível em diferentes modelos, tecidos e estilos para diversas ocasiões.'),
+(11, 'Roupa de cama', 'Produtos destinados a compor, proteger e proporcionar conforto à cama, incluindo lençóis, fronhas, colchas, edredons e outros artigos.'),
+(12, 'Saia', 'Peça de vestuário que cobre a parte inferior do corpo, disponível em diferentes comprimentos, cortes, tecidos e estilos.'),
+(13, 'Tecido', 'Materiais utilizados na confecção de roupas, acessórios, itens de decoração e outros produtos, disponíveis em diferentes composições, texturas e estampas.'),
+(14, 'Vestido', 'Peça de vestuário que combina a parte superior e inferior em uma única estrutura, disponível em diferentes comprimentos, modelos e estilos para diversas ocasiões.');
 
 -- --------------------------------------------------------
 
@@ -55,7 +67,7 @@ CREATE TABLE `tb_endereco` (
   `bairro` int(255) NOT NULL,
   `cidade` varchar(255) NOT NULL,
   `estado` varchar(2) NOT NULL,
-  `cep` int(8) NOT NULL,
+  `cep` varchar(8) NOT NULL,
   `complemento` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -70,6 +82,16 @@ CREATE TABLE `tb_forma_pagamento` (
   `nome_forma_pagamento` varchar(150) NOT NULL,
   `descricao_forma_pagamento` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `tb_forma_pagamento`
+--
+
+INSERT INTO `tb_forma_pagamento` (`id_forma_pagamento`, `nome_forma_pagamento`, `descricao_forma_pagamento`) VALUES
+(1, 'Boleto', 'Método de pagamento realizado por meio de um boleto bancário, que pode ser pago em bancos, aplicativos financeiros ou estabelecimentos autorizados, conforme as condições de vencimento.'),
+(2, 'Crédito', 'Método de pagamento realizado por cartão de crédito, permitindo que o valor da compra seja cobrado na fatura do cliente, com possibilidade de parcelamento conforme as condições oferecidas.'),
+(3, 'Débito', 'Método de pagamento realizado por cartão de débito, no qual o valor da compra é descontado diretamente do saldo disponível na conta bancária do cliente.'),
+(4, 'PIX', 'Método de pagamento eletrônico que permite transferências e pagamentos instantâneos, disponíveis a qualquer dia e horário, por meio de instituições financeiras participantes.');
 
 -- --------------------------------------------------------
 
@@ -88,10 +110,10 @@ CREATE TABLE `tb_genero` (
 --
 
 INSERT INTO `tb_genero` (`id_genero`, `nome_genero`, `descricao_genero`) VALUES
-(1, 'Masculino', 'Roupas para MACHOS DE VERDADE'),
-(2, 'Feminino', 'ROUPAS PARA AS MAIS DIVAS'),
-(3, 'Infantil', 'ROUPAS PARA AS PESTES MAIS LINDAS DO MUNDO'),
-(4, 'Unissex', 'VIVA AO GENERO FLUIDO, VIVA A COMUNIDADE LGBTQIAP+');
+(1, 'Masculino', 'Produtos destinados ao público masculino.'),
+(2, 'Feminino', 'Produtos destinados ao público feminino.'),
+(3, 'Infantil', 'Produtos destinados ao público infantil.'),
+(4, 'Unissex', 'Produtos destinados a todos os públicos, independentemente do gênero.');
 
 -- --------------------------------------------------------
 
@@ -104,14 +126,6 @@ CREATE TABLE `tb_imagem_produto` (
   `id_variacao` int(11) NOT NULL,
   `caminho_imagem` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tb_imagem_produto`
---
-
-INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_variacao`, `caminho_imagem`) VALUES
-(1, 1, 'uploads/697037447dcb6.png'),
-(2, 2, 'uploads/697037448e0f3.png');
 
 -- --------------------------------------------------------
 
@@ -144,13 +158,6 @@ CREATE TABLE `tb_produto` (
   `data_cadastro` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `tb_produto`
---
-
-INSERT INTO `tb_produto` (`id_produto`, `nome_produto`, `descricao_produto`, `preco`, `id_categoria`, `id_genero`, `ativo`, `data_cadastro`) VALUES
-(1, 'Joao', 'Joao sendo o Joao', 0.00, 2, 1, 1, '2026-01-21');
-
 -- --------------------------------------------------------
 
 --
@@ -162,13 +169,6 @@ CREATE TABLE `tb_produto_salvo` (
   `id_produto` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tb_produto_salvo`
---
-
-INSERT INTO `tb_produto_salvo` (`id_produto_salvo`, `id_produto`, `id_usuario`) VALUES
-(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -201,14 +201,6 @@ CREATE TABLE `tb_usuario` (
   `modo_tela` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `tb_usuario`
---
-
-INSERT INTO `tb_usuario` (`id_usuario`, `nome_usuario`, `email`, `senha`, `cpf`, `numero`, `tipo`, `data_cadastro`, `modo_tela`) VALUES
-(1, 'Gustavo', 'gutolindo@gmail.com', '$2y$10$MgSYDeXd7c6.VTj1aNZ/C.SlucbfWUqfJI80gMS4AuZm.jt1GnvBq', NULL, 40028922, 0, '2026-01-21', 0),
-(2, 'V', 'v@gmail.com', '$2y$10$oCU1Qbqnvuu6/n9PPXBBCeO0fewqGt.J9n7UpQGFeBubJ0gxNmkwu', NULL, 2147483647, 0, '2026-02-21', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -222,14 +214,6 @@ CREATE TABLE `tb_variacao_produto` (
   `cor` varchar(55) NOT NULL,
   `estoque` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tb_variacao_produto`
---
-
-INSERT INTO `tb_variacao_produto` (`id_variacao`, `id_produto`, `tamanho`, `cor`, `estoque`) VALUES
-(1, 1, 'GG', '#000000', 1),
-(2, 1, 'M', '#404040', 2);
 
 -- --------------------------------------------------------
 
@@ -341,7 +325,7 @@ ALTER TABLE `tb_venda`
 -- AUTO_INCREMENT de tabela `tb_categoria`
 --
 ALTER TABLE `tb_categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `tb_endereco`
@@ -353,7 +337,7 @@ ALTER TABLE `tb_endereco`
 -- AUTO_INCREMENT de tabela `tb_forma_pagamento`
 --
 ALTER TABLE `tb_forma_pagamento`
-  MODIFY `id_forma_pagamento` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_forma_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `tb_genero`
@@ -365,7 +349,7 @@ ALTER TABLE `tb_genero`
 -- AUTO_INCREMENT de tabela `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tb_pagamento`
@@ -377,7 +361,7 @@ ALTER TABLE `tb_pagamento`
 -- AUTO_INCREMENT de tabela `tb_produto`
 --
 ALTER TABLE `tb_produto`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tb_produto_salvo`
@@ -395,13 +379,13 @@ ALTER TABLE `tb_produto_venda`
 -- AUTO_INCREMENT de tabela `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tb_variacao_produto`
 --
 ALTER TABLE `tb_variacao_produto`
-  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tb_venda`
