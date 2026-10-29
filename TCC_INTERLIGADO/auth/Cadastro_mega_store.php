@@ -140,8 +140,13 @@
                             $_SESSION['usuario_logado'] = true;
                             $alerta['tipo'] = 'sucesso';
                             $alerta['texto'] = 'Login realizado com sucesso!';
-                            header("Location: ../home/Tl_principal.html");
-                            exit;
+                            if($usuario['tipo'] == 1){
+                                header("Location: ../admin/gerenciar_pedidos.php");
+                            }else{
+                                header("Location: ../home/Tl_principal.html");
+                                exit;
+                            }
+                            
                         }else{
                             $loginSenhaErro = 'Senha incorreta';
                         }
