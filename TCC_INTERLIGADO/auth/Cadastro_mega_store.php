@@ -232,7 +232,7 @@
                     <div class="input-wrap">
                         <div class="input-field">
                             <i class="fas fa-phone"></i>
-                            <input type="tel" placeholder="Telefone" id="telefone" name="tel" value="<?= htmlspecialchars($tel ?? '') ?>" />
+                            <input type="varchar" placeholder="Telefone" id="telefone" name="tel" MAXLENGTH="15" value="<?= htmlspecialchars($tel ?? '') ?>" />
                         </div>
                         <?php if (!empty($telErro)): ?>
                             <div class="zara-field-error" role="alert"><?= htmlspecialchars($telErro) ?></div>
