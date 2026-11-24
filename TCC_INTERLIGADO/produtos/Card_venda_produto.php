@@ -1,3 +1,4 @@
+
 <?php
 include("../geral/conexao.php");
 include("../geral/head.php");
@@ -43,10 +44,11 @@ while ($v = mysqli_fetch_assoc($rVar)) {
         }
     }
 
-    $variacoes[$cor]['tamanhos'][$tamanho] = ($estoque > 0);
+    $variacoes[$cor]['tamanhos'][$tamanho] = $estoque;
 }
 
 $coresDisponiveis = array_keys($variacoes);
+
 if ($imagemInicial === '' && !empty($coresDisponiveis)) {
     $primeiraCor = $coresDisponiveis[0];
     $imagemInicial = $variacoes[$primeiraCor]['imagem'];
@@ -58,6 +60,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 <head>
     <meta charset="UTF-8">
     <title>Produto</title>
+
     <style>
         body {
             font-family: Arial;
@@ -134,6 +137,25 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
             color: #ddd;
             cursor: not-allowed;
             opacity: 0.5;
+        }
+
+        .quantidade {
+            margin-top: 20px;
+        }
+
+        .quantidade input {
+            width: 70px;
+            padding: 8px;
+            font-size: 16px;
+            text-align: center;
+            border: 1px solid #000;
+            border-radius: 6px;
+        }
+
+        .quantidade small {
+            display: block;
+            margin-top: 5px;
+            color: #555;
         }
 
         .botao {
@@ -222,15 +244,22 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 
 <body>
 <center>
+
 <?php if ($prod): ?>
+
     <div class="container">
         <div class="imagem">
-            <img id="imagem-produto" src="../produtos/uploads/<?php echo htmlspecialchars($imagemInicial); ?>" alt="Imagem do produto">
+            <img id="imagem-produto"
+                 src="../produtos/uploads/<?php echo htmlspecialchars($imagemInicial); ?>"
+                 alt="Imagem do produto">
         </div>
 
         <div class="info">
             <h2><?php echo htmlspecialchars($prod['nome_produto']); ?></h2>
-            <div class="preco">R$ <?php echo htmlspecialchars($prod['preco']); ?></div>
+
+            <div class="preco">
+                R$ <?php echo htmlspecialchars($prod['preco']); ?>
+            </div>
 
             <div class="descricao">
                 <?php echo htmlspecialchars($prod['descricao_produto']); ?>
@@ -238,6 +267,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 
             <div class="cores">
                 <strong>Cor:</strong><br><br>
+
                 <?php foreach ($variacoes as $cor => $dados): ?>
                     <label>
                         <input
@@ -246,6 +276,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
                             value="<?php echo htmlspecialchars($cor); ?>"
                             data-img="../produtos/uploads/<?php echo htmlspecialchars($dados['imagem']); ?>"
                             onclick="selecionarCor(this)">
+
                         <?php echo htmlspecialchars($cor); ?>
                     </label>
                 <?php endforeach; ?>
@@ -256,13 +287,30 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
                 <div id="lista-tamanhos"></div>
             </div>
 
-            <div class="botao" onclick="comprar()">COMPRAR AGORA</div>
+            <div class="quantidade" id="area-quantidade" style="display: none;">
+                <strong>Quantidade:</strong><br><br>
+
+                <input
+                    type="number"
+                    id="quantidade"
+                    value="1"
+                    min="1"
+                    max="1">
+
+                <small id="estoque-disponivel"></small>
+            </div>
+
+            <div class="botao" onclick="comprar()">
+                COMPRAR AGORA
+            </div>
         </div>
     </div>
+
 <?php endif; ?>
 
 <?php
-$sqlRel = "SELECT p.id_produto, p.nome_produto, p.preco, MIN(ip.caminho_imagem) AS caminho_imagem
+$sqlRel = "SELECT p.id_produto, p.nome_produto, p.preco,
+           MIN(ip.caminho_imagem) AS caminho_imagem
            FROM tb_produto p
            LEFT JOIN tb_variacao_produto vp ON vp.id_produto = p.id_produto
            LEFT JOIN tb_imagem_produto ip ON ip.id_variacao = vp.id_variacao
@@ -270,23 +318,38 @@ $sqlRel = "SELECT p.id_produto, p.nome_produto, p.preco, MIN(ip.caminho_imagem) 
            GROUP BY p.id_produto, p.nome_produto, p.preco
            ORDER BY p.id_produto DESC
            LIMIT 10";
+
 $rRel = mysqli_query($con, $sqlRel);
 ?>
 
 <div class="relacionados">
     <h3>Produtos relacionados</h3>
+
     <div class="container-produtos">
         <?php while ($x = mysqli_fetch_assoc($rRel)): ?>
+
             <form method="get" action="Card_venda_produto.php">
-                <input type="hidden" name="id_produto" value="<?php echo $x['id_produto']; ?>">
-                <button type="submit" style="border:none; background:none; padding:0; width:100%;">
+                <input type="hidden" name="id_produto"
+                       value="<?php echo $x['id_produto']; ?>">
+
+                <button type="submit"
+                        style="border:none; background:none; padding:0; width:100%;">
+
                     <div class="card-produto">
-                        <img src="../produtos/uploads/<?php echo htmlspecialchars($x['caminho_imagem'] ?? ''); ?>" alt="Imagem do produto">
+                        <img
+                            src="../produtos/uploads/<?php echo htmlspecialchars($x['caminho_imagem'] ?? ''); ?>"
+                            alt="Imagem do produto">
+
                         <h3><?php echo htmlspecialchars($x['nome_produto']); ?></h3>
-                        <p class="preco">R$ <?php echo htmlspecialchars($x['preco']); ?></p>
+
+                        <p class="preco">
+                            R$ <?php echo "".$x['preco'].""; ?>
+                        </p>
                     </div>
+
                 </button>
             </form>
+
         <?php endwhile; ?>
     </div>
 </div>
@@ -303,6 +366,7 @@ $rRel = mysqli_query($con, $sqlRel);
         tamanhoSelecionado = null;
 
         const novaImagem = el.getAttribute("data-img");
+
         if (novaImagem) {
             document.getElementById("imagem-produto").src = novaImagem;
         }
@@ -313,6 +377,8 @@ $rRel = mysqli_query($con, $sqlRel);
     function renderTamanhos(cor) {
         const container = document.getElementById("lista-tamanhos");
 
+        document.getElementById("area-quantidade").style.display = "none";
+
         if (!cor || !variacoes[cor]) {
             container.innerHTML = "";
             return;
@@ -321,7 +387,8 @@ $rRel = mysqli_query($con, $sqlRel);
         let html = "";
 
         tamanhosFixos.forEach(tam => {
-            const disponivel = variacoes[cor].tamanhos[tam] === true;
+            const estoque = variacoes[cor].tamanhos[tam] || 0;
+            const disponivel = estoque > 0;
 
             html += `
                 <button
@@ -344,9 +411,26 @@ $rRel = mysqli_query($con, $sqlRel);
     }
 
     function selecionarTamanho(el) {
-        document.querySelectorAll(".tamanho-btn").forEach(e => e.classList.remove("ativo"));
+        document.querySelectorAll(".tamanho-btn").forEach(e => {
+            e.classList.remove("ativo");
+        });
+
         el.classList.add("ativo");
         tamanhoSelecionado = el.getAttribute("data-tam");
+
+        const estoque = variacoes[corSelecionada].tamanhos[tamanhoSelecionado];
+
+        const areaQuantidade = document.getElementById("area-quantidade");
+        const campoQuantidade = document.getElementById("quantidade");
+        const textoEstoque = document.getElementById("estoque-disponivel");
+
+        campoQuantidade.value = 1;
+        campoQuantidade.min = 1;
+        campoQuantidade.max = estoque;
+
+        textoEstoque.textContent = estoque + " unidade(s) disponível(is)";
+
+        areaQuantidade.style.display = "block";
     }
 
     function comprar() {
@@ -360,17 +444,33 @@ $rRel = mysqli_query($con, $sqlRel);
             return;
         }
 
-        alert("Comprado! Cor: " + corSelecionada + " | Tamanho: " + tamanhoSelecionado);
+        const quantidade = parseInt(document.getElementById("quantidade").value);
+        const estoque = variacoes[corSelecionada].tamanhos[tamanhoSelecionado];
+
+        if (isNaN(quantidade) || quantidade < 1 || quantidade > estoque) {
+            alert("Selecione uma quantidade válida!");
+            return;
+        }
+
+        alert(
+            "Produto selecionado!\n" +
+            "Cor: " + corSelecionada + "\n" +
+            "Tamanho: " + tamanhoSelecionado + "\n" +
+            "Quantidade: " + quantidade
+        );
     }
+    
 
     window.addEventListener("DOMContentLoaded", function () {
         const primeiroRadio = document.querySelector('input[name="cor"]');
+
         if (primeiroRadio) {
             primeiroRadio.checked = true;
             selecionarCor(primeiroRadio);
         }
     });
 </script>
+
 </center>
 </body>
 </html>
