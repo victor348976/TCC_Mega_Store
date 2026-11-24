@@ -281,32 +281,36 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
                     </label>
                 <?php endforeach; ?>
             </div>
-
+        <form action="" method="POST">
             <div class="tamanhos">
                 <strong>Tamanho:</strong><br><br>
                 <div id="lista-tamanhos"></div>
             </div>
 
-            <div class="quantidade" id="area-quantidade" style="display: none;">
+            <div class="quantidade" id="area-quantidade" style="display: block;">
                 <strong>Quantidade:</strong><br><br>
 
                 <input
                     type="number"
                     id="quantidade"
-                    value="1"
-                    min="1"
-                    max="1">
+                    name="quantidade"
+                    >
 
                 <small id="estoque-disponivel"></small>
             </div>
 
-            <div class="botao" onclick="comprar()">
-                COMPRAR AGORA
-            </div>
-        </div>
+            <!--<div class="botao" onclick="comprar()">-->
+               <button  type='submit' name="comprar"> COMPRAR AGORA </button>
+            <!--</div>-->
+         </div>
+        </form>
     </div>
 
-<?php endif; ?>
+<?php endif; 
+    if (isset($_POST["comprar"])) {
+            $quantidade = $_POST["quantidade"];
+            echo "".$quantidade."AAAAAAAA";   
+    }?>
 
 <?php
 $sqlRel = "SELECT p.id_produto, p.nome_produto, p.preco,
