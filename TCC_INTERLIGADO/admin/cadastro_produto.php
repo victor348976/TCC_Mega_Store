@@ -94,26 +94,29 @@ if (isset($_GET['erro'])) {
                 </div>
 
                 <div class="card">
-                    <h2>Estoque e Tamanhos</h2>
-                    <div class="f"><label>Quantidade em estoque</label><input name="estoque" type="number" min="0" value="0"></div>
+                    <h2>Variações do produto</h2>
                     <div class="f">
-                        <label>Tamanhos disponíveis</label>
-                        <div class="chips">
-                            <label class="chip"><input type="checkbox" name="tam[]" value="PP"><span>PP</span></label>
-                            <label class="chip"><input type="checkbox" name="tam[]" value="P"><span>P</span></label>
-                            <label class="chip"><input type="checkbox" name="tam[]" value="M"><span>M</span></label>
-                            <label class="chip"><input type="checkbox" name="tam[]" value="G"><span>G</span></label>
-                            <label class="chip"><input type="checkbox" name="tam[]" value="GG"><span>GG</span></label>
-                            <label class="chip"><input type="checkbox" name="tam[]" value="Único"><span>Único</span></label>
+                        <label for="quantidade-cores">Quantidade de cores</label>
+                        <div class="variation-count">
+                            <input id="quantidade-cores" name="quantidade_cores" type="number" min="1" max="50" value="1" required>
+                            <button class="btn btn--o" type="button" id="gerar-variacoes">Criar cards</button>
                         </div>
+                        <small class="variation-help">Informe quantas cores o produto terá. Depois, configure cada cor, seus tamanhos e uma foto opcional.</small>
                     </div>
+                    <div class="f">
+                        <label for="estoque">Estoque inicial por tamanho</label>
+                        <input id="estoque" name="estoque" type="number" min="0" value="0" required>
+                        <small class="variation-help">Essa quantidade será aplicada a cada combinação de cor e tamanho.</small>
+                    </div>
+                    <div class="variation-list" id="lista-variacoes" aria-live="polite"></div>
                 </div>
             </div>
 
             <aside>
                 <div class="card">
-                    <h2>Imagem</h2>
-                    <label class="drop" id="drop">Clique para enviar<br>uma imagem<input type="file" name="imagem" accept="image/*" hidden id="img"></label>
+                    <h2>Imagem padrão (opcional)</h2>
+                    <p class="variation-help">Usada nas cores que não tiverem uma foto própria.</p>
+                    <label class="drop" id="drop"><span data-drop-label>Clique para enviar<br>uma imagem</span><input type="file" name="imagem" accept="image/jpeg,image/png,image/webp,image/gif" hidden id="img"></label>
                     <div class="f" style="margin-top:24px"><label>Selo</label>
                         <select name="selo">
                             <option value="">Nenhum</option>
@@ -131,15 +134,130 @@ if (isset($_GET['erro'])) {
         </form>
     </main>
 
+    <template id="modelo-variacao">
+        <section class="variation-card">
+            <h3>Cor <span data-numero-variacao></span></h3>
+            <div class="f">
+                <label data-label-cor>Nome da cor</label>
+                <input type="text" data-input-cor maxlength="55" placeholder="Ex.: Azul-marinho" required>
+            </div>
+            <div class="f">
+                <span class="variation-label">Tamanhos disponíveis</span>
+                <div class="chips">
+                    <label class="chip"><input type="checkbox" data-tamanho value="PP"><span>PP</span></label>
+                    <label class="chip"><input type="checkbox" data-tamanho value="P"><span>P</span></label>
+                    <label class="chip"><input type="checkbox" data-tamanho value="M"><span>M</span></label>
+                    <label class="chip"><input type="checkbox" data-tamanho value="G"><span>G</span></label>
+                    <label class="chip"><input type="checkbox" data-tamanho value="GG"><span>GG</span></label>
+                    <label class="chip"><input type="checkbox" data-tamanho value="XG"><span>XG</span></label>
+                    <label class="chip"><input type="checkbox" data-tamanho value="Único"><span>Único</span></label>
+                </div>
+            </div>
+            <div class="f">
+                <label data-label-imagem>Foto da cor (opcional)</label>
+                <input type="file" data-input-imagem accept="image/jpeg,image/png,image/webp,image/gif">
+                <img class="variation-preview" data-preview alt="Prévia da foto da variação" hidden>
+            </div>
+        </section>
+    </template>
+
     <div class="foot">&copy; 2026 Mega Store. Painel administrativo.</div>
     <script>
-        img.onchange = e => {
-            const f = e.target.files[0];
-            if (f) {
-                drop.style.backgroundImage = 'url(' + URL.createObjectURL(f) + ')';
-                drop.firstChild.textContent = '';
+        (() => {
+            const quantidade = document.getElementById('quantidade-cores');
+            const botaoGerar = document.getElementById('gerar-variacoes');
+            const lista = document.getElementById('lista-variacoes');
+            const modelo = document.getElementById('modelo-variacao');
+            const formulario = document.getElementById('f');
+            const imagemPadrao = document.getElementById('img');
+            const drop = document.getElementById('drop');
+            const dropLabel = drop.querySelector('[data-drop-label]');
+
+            function gerarVariacoes() {
+                const total = Number(quantidade.value);
+                if (!Number.isInteger(total) || total < 1 || total > 50) {
+                    quantidade.setCustomValidity('Informe uma quantidade entre 1 e 50.');
+                    quantidade.reportValidity();
+                    quantidade.setCustomValidity('');
+                    return;
+                }
+
+                if (lista.children.length > 0 && !window.confirm('Gerar novamente os cards apagará os dados já preenchidos. Deseja continuar?')) {
+                    return;
+                }
+
+                lista.replaceChildren();
+                for (let indice = 0; indice < total; indice += 1) {
+                    const card = modelo.content.firstElementChild.cloneNode(true);
+                    const nomeCor = card.querySelector('[data-input-cor]');
+                    const labelCor = card.querySelector('[data-label-cor]');
+                    const labelImagem = card.querySelector('[data-label-imagem]');
+                    const numero = indice + 1;
+
+                    card.querySelector('[data-numero-variacao]').textContent = numero;
+                    nomeCor.name = `variacoes[${indice}][cor]`;
+                    nomeCor.id = `cor-variacao-${indice}`;
+                    labelCor.htmlFor = nomeCor.id;
+                    labelImagem.htmlFor = `imagem-variacao-${indice}`;
+                    card.querySelectorAll('[data-tamanho]').forEach((tamanho) => {
+                        tamanho.name = `variacoes[${indice}][tamanhos][]`;
+                    });
+                    const inputImagem = card.querySelector('[data-input-imagem]');
+                    inputImagem.name = `variacoes[${indice}][imagem]`;
+                    inputImagem.id = `imagem-variacao-${indice}`;
+                    inputImagem.addEventListener('change', () => {
+                        const arquivo = inputImagem.files[0];
+                        const previa = card.querySelector('[data-preview]');
+                        if (arquivo) {
+                            previa.src = URL.createObjectURL(arquivo);
+                            previa.hidden = false;
+                        } else {
+                            previa.removeAttribute('src');
+                            previa.hidden = true;
+                        }
+                    });
+                    lista.appendChild(card);
+                }
             }
-        }
+
+            botaoGerar.addEventListener('click', gerarVariacoes);
+            imagemPadrao.addEventListener('change', () => {
+                const arquivo = imagemPadrao.files[0];
+                if (arquivo) {
+                    drop.style.backgroundImage = `url("${URL.createObjectURL(arquivo)}")`;
+                    dropLabel.textContent = '';
+                } else {
+                    drop.style.backgroundImage = '';
+                    dropLabel.textContent = 'Clique para enviar uma imagem';
+                }
+            });
+
+            formulario.addEventListener('submit', (evento) => {
+                const cards = Array.from(lista.children);
+                if (cards.length !== Number(quantidade.value) || cards.length === 0) {
+                    evento.preventDefault();
+                    window.alert('Clique em “Criar cards” para gerar as variações do produto.');
+                    return;
+                }
+
+                const cores = new Set();
+                for (const [indice, card] of cards.entries()) {
+                    const cor = card.querySelector('[data-input-cor]').value.trim().toLocaleLowerCase('pt-BR');
+                    const tamanhos = card.querySelectorAll('[data-tamanho]:checked');
+                    if (cor === '' || tamanhos.length === 0) {
+                        evento.preventDefault();
+                        window.alert(`Preencha a cor e selecione ao menos um tamanho no card ${indice + 1}.`);
+                        return;
+                    }
+                    if (cores.has(cor)) {
+                        evento.preventDefault();
+                        window.alert(`A cor "${card.querySelector('[data-input-cor]').value.trim()}" está repetida.`);
+                        return;
+                    }
+                    cores.add(cor);
+                }
+            });
+        })();
     </script>
 </body>
 </html>

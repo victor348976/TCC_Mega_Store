@@ -7,16 +7,41 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$nome = trim($_POST['nome'] ?? '');
-$descricao = trim($_POST['descricao'] ?? '');
-$preco = (float) str_replace(',', '.', ($_POST['preco'] ?? '0'));
-$categoria = (int) ($_POST['categoria'] ?? 1);
-$genero = (int) ($_POST['genero'] ?? 4);
+$nomeInformado = $_POST['nome'] ?? '';
+$descricaoInformada = $_POST['descricao'] ?? '';
+$precoRecebido = $_POST['preco'] ?? '';
+$nome = is_string($nomeInformado) ? trim($nomeInformado) : '';
+$descricao = is_string($descricaoInformada) ? trim($descricaoInformada) : '';
+$precoInformado = is_string($precoRecebido) ? str_replace(',', '.', $precoRecebido) : '';
+$preco = is_numeric($precoInformado) ? (float) $precoInformado : -1;
+$categoria = filter_var($_POST['categoria'] ?? null, FILTER_VALIDATE_INT);
+$genero = filter_var($_POST['genero'] ?? null, FILTER_VALIDATE_INT);
 $ativo = isset($_POST['ativo']) ? 1 : 0;
-$estoque = (int) ($_POST['estoque'] ?? 0);
+$estoqueInicial = filter_var($_POST['estoque'] ?? null, FILTER_VALIDATE_INT);
+$quantidadeCores = filter_var($_POST['quantidade_cores'] ?? null, FILTER_VALIDATE_INT);
+$variacoes = $_POST['variacoes'] ?? null;
 $dataHoje = date('Y-m-d');
 
-if (!$con || $nome === '' || $preco < 0 || $estoque < 0) {
+if (
+    !$con ||
+    $nome === '' ||
+    mb_strlen($nome) > 255 ||
+    mb_strlen($descricao) > 500 ||
+    $preco < 0 ||
+    !is_finite($preco) ||
+    $categoria === false ||
+    $categoria < 1 ||
+    $genero === false ||
+    $genero < 1 ||
+    $genero > 4 ||
+    $estoqueInicial === false ||
+    $estoqueInicial < 0 ||
+    $quantidadeCores === false ||
+    $quantidadeCores < 1 ||
+    $quantidadeCores > 50 ||
+    !is_array($variacoes) ||
+    count($variacoes) !== $quantidadeCores
+) {
     header('Location: cadastro_produto.php?erro=1');
     exit;
 }
@@ -34,96 +59,175 @@ if (!$categoriaValida || mysqli_num_rows($categoriaValida) === 0) {
     exit;
 }
 
-$caminhoImagem = null;
-$arquivoImagem = $_FILES['imagem'] ?? null;
-if ($arquivoImagem && $arquivoImagem['error'] !== UPLOAD_ERR_NO_FILE) {
+$tamanhosPermitidos = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'Único'];
+$coresJaInformadas = [];
+$variacoesValidadas = [];
+for ($indice = 0; $indice < $quantidadeCores; $indice++) {
+    $variacao = $variacoes[$indice] ?? null;
+    if (!is_array($variacao) || !isset($variacao['cor']) || !is_string($variacao['cor'])) {
+        header('Location: cadastro_produto.php?erro=1');
+        exit;
+    }
+
+    $cor = trim($variacao['cor']);
+    $corNormalizada = mb_strtolower($cor, 'UTF-8');
+    $tamanhosSelecionados = $variacao['tamanhos'] ?? null;
+    if (
+        $cor === '' ||
+        mb_strlen($cor) > 55 ||
+        isset($coresJaInformadas[$corNormalizada]) ||
+        !is_array($tamanhosSelecionados)
+    ) {
+        header('Location: cadastro_produto.php?erro=1');
+        exit;
+    }
+
+    $tamanhosValidos = [];
+    foreach ($tamanhosSelecionados as $tamanho) {
+        if (is_string($tamanho) && in_array(trim($tamanho), $tamanhosPermitidos, true)) {
+            $tamanhosValidos[] = trim($tamanho);
+        }
+    }
+    $tamanhosSelecionados = array_values(array_unique($tamanhosValidos));
+    if (!$tamanhosSelecionados) {
+        header('Location: cadastro_produto.php?erro=1');
+        exit;
+    }
+
+    $coresJaInformadas[$corNormalizada] = true;
+    $variacoesValidadas[] = [
+        'cor' => $cor,
+        'tamanhos' => $tamanhosSelecionados,
+    ];
+}
+
+$diretorioUploads = __DIR__ . '/../produtos/uploads';
+$imagensCriadas = [];
+$salvarImagem = static function ($arquivo) use ($diretorioUploads, &$imagensCriadas) {
+    if ($arquivo === null || !isset($arquivo['error']) || $arquivo['error'] === UPLOAD_ERR_NO_FILE) {
+        return null;
+    }
+
     $tiposPermitidos = [
         'image/jpeg' => 'jpg',
         'image/png' => 'png',
         'image/webp' => 'webp',
         'image/gif' => 'gif',
     ];
-    $tipoImagem = $arquivoImagem['tmp_name'] !== '' ? mime_content_type($arquivoImagem['tmp_name']) : '';
-    if ($arquivoImagem['error'] !== UPLOAD_ERR_OK || $arquivoImagem['size'] > 5 * 1024 * 1024 || !isset($tiposPermitidos[$tipoImagem])) {
-        header('Location: cadastro_produto.php?erro=1');
-        exit;
+    if (
+        $arquivo['error'] !== UPLOAD_ERR_OK ||
+        $arquivo['size'] > 5 * 1024 * 1024 ||
+        empty($arquivo['tmp_name']) ||
+        !is_uploaded_file($arquivo['tmp_name'])
+    ) {
+        return false;
     }
 
-    $diretorioUploads = __DIR__ . '/../produtos/uploads';
+    $tipoImagem = mime_content_type($arquivo['tmp_name']);
+    if (!isset($tiposPermitidos[$tipoImagem])) {
+        return false;
+    }
     if (!is_dir($diretorioUploads) && !mkdir($diretorioUploads, 0755, true)) {
-        header('Location: cadastro_produto.php?erro=1');
-        exit;
+        return false;
     }
+
     $nomeArquivo = bin2hex(random_bytes(16)) . '.' . $tiposPermitidos[$tipoImagem];
-    if (!move_uploaded_file($arquivoImagem['tmp_name'], $diretorioUploads . '/' . $nomeArquivo)) {
-        header('Location: cadastro_produto.php?erro=1');
-        exit;
+    if (!move_uploaded_file($arquivo['tmp_name'], $diretorioUploads . '/' . $nomeArquivo)) {
+        return false;
     }
-    $caminhoImagem = 'uploads/' . $nomeArquivo;
-}
 
-$sql = "INSERT INTO tb_produto (nome_produto, descricao_produto, preco, id_categoria, id_genero, ativo, data_cadastro)
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-$con->begin_transaction();
-$stmt = mysqli_prepare($con, $sql);
-if (!$stmt) {
-    $con->rollback();
-    if ($caminhoImagem !== null) {
-        @unlink($diretorioUploads . '/' . $nomeArquivo);
+    $caminho = 'uploads/' . $nomeArquivo;
+    $imagensCriadas[] = $caminho;
+    return $caminho;
+};
+$removerImagensCriadas = static function () use (&$imagensCriadas, $diretorioUploads) {
+    foreach ($imagensCriadas as $caminho) {
+        $arquivo = $diretorioUploads . '/' . basename($caminho);
+        if (is_file($arquivo)) {
+            unlink($arquivo);
+        }
     }
+};
+
+$imagemPadrao = $salvarImagem($_FILES['imagem'] ?? null);
+if ($imagemPadrao === false) {
     header('Location: cadastro_produto.php?erro=1');
     exit;
 }
-mysqli_stmt_bind_param($stmt, 'ssdiiis', $nome, $descricao, $preco, $categoria, $genero, $ativo, $dataHoje);
 
-if (mysqli_stmt_execute($stmt)) {
-    $idProduto = mysqli_insert_id($con);
-    $tamanhos = array_values(array_unique(array_filter(array_map('trim', $_POST['tam'] ?? []), static function ($tamanho) {
-        return $tamanho !== '' && mb_strlen($tamanho) <= 5;
-    })));
-    if (!$tamanhos) {
-        $tamanhos = ['Único'];
+foreach ($variacoesValidadas as $indice => &$variacao) {
+    $arquivoImagem = null;
+    if (isset($_FILES['variacoes']['error'][$indice]['imagem'])) {
+        $arquivoImagem = [
+            'name' => $_FILES['variacoes']['name'][$indice]['imagem'] ?? '',
+            'type' => $_FILES['variacoes']['type'][$indice]['imagem'] ?? '',
+            'tmp_name' => $_FILES['variacoes']['tmp_name'][$indice]['imagem'] ?? '',
+            'error' => $_FILES['variacoes']['error'][$indice]['imagem'],
+            'size' => $_FILES['variacoes']['size'][$indice]['imagem'] ?? 0,
+        ];
     }
-
-    $salvouVariacoes = true;
-    foreach ($tamanhos as $tamanho) {
-        $cor = '#000000';
-        $stmtVar = mysqli_prepare($con, 'INSERT INTO tb_variacao_produto (id_produto, tamanho, cor, estoque) VALUES (?, ?, ?, ?)');
-        if (!$stmtVar) {
-            $salvouVariacoes = false;
-            break;
-        }
-        mysqli_stmt_bind_param($stmtVar, 'issi', $idProduto, $tamanho, $cor, $estoque);
-        if (!mysqli_stmt_execute($stmtVar)) {
-            $salvouVariacoes = false;
-            break;
-        }
-
-        if ($caminhoImagem !== null) {
-            $idVariacao = mysqli_insert_id($con);
-            $stmtImagem = mysqli_prepare($con, 'INSERT INTO tb_imagem_produto (id_variacao, caminho_imagem) VALUES (?, ?)');
-            if (!$stmtImagem) {
-                $salvouVariacoes = false;
-                break;
-            }
-            mysqli_stmt_bind_param($stmtImagem, 'is', $idVariacao, $caminhoImagem);
-            if (!mysqli_stmt_execute($stmtImagem)) {
-                $salvouVariacoes = false;
-                break;
-            }
-        }
-    }
-
-    if ($salvouVariacoes && $con->commit()) {
-        header('Location: cadastro_produto.php?sucesso=1');
+    $variacao['imagem'] = $salvarImagem($arquivoImagem);
+    if ($variacao['imagem'] === false) {
+        $removerImagensCriadas();
+        header('Location: cadastro_produto.php?erro=1');
         exit;
     }
+    if ($variacao['imagem'] === null) {
+        $variacao['imagem'] = $imagemPadrao;
+    }
+}
+unset($variacao);
+
+$sqlProduto = 'INSERT INTO tb_produto (nome_produto, descricao_produto, preco, id_categoria, id_genero, ativo, data_cadastro)
+               VALUES (?, ?, ?, ?, ?, ?, ?)';
+$stmtProduto = mysqli_prepare($con, $sqlProduto);
+$stmtVariacao = mysqli_prepare($con, 'INSERT INTO tb_variacao_produto (id_produto, tamanho, cor, estoque) VALUES (?, ?, ?, ?)');
+$stmtImagem = mysqli_prepare($con, 'INSERT INTO tb_imagem_produto (id_variacao, caminho_imagem) VALUES (?, ?)');
+
+if (!$stmtProduto || !$stmtVariacao || !$stmtImagem) {
+    $removerImagensCriadas();
+    header('Location: cadastro_produto.php?erro=1');
+    exit;
+}
+
+if (!$con->begin_transaction()) {
+    $removerImagensCriadas();
+    header('Location: cadastro_produto.php?erro=1');
+    exit;
+}
+
+$salvouProduto = mysqli_stmt_bind_param($stmtProduto, 'ssdiiis', $nome, $descricao, $preco, $categoria, $genero, $ativo, $dataHoje)
+    && mysqli_stmt_execute($stmtProduto);
+$idProduto = $salvouProduto ? mysqli_insert_id($con) : 0;
+$salvouVariacoes = $salvouProduto;
+
+foreach ($variacoesValidadas as $variacao) {
+    foreach ($variacao['tamanhos'] as $tamanho) {
+        $cor = $variacao['cor'];
+        $estoque = $estoqueInicial;
+        mysqli_stmt_bind_param($stmtVariacao, 'issi', $idProduto, $tamanho, $cor, $estoque);
+        if (!mysqli_stmt_execute($stmtVariacao)) {
+            $salvouVariacoes = false;
+            break 2;
+        }
+
+        if ($variacao['imagem'] !== null) {
+            $idVariacao = mysqli_insert_id($con);
+            mysqli_stmt_bind_param($stmtImagem, 'is', $idVariacao, $variacao['imagem']);
+            if (!mysqli_stmt_execute($stmtImagem)) {
+                $salvouVariacoes = false;
+                break 2;
+            }
+        }
+    }
+}
+
+if ($salvouVariacoes && $con->commit()) {
+    header('Location: cadastro_produto.php?sucesso=1');
+    exit;
 }
 
 $con->rollback();
-if ($caminhoImagem !== null) {
-    @unlink($diretorioUploads . '/' . $nomeArquivo);
-}
+$removerImagensCriadas();
 header('Location: cadastro_produto.php?erro=1');
 exit;
