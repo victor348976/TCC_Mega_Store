@@ -17,7 +17,7 @@ $prod = mysqli_fetch_assoc($rProduto);
 $variacoes = [];
 $imagemInicial = '';
 
-$sqlVar = "SELECT vp.cor, vp.tamanho, vp.estoque, ip.caminho_imagem
+$sqlVar = "SELECT vp.id_variacao, vp.cor, vp.tamanho, vp.estoque, ip.caminho_imagem
            FROM tb_variacao_produto vp
            LEFT JOIN tb_imagem_produto ip ON ip.id_variacao = vp.id_variacao
            WHERE vp.id_produto = $id_produto
@@ -29,6 +29,7 @@ while ($v = mysqli_fetch_assoc($rVar)) {
     $tamanho = $v['tamanho'];
     $estoque = (int)$v['estoque'];
     $imagem = $v['caminho_imagem'] ?? '';
+    $id_variacao = (int)$v['id_variacao'];
 
     if (!isset($variacoes[$cor])) {
         $variacoes[$cor] = [
@@ -44,7 +45,10 @@ while ($v = mysqli_fetch_assoc($rVar)) {
         }
     }
 
-    $variacoes[$cor]['tamanhos'][$tamanho] = $estoque;
+    $variacoes[$cor]['tamanhos'][$tamanho] = [
+        'estoque' => $estoque,
+        'id_variacao' => $id_variacao
+    ];
 }
 
 $coresDisponiveis = array_keys($variacoes);
@@ -137,6 +141,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
             color: #ddd;
             cursor: not-allowed;
             opacity: 0.5;
+            display:none;
         }
 
         .quantidade {
@@ -167,6 +172,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
             cursor: pointer;
             border-radius: 8px;
         }
+        
 
         .relacionados {
             margin-top: 50px;
@@ -295,12 +301,12 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
                     id="quantidade"
                     name="quantidade"
                     >
-
+                <input type="hidden" name="id_variacao" id="id_variacao">
                 <small id="estoque-disponivel"></small>
             </div>
 
             <!--<div class="botao" onclick="comprar()">-->
-               <button  type='submit' name="comprar"> COMPRAR AGORA </button>
+               <button  class="botao" type='submit' name="comprar"> ADICIONAR AO CARRINHO </button>
             <!--</div>-->
          </div>
         </form>
@@ -308,9 +314,31 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 
 <?php endif; 
     if (isset($_POST["comprar"])) {
-            $quantidade = $_POST["quantidade"];
-            echo "".$quantidade."AAAAAAAA";   
-    }?>
+
+    $id_variacao = $_POST['id_variacao'];
+    $quantidade = $_POST['quantidade'];
+
+    if (empty($_SESSION['id_usuario'])) {
+        echo "POR FAVOR, SE CADASTRE PARA ACESSAR O SITE!";
+    } else {
+
+        $id_usuario = $_SESSION['id_usuario'];
+
+        $sql_carrinho = "INSERT INTO tb_carinho
+                (id_variacao,id_usuario,qtd_carrinho)
+                VALUES
+                ('$id_variacao','$id_usuario','$quantidade')";
+                $r= mysqli_query($con,$sql_carrinho);
+        //$sql_estoque = "UPDATE tb_variacao_produto
+        //        SET estoque = estoque - $quantidade
+        //        WHERE id_variacao = $id_variacao
+        //        AND id_produto = $id_produto
+        //        AND estoque >= $quantidade";        
+        //$r= mysqli_query($con,$sql_estoque);
+            
+    }
+    }
+    ?>
 
 <?php
 $sqlRel = "SELECT p.id_produto, p.nome_produto, p.preco,
@@ -368,7 +396,7 @@ $rRel = mysqli_query($con, $sqlRel);
     function selecionarCor(el) {
         corSelecionada = el.value;
         tamanhoSelecionado = null;
-
+        document.getElementById("id_variacao").value = "";
         const novaImagem = el.getAttribute("data-img");
 
         if (novaImagem) {
@@ -391,7 +419,8 @@ $rRel = mysqli_query($con, $sqlRel);
         let html = "";
 
         tamanhosFixos.forEach(tam => {
-            const estoque = variacoes[cor].tamanhos[tam] || 0;
+            const dados = variacoes[cor].tamanhos[tam];
+            const estoque = dados ? dados.estoque : 0;
             const disponivel = estoque > 0;
 
             html += `
@@ -399,6 +428,7 @@ $rRel = mysqli_query($con, $sqlRel);
                     type="button"
                     class="tamanho-btn ${disponivel ? "disponivel" : "indisponivel"}"
                     data-tam="${tam}"
+                    data-id-variacao="${dados ? dados.id_variacao : ''}"
                     ${disponivel ? "" : "disabled"}>
                     ${tam}
                 </button>
@@ -422,11 +452,14 @@ $rRel = mysqli_query($con, $sqlRel);
         el.classList.add("ativo");
         tamanhoSelecionado = el.getAttribute("data-tam");
 
-        const estoque = variacoes[corSelecionada].tamanhos[tamanhoSelecionado];
+        const dados = variacoes[corSelecionada].tamanhos[tamanhoSelecionado];
+const estoque = dados.estoque;
 
         const areaQuantidade = document.getElementById("area-quantidade");
         const campoQuantidade = document.getElementById("quantidade");
         const textoEstoque = document.getElementById("estoque-disponivel");
+        const idVariacao = el.getAttribute("data-id-variacao");
+        document.getElementById("id_variacao").value = idVariacao;
 
         campoQuantidade.value = 1;
         campoQuantidade.min = 1;
