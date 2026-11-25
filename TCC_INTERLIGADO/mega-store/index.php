@@ -82,7 +82,7 @@
         </div>
       </section>
       <section class="section container" id="destaques">
-        <div class="section-heading" id="favoritos">
+        <div class="section-heading">
           <span class="eyebrow">Escolhas da temporada</span>
           <h2 id="featured-title">Destaques</h2>
           <p id="featured-description">Peças exclusivas selecionadas para você.</p>
