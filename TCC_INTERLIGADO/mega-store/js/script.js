@@ -1,7 +1,6 @@
 const icons = {
   search: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>',
   bag: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16l-1 13H5L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>',
-  heart: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 8.8c0 5.5-8.8 10.5-8.8 10.5S3.2 14.3 3.2 8.8A4.3 4.3 0 0 1 12 6.6a4.3 4.3 0 0 1 8.8 2.2Z"/></svg>',
   user: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>',
   menu: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>',
 };
@@ -26,7 +25,6 @@ const headerTemplate = `
       </nav>
       <div class="header__icons">
         <button class="header__icon-btn search-toggle" aria-label="Pesquisar" aria-expanded="false">${icons.search}</button>
-        <a class="header__icon-btn" href="#/favoritos" aria-label="Favoritos">${icons.heart}</a>
         <a class="header__icon-btn cart-link" href="#/carrinho" aria-label="Carrinho">${icons.bag}<span class="header__cart-count cart-count">0</span></a>
         <a class="header__icon-btn" href="#/conta" aria-label="Minha conta">${icons.user}</a>
         <a class="header__account-link" href="#/cadastro">Criar conta</a>
@@ -36,7 +34,6 @@ const headerTemplate = `
     <nav class="mobile-nav" id="mobile-nav" aria-label="Navegação móvel">
       <ul class="mobile-nav__list">
         ${routes.map(([name, slug]) => `<li><a class="mobile-nav__link" href="#/categoria/${slug}">${name}</a></li>`).join("")}
-        <li><a class="mobile-nav__link" href="#/favoritos">Favoritos</a></li>
         <li><a class="mobile-nav__link" href="#/carrinho">Carrinho</a></li>
         <li><a class="mobile-nav__link" href="#/conta">Minha conta</a></li>
         <li><a class="mobile-nav__link" href="#/cadastro">Criar conta</a></li>
@@ -62,7 +59,6 @@ const footerTemplate = `
         <div class="footer__col"><h4 class="footer__col-title">Navegação</h4><ul>
           <li><a href="#/">Início</a></li>
           ${routes.map(([name, slug]) => `<li><a href="#/categoria/${slug}">${name}</a></li>`).join("")}
-          <li><a href="#/favoritos">Favoritos</a></li>
         </ul></div>
         <div class="footer__col"><h4 class="footer__col-title">Atendimento</h4><ul>
           <li><a href="#/ajuda">Perguntas frequentes</a></li><li><a href="#/ajuda">Entregas</a></li>
@@ -121,10 +117,6 @@ function readCart() {
   return readStorage("mega-carrinho");
 }
 
-function readFavorites() {
-  return readStorage("mega-favoritos");
-}
-
 function getProduct(id) {
   return produtos.find((product) => product.id === Number(id));
 }
@@ -135,10 +127,8 @@ function updateCartCount() {
 }
 
 function renderProductCard(product) {
-  const favorite = readFavorites().includes(product.id);
   return `<article class="product-card">
     <a class="product-image" href="#/produto/${product.id}" aria-label="Ver ${escapeHTML(product.nome)}"><img src="${escapeHTML(product.imagem)}" alt="${escapeHTML(product.nome)}" loading="lazy"></a>
-    <button class="product-wish${favorite ? " active" : ""}" type="button" data-wish="${product.id}" aria-label="Adicionar ${escapeHTML(product.nome)} aos favoritos" aria-pressed="${favorite}">${icons.heart}</button>
     <div class="product-info"><span class="product-category">${escapeHTML(product.categoria)}</span>
       <a href="#/produto/${product.id}"><h3 class="product-name">${escapeHTML(product.nome)}</h3></a>
       <span class="product-price">${formatarPreco(product.preco)}</span>
@@ -221,13 +211,6 @@ function renderProduct(product) {
 
 function slugForCategory(category) {
   return ({ Feminino: "feminino", Masculino: "masculino", Infantil: "infantil", "Calçados": "calcados" })[category] || "";
-}
-
-function renderFavorites() {
-  activeView = "favoritos";
-  document.title = "Favoritos | Mega Store";
-  const favorites = readFavorites().map(getProduct).filter(Boolean);
-  appMain.innerHTML = `<section class="container section"><div class="catalog-intro"><span class="eyebrow">Sua seleção</span><h1>Favoritos</h1><p>Peças que você guardou para rever.</p></div><div class="product-grid">${favorites.length ? renderProductGrid(favorites) : '<div class="empty-state"><h2>Sua lista está vazia</h2><p>Toque no coração de uma peça para guardá-la aqui.</p><a class="button button-dark" href="#/">Explorar coleção</a></div>'}</div></section>`;
 }
 
 function renderSearch(query) {
@@ -321,7 +304,6 @@ function renderRoute() {
   const route = parseRoute();
   if (route.type === "categoria") renderCategory(route.value);
   else if (route.type === "produto") renderProduct(getProduct(route.value));
-  else if (route.type === "favoritos") renderFavorites();
   else if (route.type === "busca") renderSearch(route.query.get("q") || "");
   else if (route.type === "carrinho") renderCart();
   else if (["login", "cadastro", "conta"].includes(route.type)) renderAuth(route.type);
@@ -385,17 +367,6 @@ function setupHeader() {
 
 function setupGlobalActions() {
   document.addEventListener("click", (event) => {
-    const favoriteButton = event.target.closest("[data-wish]");
-    if (favoriteButton) {
-      event.preventDefault();
-      const id = Number(favoriteButton.dataset.wish);
-      const favorites = readFavorites();
-      const updated = favorites.includes(id) ? favorites.filter((favoriteId) => favoriteId !== id) : [...favorites, id];
-      writeStorage("mega-favoritos", updated);
-      favoriteButton.classList.toggle("active", updated.includes(id));
-      favoriteButton.setAttribute("aria-pressed", String(updated.includes(id)));
-      return;
-    }
     const cartButton = event.target.closest("[data-cart-action]");
     if (cartButton) {
       const line = cartButton.closest(".cart-line");

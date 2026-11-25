@@ -14,7 +14,6 @@
         <a href="masculino.php">Masculino</a>
         <a href="infantil.php">Infantil</a>
         <a href="calcados.php">Calçados</a>
-        <a href="favoritos.php">Favoritos</a>
     </div>
 
     <div class="footer-column">
