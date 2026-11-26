@@ -433,29 +433,6 @@ main {
 .product-card:hover .product-image img {
   transform: scale(1.04);
 }
-.product-wish {
-  position: absolute;
-  right: 11px;
-  top: 11px;
-  width: 34px;
-  height: 34px;
-  border: 0;
-  border-radius: 50%;
-  background: #fff;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-}
-.product-wish svg {
-  width: 17px;
-  height: 17px;
-  stroke: #111;
-  fill: none;
-  stroke-width: 1.5;
-}
-.product-wish.active svg {
-  fill: #111;
-}
 .product-info {
   min-width: 0;
   padding: 0 4px;
@@ -1056,12 +1033,6 @@ main {
   .product-price {
     font-size: 12px;
   }
-  .product-wish {
-    width: 31px;
-    height: 31px;
-    right: 8px;
-    top: 8px;
-  }
   .product-image {
     margin-bottom: 11px;
   }
@@ -1163,10 +1134,6 @@ main {
   }
   .category-copy {
     bottom: 7%;
-  }
-  .product-wish {
-    width: 28px;
-    height: 28px;
   }
   .cart-line {
     grid-template-columns: 72px 1fr auto;

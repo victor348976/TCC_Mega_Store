@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/03/2026 às 17:55
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Generation Time: Nov 25, 2026 at 02:59 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,35 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `megastore`
+-- Database: `megastore`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_categoria`
+-- Table structure for table `tb_carinho`
+--
+
+CREATE TABLE `tb_carinho` (
+  `id_carrinho` int(11) NOT NULL,
+  `id_variacao` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `qtd_carrinho` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_carinho`
+--
+
+INSERT INTO `tb_carinho` (`id_carrinho`, `id_variacao`, `id_usuario`, `qtd_carrinho`) VALUES
+(1, 4, 4, 5),
+(2, 2, 4, 10),
+(3, 3, 4, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_categoria`
 --
 
 CREATE TABLE `tb_categoria` (
@@ -34,17 +56,29 @@ CREATE TABLE `tb_categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `tb_categoria`
+-- Dumping data for table `tb_categoria`
 --
 
 INSERT INTO `tb_categoria` (`id_categoria`, `nome_categoria`, `descricao_categoria`) VALUES
-(1, 'Calça', 'É uma calça'),
-(2, 'Camiseta', 'É uma camiseta, n camisa, por favor, não confunda');
+(1, 'Acessório', 'Produtos complementares utilizados para compor estilos, facilitar atividades do dia a dia ou agregar funcionalidade, como bolsas, cintos, bonés, carteiras e outros itens.'),
+(2, 'Bermuda', 'Peças de vestuário com comprimento geralmente até os joelhos, disponíveis em diferentes modelos, materiais e estilos para diversas ocasiões.'),
+(3, 'Body', 'Peça de vestuário que cobre o tronco e possui fechamento na parte inferior, podendo ser utilizada em diferentes combinações e estilos.'),
+(4, 'Calça', 'Peça de vestuário que cobre as pernas, disponível em diferentes cortes, tecidos e modelos, atendendo a diversas necessidades e ocasiões.'),
+(5, 'Calçado', 'Produtos utilizados para proteger e vestir os pés, incluindo tênis, sapatos, sandálias, botas, chinelos e outros modelos.'),
+(6, 'Camisa', 'Peça de vestuário geralmente caracterizada por gola, abertura frontal e botões, disponível em diferentes tecidos e estilos para ocasiões casuais ou formais.'),
+(7, 'Camiseta', 'Peça de vestuário geralmente confeccionada em malha, com mangas curtas ou longas, disponível em diferentes cores, estampas e modelos.'),
+(8, 'Casaco', 'Peça utilizada para proteger o corpo do frio ou complementar o visual, incluindo jaquetas, blusas de frio, cardigãs e outros modelos.'),
+(9, 'Conjunto', 'Conjunto de peças comercializadas em combinação, desenvolvidas para serem utilizadas juntas ou separadamente, conforme o modelo e a finalidade.'),
+(10, 'Macacão', 'Peça única que combina a parte superior e inferior do vestuário, disponível em diferentes modelos, tecidos e estilos para diversas ocasiões.'),
+(11, 'Roupa de cama', 'Produtos destinados a compor, proteger e proporcionar conforto à cama, incluindo lençóis, fronhas, colchas, edredons e outros artigos.'),
+(12, 'Saia', 'Peça de vestuário que cobre a parte inferior do corpo, disponível em diferentes comprimentos, cortes, tecidos e estilos.'),
+(13, 'Tecido', 'Materiais utilizados na confecção de roupas, acessórios, itens de decoração e outros produtos, disponíveis em diferentes composições, texturas e estampas.'),
+(14, 'Vestido', 'Peça de vestuário que combina a parte superior e inferior em uma única estrutura, disponível em diferentes comprimentos, modelos e estilos para diversas ocasiões.');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_endereco`
+-- Table structure for table `tb_endereco`
 --
 
 CREATE TABLE `tb_endereco` (
@@ -55,14 +89,14 @@ CREATE TABLE `tb_endereco` (
   `bairro` int(255) NOT NULL,
   `cidade` varchar(255) NOT NULL,
   `estado` varchar(2) NOT NULL,
-  `cep` int(8) NOT NULL,
+  `cep` varchar(8) NOT NULL,
   `complemento` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_forma_pagamento`
+-- Table structure for table `tb_forma_pagamento`
 --
 
 CREATE TABLE `tb_forma_pagamento` (
@@ -71,10 +105,20 @@ CREATE TABLE `tb_forma_pagamento` (
   `descricao_forma_pagamento` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Dumping data for table `tb_forma_pagamento`
+--
+
+INSERT INTO `tb_forma_pagamento` (`id_forma_pagamento`, `nome_forma_pagamento`, `descricao_forma_pagamento`) VALUES
+(1, 'Boleto', 'Método de pagamento realizado por meio de um boleto bancário, que pode ser pago em bancos, aplicativos financeiros ou estabelecimentos autorizados, conforme as condições de vencimento.'),
+(2, 'Crédito', 'Método de pagamento realizado por cartão de crédito, permitindo que o valor da compra seja cobrado na fatura do cliente, com possibilidade de parcelamento conforme as condições oferecidas.'),
+(3, 'Débito', 'Método de pagamento realizado por cartão de débito, no qual o valor da compra é descontado diretamente do saldo disponível na conta bancária do cliente.'),
+(4, 'PIX', 'Método de pagamento eletrônico que permite transferências e pagamentos instantâneos, disponíveis a qualquer dia e horário, por meio de instituições financeiras participantes.');
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_genero`
+-- Table structure for table `tb_genero`
 --
 
 CREATE TABLE `tb_genero` (
@@ -84,19 +128,19 @@ CREATE TABLE `tb_genero` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `tb_genero`
+-- Dumping data for table `tb_genero`
 --
 
 INSERT INTO `tb_genero` (`id_genero`, `nome_genero`, `descricao_genero`) VALUES
-(1, 'Masculino', 'Roupas para MACHOS DE VERDADE'),
-(2, 'Feminino', 'ROUPAS PARA AS MAIS DIVAS'),
-(3, 'Infantil', 'ROUPAS PARA AS PESTES MAIS LINDAS DO MUNDO'),
-(4, 'Unissex', 'VIVA AO GENERO FLUIDO, VIVA A COMUNIDADE LGBTQIAP+');
+(1, 'Masculino', 'Produtos destinados ao público masculino.'),
+(2, 'Feminino', 'Produtos destinados ao público feminino.'),
+(3, 'Infantil', 'Produtos destinados ao público infantil.'),
+(4, 'Unissex', 'Produtos destinados a todos os públicos, independentemente do gênero.');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_imagem_produto`
+-- Table structure for table `tb_imagem_produto`
 --
 
 CREATE TABLE `tb_imagem_produto` (
@@ -106,17 +150,22 @@ CREATE TABLE `tb_imagem_produto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `tb_imagem_produto`
+-- Dumping data for table `tb_imagem_produto`
 --
 
 INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_variacao`, `caminho_imagem`) VALUES
-(1, 1, 'uploads/697037447dcb6.png'),
-(2, 2, 'uploads/697037448e0f3.png');
+(1, 1, '6b043da2350f8.jpg'),
+(2, 2, '6b043da235eda.jpg'),
+(3, 3, '6b043da237e8d.jpg'),
+(4, 4, '6b045f2385723.jpg'),
+(5, 5, '6b045f238844e.jpg'),
+(6, 6, '6b045f23892ef.jpg'),
+(7, 7, '6b045f238a73d.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_pagamento`
+-- Table structure for table `tb_pagamento`
 --
 
 CREATE TABLE `tb_pagamento` (
@@ -130,7 +179,7 @@ CREATE TABLE `tb_pagamento` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_produto`
+-- Table structure for table `tb_produto`
 --
 
 CREATE TABLE `tb_produto` (
@@ -145,35 +194,30 @@ CREATE TABLE `tb_produto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `tb_produto`
+-- Dumping data for table `tb_produto`
 --
 
 INSERT INTO `tb_produto` (`id_produto`, `nome_produto`, `descricao_produto`, `preco`, `id_categoria`, `id_genero`, `ativo`, `data_cadastro`) VALUES
-(1, 'Joao', 'Joao sendo o Joao', 0.00, 2, 1, 1, '2026-01-21');
+(1, 'SSS', 'Produto Teste', 12.30, 1, 1, 1, '2026-11-23'),
+(2, 'Z', 'Produto Teste2', 3.21, 3, 2, 1, '2026-11-23');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_produto_salvo`
+-- Table structure for table `tb_produto_salvo`
 --
 
 CREATE TABLE `tb_produto_salvo` (
   `id_produto_salvo` int(11) NOT NULL,
   `id_produto` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL
+  `id_usuario` int(11) NOT NULL,
+  `qtd_produtos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tb_produto_salvo`
---
-
-INSERT INTO `tb_produto_salvo` (`id_produto_salvo`, `id_produto`, `id_usuario`) VALUES
-(1, 1, 2);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_produto_venda`
+-- Table structure for table `tb_produto_venda`
 --
 
 CREATE TABLE `tb_produto_venda` (
@@ -186,7 +230,7 @@ CREATE TABLE `tb_produto_venda` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_usuario`
+-- Table structure for table `tb_usuario`
 --
 
 CREATE TABLE `tb_usuario` (
@@ -195,24 +239,26 @@ CREATE TABLE `tb_usuario` (
   `email` varchar(255) NOT NULL,
   `senha` varchar(255) NOT NULL,
   `cpf` int(11) DEFAULT NULL,
-  `numero` int(11) DEFAULT NULL,
+  `numero` varchar(11) DEFAULT NULL,
   `tipo` tinyint(1) NOT NULL,
   `data_cadastro` date NOT NULL,
   `modo_tela` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `tb_usuario`
+-- Dumping data for table `tb_usuario`
 --
 
 INSERT INTO `tb_usuario` (`id_usuario`, `nome_usuario`, `email`, `senha`, `cpf`, `numero`, `tipo`, `data_cadastro`, `modo_tela`) VALUES
-(1, 'Gustavo', 'gutolindo@gmail.com', '$2y$10$MgSYDeXd7c6.VTj1aNZ/C.SlucbfWUqfJI80gMS4AuZm.jt1GnvBq', NULL, 40028922, 0, '2026-01-21', 0),
-(2, 'V', 'v@gmail.com', '$2y$10$oCU1Qbqnvuu6/n9PPXBBCeO0fewqGt.J9n7UpQGFeBubJ0gxNmkwu', NULL, 2147483647, 0, '2026-02-21', 0);
+(1, 'Nome Generico da Silva', 'teste@gmail.com', '$2y$10$nEslityd.3nL..RvRDXW/uk5UiQxi3lEH3o8IbgbwXSAhLH8bRsP6', NULL, '2147483647', 0, '2026-11-23', 0),
+(2, 'Nome Generico da Silva', 'victorluiz2504@gmail.com', '$2y$10$28uR4AJgg8fOs3oL9VkOGeJeCFX//avsZ/xpnJ9UIgLlO57CIX0su', NULL, '2147483647', 0, '2026-11-24', 0),
+(3, 'Nome Generico da Silva', 'victorluiz1234@gmail.com', '$2y$10$zxlRqcFqeIyVSKPpcO6lGeTTSeOwb3/dSCqA/CTaB8NGr.5VLOLEG', NULL, '2147483647', 0, '2026-11-25', 0),
+(4, 'Nome Generico da Silva', '123@gmail', '$2y$10$Uuz3hE10x/tAYC2uqs1xme161aU6i9/HflbKjtAFIP.ncFeO4PH9i', NULL, '14996480737', 1, '2026-11-25', 0);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_variacao_produto`
+-- Table structure for table `tb_variacao_produto`
 --
 
 CREATE TABLE `tb_variacao_produto` (
@@ -224,17 +270,22 @@ CREATE TABLE `tb_variacao_produto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `tb_variacao_produto`
+-- Dumping data for table `tb_variacao_produto`
 --
 
 INSERT INTO `tb_variacao_produto` (`id_variacao`, `id_produto`, `tamanho`, `cor`, `estoque`) VALUES
-(1, 1, 'GG', '#000000', 1),
-(2, 1, 'M', '#404040', 2);
+(1, 1, 'P', 'Preto', 23),
+(2, 1, 'M', 'Preto', 23),
+(3, 1, 'P', 'Branco', 22),
+(4, 2, 'M', 'Preto', 17),
+(5, 2, 'G', 'Preto', 0),
+(6, 2, 'P', 'Branco', 52),
+(7, 2, 'M', 'Branco', 52);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `tb_venda`
+-- Table structure for table `tb_venda`
 --
 
 CREATE TABLE `tb_venda` (
@@ -246,43 +297,51 @@ CREATE TABLE `tb_venda` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Índices para tabelas despejadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `tb_categoria`
+-- Indexes for table `tb_carinho`
+--
+ALTER TABLE `tb_carinho`
+  ADD PRIMARY KEY (`id_carrinho`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_variacao` (`id_variacao`);
+
+--
+-- Indexes for table `tb_categoria`
 --
 ALTER TABLE `tb_categoria`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
--- Índices de tabela `tb_endereco`
+-- Indexes for table `tb_endereco`
 --
 ALTER TABLE `tb_endereco`
   ADD PRIMARY KEY (`id_endereco`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices de tabela `tb_forma_pagamento`
+-- Indexes for table `tb_forma_pagamento`
 --
 ALTER TABLE `tb_forma_pagamento`
   ADD PRIMARY KEY (`id_forma_pagamento`);
 
 --
--- Índices de tabela `tb_genero`
+-- Indexes for table `tb_genero`
 --
 ALTER TABLE `tb_genero`
   ADD PRIMARY KEY (`id_genero`);
 
 --
--- Índices de tabela `tb_imagem_produto`
+-- Indexes for table `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
   ADD PRIMARY KEY (`id_imagem`),
   ADD KEY `id_produto` (`id_variacao`);
 
 --
--- Índices de tabela `tb_pagamento`
+-- Indexes for table `tb_pagamento`
 --
 ALTER TABLE `tb_pagamento`
   ADD PRIMARY KEY (`id_pagamento`),
@@ -290,7 +349,7 @@ ALTER TABLE `tb_pagamento`
   ADD KEY `forma_pagamento` (`id_forma_pagamento`);
 
 --
--- Índices de tabela `tb_produto`
+-- Indexes for table `tb_produto`
 --
 ALTER TABLE `tb_produto`
   ADD PRIMARY KEY (`id_produto`),
@@ -298,7 +357,7 @@ ALTER TABLE `tb_produto`
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
--- Índices de tabela `tb_produto_salvo`
+-- Indexes for table `tb_produto_salvo`
 --
 ALTER TABLE `tb_produto_salvo`
   ADD PRIMARY KEY (`id_produto_salvo`),
@@ -306,7 +365,7 @@ ALTER TABLE `tb_produto_salvo`
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices de tabela `tb_produto_venda`
+-- Indexes for table `tb_produto_venda`
 --
 ALTER TABLE `tb_produto_venda`
   ADD PRIMARY KEY (`id_produto_venda`),
@@ -314,153 +373,166 @@ ALTER TABLE `tb_produto_venda`
   ADD KEY `id_variacao` (`id_variacao`);
 
 --
--- Índices de tabela `tb_usuario`
+-- Indexes for table `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
   ADD PRIMARY KEY (`id_usuario`);
 
 --
--- Índices de tabela `tb_variacao_produto`
+-- Indexes for table `tb_variacao_produto`
 --
 ALTER TABLE `tb_variacao_produto`
   ADD PRIMARY KEY (`id_variacao`),
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices de tabela `tb_venda`
+-- Indexes for table `tb_venda`
 --
 ALTER TABLE `tb_venda`
   ADD PRIMARY KEY (`id_venda`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `tb_categoria`
+-- AUTO_INCREMENT for table `tb_carinho`
+--
+ALTER TABLE `tb_carinho`
+  MODIFY `id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tb_categoria`
 --
 ALTER TABLE `tb_categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT de tabela `tb_endereco`
+-- AUTO_INCREMENT for table `tb_endereco`
 --
 ALTER TABLE `tb_endereco`
   MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tb_forma_pagamento`
+-- AUTO_INCREMENT for table `tb_forma_pagamento`
 --
 ALTER TABLE `tb_forma_pagamento`
-  MODIFY `id_forma_pagamento` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_forma_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de tabela `tb_genero`
+-- AUTO_INCREMENT for table `tb_genero`
 --
 ALTER TABLE `tb_genero`
   MODIFY `id_genero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de tabela `tb_imagem_produto`
+-- AUTO_INCREMENT for table `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de tabela `tb_pagamento`
+-- AUTO_INCREMENT for table `tb_pagamento`
 --
 ALTER TABLE `tb_pagamento`
   MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tb_produto`
+-- AUTO_INCREMENT for table `tb_produto`
 --
 ALTER TABLE `tb_produto`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de tabela `tb_produto_salvo`
+-- AUTO_INCREMENT for table `tb_produto_salvo`
 --
 ALTER TABLE `tb_produto_salvo`
   MODIFY `id_produto_salvo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de tabela `tb_produto_venda`
+-- AUTO_INCREMENT for table `tb_produto_venda`
 --
 ALTER TABLE `tb_produto_venda`
   MODIFY `id_produto_venda` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `tb_usuario`
+-- AUTO_INCREMENT for table `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de tabela `tb_variacao_produto`
+-- AUTO_INCREMENT for table `tb_variacao_produto`
 --
 ALTER TABLE `tb_variacao_produto`
-  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de tabela `tb_venda`
+-- AUTO_INCREMENT for table `tb_venda`
 --
 ALTER TABLE `tb_venda`
   MODIFY `id_venda` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Restrições para tabelas despejadas
+-- Constraints for dumped tables
 --
 
 --
--- Restrições para tabelas `tb_endereco`
+-- Constraints for table `tb_carinho`
+--
+ALTER TABLE `tb_carinho`
+  ADD CONSTRAINT `tb_carinho_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`),
+  ADD CONSTRAINT `tb_carinho_ibfk_2` FOREIGN KEY (`id_variacao`) REFERENCES `tb_variacao_produto` (`id_variacao`);
+
+--
+-- Constraints for table `tb_endereco`
 --
 ALTER TABLE `tb_endereco`
   ADD CONSTRAINT `tb_endereco_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`);
 
 --
--- Restrições para tabelas `tb_imagem_produto`
+-- Constraints for table `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
   ADD CONSTRAINT `tb_imagem_produto_ibfk_1` FOREIGN KEY (`id_variacao`) REFERENCES `tb_variacao_produto` (`id_variacao`);
 
 --
--- Restrições para tabelas `tb_pagamento`
+-- Constraints for table `tb_pagamento`
 --
 ALTER TABLE `tb_pagamento`
   ADD CONSTRAINT `tb_pagamento_ibfk_1` FOREIGN KEY (`id_venda`) REFERENCES `tb_venda` (`id_venda`),
   ADD CONSTRAINT `tb_pagamento_ibfk_2` FOREIGN KEY (`id_forma_pagamento`) REFERENCES `tb_forma_pagamento` (`id_forma_pagamento`);
 
 --
--- Restrições para tabelas `tb_produto`
+-- Constraints for table `tb_produto`
 --
 ALTER TABLE `tb_produto`
   ADD CONSTRAINT `tb_produto_ibfk_1` FOREIGN KEY (`id_genero`) REFERENCES `tb_genero` (`id_genero`),
   ADD CONSTRAINT `tb_produto_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `tb_categoria` (`id_categoria`);
 
 --
--- Restrições para tabelas `tb_produto_salvo`
+-- Constraints for table `tb_produto_salvo`
 --
 ALTER TABLE `tb_produto_salvo`
   ADD CONSTRAINT `tb_produto_salvo_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`),
   ADD CONSTRAINT `tb_produto_salvo_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`);
 
 --
--- Restrições para tabelas `tb_produto_venda`
+-- Constraints for table `tb_produto_venda`
 --
 ALTER TABLE `tb_produto_venda`
   ADD CONSTRAINT `tb_produto_venda_ibfk_1` FOREIGN KEY (`id_venda`) REFERENCES `tb_venda` (`id_venda`),
   ADD CONSTRAINT `tb_produto_venda_ibfk_2` FOREIGN KEY (`id_variacao`) REFERENCES `tb_variacao_produto` (`id_variacao`);
 
 --
--- Restrições para tabelas `tb_variacao_produto`
+-- Constraints for table `tb_variacao_produto`
 --
 ALTER TABLE `tb_variacao_produto`
   ADD CONSTRAINT `tb_variacao_produto_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `tb_produto` (`id_produto`);
 
 --
--- Restrições para tabelas `tb_venda`
+-- Constraints for table `tb_venda`
 --
 ALTER TABLE `tb_venda`
   ADD CONSTRAINT `tb_venda_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`);

@@ -27,6 +27,10 @@
        $user="Nome Generico da Silva";//$_POST["user"];
        $mail = isset($_POST["mail"]) ? trim($_POST["mail"]) : '';
        $tel = isset($_POST["tel"]) ? trim($_POST["tel"]) : '';
+       $telefone = str_replace(" ", "", $tel);
+       $telefone = str_replace("(", "", $telefone);
+       $telefone  = str_replace(")", "", $telefone);
+       $telefone  = str_replace("-", "", $telefone);
        $senha = isset($_POST["senha"]) ? $_POST["senha"] : '';
        $repsenha = isset($_POST["repsenha"]) ? $_POST["repsenha"] : '';
 
@@ -38,8 +42,11 @@
        if($mail == ''){
          $mailErro = 'Digite seu email';
        }
-       if($tel == ''){
+       if($telefone == ''){
          $telErro = 'Digite seu telefone';
+       }
+       if(strlen($telefone ) != 11 && $tel != ''){
+         $telErro = 'Digite um telefone válido';
        }
        if($senha == ''){
          $senhaErro = 'Digite a senha';
@@ -92,6 +99,7 @@
       if($temEspaco){
         $senhaErro = 'A senha não pode conter espaços';
       }
+      
 
       $sql = "SELECT *
               FROM tb_usuario
@@ -104,13 +112,13 @@
        if($mailErro == '' && $telErro == '' && $senhaErro == '' && $repsenhaErro == ''){
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
         $sql = "INSERT INTO tb_usuario (nome_usuario, email, senha, numero, tipo, data_cadastro, modo_tela) 
-                VALUES ('$user', '$mail', '$senha_hash', '$tel', '0', '$data', '0')";
+                VALUES ('$user', '$mail', '$senha_hash', '$telefone', '0', '$data', '0')";
          $r= mysqli_query($con,$sql);
          $_SESSION['id_usuario'] = mysqli_insert_id($con);
          $_SESSION['usuario_logado'] = true;
          $alerta['tipo'] = 'sucesso';
          $alerta['texto'] = 'Usuario cadastrado com sucesso.';
-         header("Location: ../home/Tl_principal.html");
+         header("Location: ../home/Tl_principal.php");
          exit;
        }
      }
@@ -140,8 +148,13 @@
                             $_SESSION['usuario_logado'] = true;
                             $alerta['tipo'] = 'sucesso';
                             $alerta['texto'] = 'Login realizado com sucesso!';
-                            header("Location: ../home/Tl_principal.html");
-                            exit;
+                            if($usuario['tipo'] == 1){
+                                header("Location: ../admin/gerenciar_pedidos.php");
+                            }else{
+                                header("Location: ../home/Tl_principal.php");
+                                exit;
+                            }
+                            
                         }else{
                             $loginSenhaErro = 'Senha incorreta';
                         }
@@ -180,8 +193,8 @@
                 <!-- Cadastro Form -->
                 <form method="POST" action="" class="account-form sign-up-form" id="formcad">
                     <div class="logo-container">
-                        <img src="img/logo.png" alt="Mega Store Logo" class="brand-logo"
-                            onerror="this.src='https://via.placeholder.com/150x50?text=MEGA+STORE';this.style.width='150px';">
+                        <img src="../imagens_design/auth/logo_MS.png" alt="Mega Store Logo" class="brand-logo"
+                            onerror="this.src='https:/'+'/via.placeholder.com/150x50?text=MEGA+STORE';this.style.width='150px';">
                     </div>
                     <h2 class="title">Criar nova conta</h2>
                     <p class="subtitle">Junte-se à Mega Store e aproveite ofertas exclusivas.</p>
@@ -219,7 +232,7 @@
                     <div class="input-wrap">
                         <div class="input-field">
                             <i class="fas fa-phone"></i>
-                            <input type="tel" placeholder="Telefone" name="tel" value="<?= htmlspecialchars($tel ?? '') ?>" />
+                            <input type="varchar" placeholder="Telefone" id="telefone" name="tel" MAXLENGTH="15" value="<?= htmlspecialchars($tel ?? '') ?>" />
                         </div>
                         <?php if (!empty($telErro)): ?>
                             <div class="zara-field-error" role="alert"><?= htmlspecialchars($telErro) ?></div>
@@ -238,7 +251,7 @@
                 <!-- Login Form -->
                 <form method="POST" action="" class="account-form sign-in-form" id="formlogin">
                     <div class="logo-container">
-                        <img src="img/logo.png" alt="Mega Store Logo" class="brand-logo"
+                        <img src="../imagens_design/auth/logo_MS.png" alt="Mega Store Logo" class="brand-logo"
                             onerror="this.src='https://via.placeholder.com/150x50?text=MEGA+STORE';this.style.width='150px';">
                     </div>
                     <h2 class="title">Bem-vindo de volta!</h2>
@@ -323,5 +336,14 @@
         container.classList.remove("sign-in-mode");
     });
 </script>
+<script>
+  const inputTelefone = document.getElementById('telefone');
 
+  inputTelefone.addEventListener('input', (e) => {
+    let valor = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+    valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2'); // Coloca parênteses no DDD
+    valor = valor.replace(/(\d)(\d{4})$/, '$1-$2'); // Coloca o hífen antes dos últimos 4 dígitos
+    e.target.value = valor;
+  });
+</script>
 </html>

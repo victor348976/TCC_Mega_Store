@@ -78,11 +78,22 @@
               <p>Conforto e acabamento para acompanhar cada passo.</p>
               <span class="text-link">Ver coleção →</span>
             </div></a
+          ><a href="acessorios.php" class="category-tile"
+            ><img
+              src="../home/img/product-silk.png"
+              alt="Seleção de acessórios da Mega Store"
+              loading="lazy"
+            />
+            <div class="category-copy">
+              <h2>Acessórios</h2>
+              <p>Bolsas, lentes, joias e detalhes que completam cada look.</p>
+              <span class="text-link">Ver coleção →</span>
+            </div></a
           >
         </div>
       </section>
       <section class="section container" id="destaques">
-        <div class="section-heading" id="favoritos">
+        <div class="section-heading">
           <span class="eyebrow">Escolhas da temporada</span>
           <h2 id="featured-title">Destaques</h2>
           <p id="featured-description">Peças exclusivas selecionadas para você.</p>

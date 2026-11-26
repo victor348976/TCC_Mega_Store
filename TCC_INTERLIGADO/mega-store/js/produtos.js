@@ -17,6 +17,12 @@ const produtos = [
   { id: 14, nome: "Sapatilha Lumière", categoria: "Calçados", preco: 890, imagem: "../home/img/product-dress.png", descricao: "Sapatilha elegante e confortável com desenho minimalista.", tamanhos: ["34", "35", "36", "37", "38", "39"] },
   { id: 15, nome: "Tênis Essencial", categoria: "Calçados", preco: 790, imagem: "../home/img/ready-to-wear.png", descricao: "Tênis de visual limpo para unir conforto e versatilidade.", tamanhos: ["38", "39", "40", "41", "42", "43"] },
   { id: 16, nome: "Mocassim Atelier", categoria: "Calçados", preco: 1490, imagem: "../home/img/product-blazer.png", descricao: "Mocassim de inspiração artesanal com acabamento sofisticado.", tamanhos: ["38", "39", "40", "41", "42", "43"] },
+  { id: 17, nome: "Bolsa Structure Noir", categoria: "Acessórios", preco: 4590, imagem: "../home/img/product-silk.png", descricao: "Bolsa de linhas estruturadas, alça confortável e compartimentos internos para a rotina.", tamanhos: ["Único"] },
+  { id: 18, nome: "Óculos Solar Atelier", categoria: "Acessórios", preco: 2290, imagem: "../home/img/product-dress.png", descricao: "Óculos de armação contemporânea e lentes protegidas para um acabamento elegante.", tamanhos: ["Único"] },
+  { id: 19, nome: "Relógio Minimal", categoria: "Acessórios", preco: 5490, imagem: "../home/img/product-blazer.png", descricao: "Mostrador preciso e pulseira discreta em uma peça elegante e versátil.", tamanhos: ["Único"] },
+  { id: 20, nome: "Lenço Seda Ivoire", categoria: "Acessórios", preco: 1890, imagem: "../home/img/ready-to-wear.png", descricao: "Lenço leve de toque sedoso para compor looks com mais personalidade.", tamanhos: ["Único"] },
+  { id: 21, nome: "Cinto Couro Essencial", categoria: "Acessórios", preco: 2490, imagem: "../home/img/product-silk.png", descricao: "Cinto em couro com fivela discreta e acabamento refinado.", tamanhos: ["P", "M", "G"] },
+  { id: 22, nome: "Brincos Escultura", categoria: "Acessórios", preco: 1390, imagem: "../home/img/product-dress.png", descricao: "Par de brincos com desenho escultórico e superfície luminosa.", tamanhos: ["Único"] },
 ];
 
 function formatarPreco(valor) {
