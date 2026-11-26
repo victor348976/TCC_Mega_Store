@@ -1,5 +1,5 @@
 <?php
-  include("includes/header.php");
+include("includes/header.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -17,6 +17,18 @@
     <script defer src="js/script.js"></script>
   </head>
   <body data-page="home">
+
+
+
+
+
+
+
+
+
+
+
+
     <div data-site-header></div>
     <main id="app-main">
       <section class="hero" aria-label="Coleção Mega Store">

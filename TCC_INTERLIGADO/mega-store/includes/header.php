@@ -15,6 +15,8 @@ declare(strict_types=1);
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+
+
 <header class="site-header">
     <a class="brand" href="index.php" aria-label="MEGA STORE - página inicial">
         <span class="brand-name">MEGA</span>
@@ -32,6 +34,7 @@ declare(strict_types=1);
         <a href="calcados.php">Calçados</a>
     </nav>
 
+    
     <div class="header-tools">
         <form class="search-form" action="pesquisa.php" method="get" role="search">
             <input type="search" name="q" placeholder="Pesquisar" aria-label="Pesquisar produtos">
