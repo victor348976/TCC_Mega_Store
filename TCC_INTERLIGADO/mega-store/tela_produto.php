@@ -1,5 +1,4 @@
 <?php
-
 $pageTitle = 'Vestido Noir Éternel';
 $product = [
     'category' => 'Feminino',
@@ -122,6 +121,41 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
     margin-top: 8px;
     color: #777;
 }
+    .product-card__image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: var(--gray-50);
+    margin-bottom: 16px;
+}
+    .product-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-silk), opacity 0.5s ease;
+}
+
+.product-card:hover .product-card__image {
+    transform: scale(1.04);
+}
+.category-card__image-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.category-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-silk), filter 0.8s var(--ease-silk);
+    filter: brightness(0.85);
+}
+
+.category-card:hover .category-card__image {
+    transform: scale(1.05);
+    filter: brightness(0.7);
+}
     </style>
       
 </head>
@@ -130,11 +164,12 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 
 <main class="product-page">
     <section class="product-gallery" aria-label="Imagens do produto">
-        <div class="product-image">
+        <div class="product-card__image-wrapper">
     <img
         id="imagem-produto"
         src="../produtos/uploads/<?= htmlspecialchars($imagemInicial, ENT_QUOTES, 'UTF-8') ?>"
         alt="Imagem do produto"
+        class='category-card__image'
     >
 </div>
     </section>
@@ -198,7 +233,32 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 </form>
     </section>
 </main>
+<?php 
+    if (isset($_POST["comprar"])) {
+    $id_variacao = $_POST['id_variacao'];
+    $quantidade = $_POST['quantidade'];
 
+    if (empty($_SESSION['id_usuario'])) {
+        echo "<a href='../auth/Cadastro_mega_store.php'>POR FAVOR, SE CADASTRE PARA ACESSAR O SITE!</a>";
+    } else {
+
+        $id_usuario = $_SESSION['id_usuario'];
+
+        $sql_carrinho = "INSERT INTO tb_carinho
+                (id_variacao,id_usuario,qtd_carrinho)
+                VALUES
+                ('$id_variacao','$id_usuario','$quantidade')";
+                $r= mysqli_query($con,$sql_carrinho);
+        $sql_estoque = "UPDATE tb_variacao_produto
+               SET estoque = estoque - $quantidade
+                WHERE id_variacao = $id_variacao
+                AND id_produto = $id_produto
+                AND estoque >= $quantidade";        
+        $r= mysqli_query($con,$sql_estoque);
+            
+    }
+    }
+    ?>
 <?php require __DIR__ . '/includes/footer.php'; ?>
 
 <script>

@@ -1,7 +1,6 @@
 
 <?php
 include("../geral/conexao.php");
-
 $id_produto = isset($_GET['id_produto']) ? (int)$_GET['id_produto'] : 0;
 
 $sqlProduto = "SELECT p.*, ct.nome_categoria, gen.nome_genero
