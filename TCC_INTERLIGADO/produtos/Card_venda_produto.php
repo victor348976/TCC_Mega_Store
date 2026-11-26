@@ -388,7 +388,6 @@ $rRel = mysqli_query($con, $sqlRel);
 
 <script>
     const variacoes = <?php echo json_encode($variacoes); ?>;
-    const tamanhosFixos = ["PP", "P", "M", "G", "GG", "XG"];
 
     let corSelecionada = null;
     let tamanhoSelecionado = null;

@@ -36,7 +36,7 @@ if (isset($_GET['erro'])) {
         <div class="header__inner">
             <a href="../home/Tl_principal.html" class="logo"><b>MEGA</b><span>STORE</span></a>
             <ul class="nav">
-                <li><a href="cadastro_produto.php" class="on">Novo Produto</a></li>
+                <li><a href="cadastro_produto.php" class="on">Cadastrar Produto</a></li>
                 <li><a href="editar_produto.php">Editar Produto</a></li>
                 <li><a href="gerenciar_pedidos.php">Pedidos</a></li>
                 <li><a href="usuarios.php">Usuários</a></li>
@@ -103,11 +103,6 @@ if (isset($_GET['erro'])) {
                         </div>
                         <small class="variation-help">Informe quantas cores o produto terá. Depois, configure cada cor, seus tamanhos e uma foto opcional.</small>
                     </div>
-                    <div class="f">
-                        <label for="estoque">Estoque inicial por tamanho</label>
-                        <input id="estoque" name="estoque" type="number" min="0" value="0" required>
-                        <small class="variation-help">Essa quantidade será aplicada a cada combinação de cor e tamanho.</small>
-                    </div>
                     <div class="variation-list" id="lista-variacoes" aria-live="polite"></div>
                 </div>
             </div>
@@ -138,23 +133,43 @@ if (isset($_GET['erro'])) {
         <section class="variation-card">
             <h3>Cor <span data-numero-variacao></span></h3>
             <div class="f">
-                <label data-label-cor>Nome da cor</label>
-                <input type="text" data-input-cor maxlength="55" placeholder="Ex.: Azul-marinho" required>
+                <span class="variation-label">Selecione uma cor</span>
+                <div class="color-options">
+                    <button type="button" class="color-option" data-color-option="Preto" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#111827"></span>Preto</button>
+                    <button type="button" class="color-option" data-color-option="Branco" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#ffffff"></span>Branco</button>
+                    <button type="button" class="color-option" data-color-option="Azul" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#2563eb"></span>Azul</button>
+                    <button type="button" class="color-option" data-color-option="Vermelho" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#dc2626"></span>Vermelho</button>
+                    <button type="button" class="color-option" data-color-option="Verde" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#16a34a"></span>Verde</button>
+                    <button type="button" class="color-option" data-color-option="Amarelo" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#eab308"></span>Amarelo</button>
+                    <button type="button" class="color-option" data-color-option="Rosa" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#ec4899"></span>Rosa</button>
+                    <button type="button" class="color-option" data-color-option="Roxo" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#7e22ce"></span>Roxo</button>
+                    <button type="button" class="color-option" data-color-option="Cinza" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#9ca3af"></span>Cinza</button>
+                    <button type="button" class="color-option" data-color-option="Marrom" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#7c4a2d"></span>Marrom</button>
+                    <button type="button" class="color-option" data-color-option="Bege" aria-pressed="false"><span class="color-swatch" style="--swatch-color:#d6c1a1"></span>Bege</button>
+                    <button type="button" class="color-option color-option--add" data-add-color>+ Adicionar cor</button>
+                </div>
+                <div class="custom-color-field" data-custom-color hidden>
+                    <label data-custom-color-label>Nome da nova cor</label>
+                    <div class="custom-color-entry">
+                        <input type="text" data-custom-color-input maxlength="55" placeholder="Ex.: Azul-marinho">
+                        <button class="btn btn--o" type="button" data-confirm-color>Adicionar</button>
+                    </div>
+                </div>
+                <input type="hidden" data-input-cor>
             </div>
             <div class="f">
-                <span class="variation-label">Tamanhos disponíveis</span>
-                <div class="chips">
-                    <label class="chip"><input type="checkbox" data-tamanho value="PP"><span>PP</span></label>
-                    <label class="chip"><input type="checkbox" data-tamanho value="P"><span>P</span></label>
-                    <label class="chip"><input type="checkbox" data-tamanho value="M"><span>M</span></label>
-                    <label class="chip"><input type="checkbox" data-tamanho value="G"><span>G</span></label>
-                    <label class="chip"><input type="checkbox" data-tamanho value="GG"><span>GG</span></label>
-                    <label class="chip"><input type="checkbox" data-tamanho value="XG"><span>XG</span></label>
-                    <label class="chip"><input type="checkbox" data-tamanho value="Único"><span>Único</span></label>
+                <span class="variation-label">Tamanho e quantidade em estoque</span>
+                <div class="size-inventory-list">
+                    <div class="size-inventory"><label class="chip"><input type="checkbox" data-tamanho value="PP"><span>PP</span></label><label class="inventory-count">Quantidade<input type="number" data-estoque min="0" value="0" disabled></label></div>
+                    <div class="size-inventory"><label class="chip"><input type="checkbox" data-tamanho value="P"><span>P</span></label><label class="inventory-count">Quantidade<input type="number" data-estoque min="0" value="0" disabled></label></div>
+                    <div class="size-inventory"><label class="chip"><input type="checkbox" data-tamanho value="M"><span>M</span></label><label class="inventory-count">Quantidade<input type="number" data-estoque min="0" value="0" disabled></label></div>
+                    <div class="size-inventory"><label class="chip"><input type="checkbox" data-tamanho value="G"><span>G</span></label><label class="inventory-count">Quantidade<input type="number" data-estoque min="0" value="0" disabled></label></div>
+                    <div class="size-inventory"><label class="chip"><input type="checkbox" data-tamanho value="GG"><span>GG</span></label><label class="inventory-count">Quantidade<input type="number" data-estoque min="0" value="0" disabled></label></div>
+                    <div class="size-inventory"><label class="chip"><input type="checkbox" data-tamanho value="XG"><span>XG</span></label><label class="inventory-count">Quantidade<input type="number" data-estoque min="0" value="0" disabled></label></div>
                 </div>
             </div>
             <div class="f">
-                <label data-label-imagem>Foto da cor (opcional)</label>
+                <label data-label-imagem>Foto da Variação (opcional)</label>
                 <input type="file" data-input-imagem accept="image/jpeg,image/png,image/webp,image/gif">
                 <img class="variation-preview" data-preview alt="Prévia da foto da variação" hidden>
             </div>
@@ -190,17 +205,78 @@ if (isset($_GET['erro'])) {
                 for (let indice = 0; indice < total; indice += 1) {
                     const card = modelo.content.firstElementChild.cloneNode(true);
                     const nomeCor = card.querySelector('[data-input-cor]');
-                    const labelCor = card.querySelector('[data-label-cor]');
                     const labelImagem = card.querySelector('[data-label-imagem]');
                     const numero = indice + 1;
 
                     card.querySelector('[data-numero-variacao]').textContent = numero;
                     nomeCor.name = `variacoes[${indice}][cor]`;
-                    nomeCor.id = `cor-variacao-${indice}`;
-                    labelCor.htmlFor = nomeCor.id;
                     labelImagem.htmlFor = `imagem-variacao-${indice}`;
+                    const customColorField = card.querySelector('[data-custom-color]');
+                    const customColorInput = card.querySelector('[data-custom-color-input]');
+                    const customColorLabel = card.querySelector('[data-custom-color-label]');
+                    customColorInput.id = `cor-personalizada-${indice}`;
+                    customColorLabel.htmlFor = customColorInput.id;
+                    const colorButtons = card.querySelector('.color-options');
+                    const colorOptions = () => card.querySelectorAll('[data-color-option]');
+                    const selecionarCor = (botao) => {
+                        nomeCor.value = botao.dataset.colorOption;
+                        colorOptions().forEach((opcao) => {
+                            opcao.setAttribute('aria-pressed', String(opcao === botao));
+                        });
+                        customColorField.hidden = true;
+                        customColorInput.value = '';
+                    };
+                    colorOptions().forEach((botao) => {
+                        botao.addEventListener('click', () => selecionarCor(botao));
+                    });
+                    card.querySelector('[data-add-color]').addEventListener('click', () => {
+                        customColorField.hidden = false;
+                        customColorInput.focus();
+                    });
+                    const adicionarCor = () => {
+                        const cor = customColorInput.value.trim();
+                        if (!cor) {
+                            customColorInput.setCustomValidity('Digite o nome da cor.');
+                            customColorInput.reportValidity();
+                            customColorInput.setCustomValidity('');
+                            return;
+                        }
+                        const existente = Array.from(colorOptions()).find((opcao) =>
+                            opcao.dataset.colorOption.toLocaleLowerCase('pt-BR') === cor.toLocaleLowerCase('pt-BR')
+                        );
+                        if (existente) {
+                            selecionarCor(existente);
+                            return;
+                        }
+                        const botaoCor = document.createElement('button');
+                        botaoCor.type = 'button';
+                        botaoCor.className = 'color-option';
+                        botaoCor.dataset.colorOption = cor;
+                        botaoCor.setAttribute('aria-pressed', 'false');
+                        const amostra = document.createElement('span');
+                        amostra.className = 'color-swatch color-swatch--custom';
+                        botaoCor.append(amostra, document.createTextNode(cor));
+                        botaoCor.addEventListener('click', () => selecionarCor(botaoCor));
+                        colorButtons.insertBefore(botaoCor, card.querySelector('[data-add-color]'));
+                        selecionarCor(botaoCor);
+                    };
+                    card.querySelector('[data-confirm-color]').addEventListener('click', adicionarCor);
+                    customColorInput.addEventListener('keydown', (evento) => {
+                        if (evento.key === 'Enter') {
+                            evento.preventDefault();
+                            adicionarCor();
+                        }
+                    });
                     card.querySelectorAll('[data-tamanho]').forEach((tamanho) => {
-                        tamanho.name = `variacoes[${indice}][tamanhos][]`;
+                        const estoque = tamanho.closest('.size-inventory').querySelector('[data-estoque]');
+                        const atualizarEstoque = () => {
+                            tamanho.name = `variacoes[${indice}][tamanhos][]`;
+                            estoque.name = `variacoes[${indice}][estoque][${tamanho.value}]`;
+                            estoque.disabled = !tamanho.checked;
+                            estoque.required = tamanho.checked;
+                        };
+                        tamanho.addEventListener('change', atualizarEstoque);
+                        atualizarEstoque();
                     });
                     const inputImagem = card.querySelector('[data-input-imagem]');
                     inputImagem.name = `variacoes[${indice}][imagem]`;

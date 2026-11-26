@@ -17,7 +17,6 @@ $preco = is_numeric($precoInformado) ? (float) $precoInformado : -1;
 $categoria = filter_var($_POST['categoria'] ?? null, FILTER_VALIDATE_INT);
 $genero = filter_var($_POST['genero'] ?? null, FILTER_VALIDATE_INT);
 $ativo = isset($_POST['ativo']) ? 1 : 0;
-$estoqueInicial = filter_var($_POST['estoque'] ?? null, FILTER_VALIDATE_INT);
 $quantidadeCores = filter_var($_POST['quantidade_cores'] ?? null, FILTER_VALIDATE_INT);
 $variacoes = $_POST['variacoes'] ?? null;
 $dataHoje = date('Y-m-d');
@@ -34,8 +33,6 @@ if (
     $genero === false ||
     $genero < 1 ||
     $genero > 4 ||
-    $estoqueInicial === false ||
-    $estoqueInicial < 0 ||
     $quantidadeCores === false ||
     $quantidadeCores < 1 ||
     $quantidadeCores > 50 ||
@@ -59,7 +56,7 @@ if (!$categoriaValida || mysqli_num_rows($categoriaValida) === 0) {
     exit;
 }
 
-$tamanhosPermitidos = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'Único'];
+$tamanhosPermitidos = ['PP', 'P', 'M', 'G', 'GG', 'XG'];
 $coresJaInformadas = [];
 $variacoesValidadas = [];
 for ($indice = 0; $indice < $quantidadeCores; $indice++) {
@@ -82,13 +79,27 @@ for ($indice = 0; $indice < $quantidadeCores; $indice++) {
         exit;
     }
 
+    $estoques = $variacao['estoque'] ?? null;
+    if (!is_array($estoques)) {
+        header('Location: cadastro_produto.php?erro=1');
+        exit;
+    }
+
     $tamanhosValidos = [];
     foreach ($tamanhosSelecionados as $tamanho) {
-        if (is_string($tamanho) && in_array(trim($tamanho), $tamanhosPermitidos, true)) {
-            $tamanhosValidos[] = trim($tamanho);
+        if (!is_string($tamanho) || !in_array(trim($tamanho), $tamanhosPermitidos, true)) {
+            continue;
         }
+
+        $tamanho = trim($tamanho);
+        $estoque = filter_var($estoques[$tamanho] ?? null, FILTER_VALIDATE_INT);
+        if ($estoque === false || $estoque < 0) {
+            header('Location: cadastro_produto.php?erro=1');
+            exit;
+        }
+        $tamanhosValidos[$tamanho] = ['tamanho' => $tamanho, 'estoque' => $estoque];
     }
-    $tamanhosSelecionados = array_values(array_unique($tamanhosValidos));
+    $tamanhosSelecionados = array_values($tamanhosValidos);
     if (!$tamanhosSelecionados) {
         header('Location: cadastro_produto.php?erro=1');
         exit;
@@ -202,9 +213,10 @@ $idProduto = $salvouProduto ? mysqli_insert_id($con) : 0;
 $salvouVariacoes = $salvouProduto;
 
 foreach ($variacoesValidadas as $variacao) {
-    foreach ($variacao['tamanhos'] as $tamanho) {
+    foreach ($variacao['tamanhos'] as $itemTamanho) {
         $cor = $variacao['cor'];
-        $estoque = $estoqueInicial;
+        $tamanho = $itemTamanho['tamanho'];
+        $estoque = $itemTamanho['estoque'];
         mysqli_stmt_bind_param($stmtVariacao, 'issi', $idProduto, $tamanho, $cor, $estoque);
         if (!mysqli_stmt_execute($stmtVariacao)) {
             $salvouVariacoes = false;

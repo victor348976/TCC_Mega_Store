@@ -194,21 +194,6 @@ h1 {
     text-transform: uppercase;
     color: var(--mut)
 }
-
-input,
-select,
-textarea {
-    font: 300 15px 'Inter', sans-serif;
-    color: var(--ink);
-    background: transparent;
-    border: 0;
-    border-bottom: 1px solid var(--line);
-    padding: 10px 0;
-    outline: 0;
-    transition: background-color .25s ease, color .25s ease, border-color .25s ease;
-    width: 100%
-}
-
 textarea {
     resize: vertical;
     min-height: 100px;
@@ -359,6 +344,133 @@ select option {
     font-size: 11px;
     letter-spacing: .2em;
     text-transform: uppercase
+}
+
+.color-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px
+}
+
+.color-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    background: var(--bg);
+    font: 400 12px 'Inter', sans-serif;
+    cursor: pointer
+}
+
+.color-option[aria-pressed="true"] {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink)
+}
+
+.color-swatch {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--swatch-color, #bdbdbd)
+}
+
+.color-option--add {
+    border-style: dashed
+}
+
+.custom-color-field {
+    margin-top: 12px
+}
+
+.custom-color-field[hidden] {
+    display: none
+}
+
+.custom-color-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.custom-color-entry .btn {
+    flex: 0 0 auto
+}
+
+.size-inventory-list {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px
+}
+
+.size-inventory {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    gap: 6px;
+    padding: 8px 4px;
+    border: 1px solid var(--line);
+    min-width: 0
+}
+
+.inventory-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--mut);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-align: center
+}
+
+.inventory-count input {
+    width: 64px;
+    max-width: 100%;
+    padding: 6px;
+    text-align: center
+}
+
+.edit-variation-list {
+    display: grid;
+    gap: 16px
+}
+
+.variation-toggle {
+    margin: 8px 0 16px
+}
+
+.variation-panel[hidden] {
+    display: none
+}
+
+.edit-variation {
+    padding: 20px;
+    border: 1px solid var(--line);
+    background: var(--bg)
+}
+
+.edit-variation .row {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    align-items: end
+}
+
+.edit-variation img {
+    display: block;
+    max-width: 120px;
+    max-height: 150px;
+    margin-top: 8px;
+    object-fit: cover
+}
+
+.edit-variation img[hidden] {
+    display: none
 }
 
 .variation-preview {
@@ -779,6 +891,18 @@ th {
     .actions .btn {
         flex: 1 1 100%;
         text-align: center
+    }
+}
+
+@media(max-width:900px) {
+    .size-inventory-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr))
+    }
+}
+
+@media(max-width:560px) {
+    .size-inventory-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
     }
 }
 

@@ -222,6 +222,24 @@ textarea:focus {
     border-color: var(--ink)
 }
 
+input:not([type="checkbox"]):not([type="hidden"]) {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 0;
+    padding: 12px;
+    font-weight: 400
+}
+
+input:not([type="checkbox"]):not([type="hidden"]):focus {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink)
+}
+
+input::placeholder {
+    color: var(--mut);
+    opacity: .8
+}
+
 select option {
     background: var(--card);
     color: var(--ink)
@@ -359,6 +377,161 @@ select option {
     font-size: 11px;
     letter-spacing: .2em;
     text-transform: uppercase
+}
+
+.color-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px
+}
+
+.color-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    background: var(--bg);
+    font: 400 12px 'Inter', sans-serif;
+    cursor: pointer
+}
+
+.color-option[aria-pressed="true"] {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink)
+}
+
+.color-swatch {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--swatch-color, #bdbdbd)
+}
+
+.color-option--add {
+    border-style: dashed
+}
+
+.custom-color-field {
+    margin-top: 12px
+}
+
+.custom-color-field[hidden] {
+    display: none
+}
+
+.custom-color-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px
+}
+
+.custom-color-entry .btn {
+    flex: 0 0 auto
+}
+
+.size-inventory-list {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(72px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+    min-width: 0;
+    overflow-x: auto;
+    padding-bottom: 4px
+}
+
+.size-inventory {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    gap: 6px;
+    padding: 8px 4px;
+    border: 1px solid var(--line);
+    min-width: 0
+}
+
+.inventory-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--mut);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-align: center
+}
+
+.inventory-count input {
+    width: 64px;
+    max-width: 100%;
+    padding: 6px;
+    text-align: center
+}
+
+.edit-variation-list {
+    display: grid;
+    gap: 16px
+}
+
+.variation-toggle {
+    margin: 8px 0 16px
+}
+
+.variation-panel[hidden] {
+    display: none
+}
+
+.edit-variation {
+    padding: 20px;
+    border: 1px solid var(--line);
+    background: var(--bg)
+}
+
+.edit-variation .row {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    align-items: end
+}
+
+.edit-variation input[readonly],
+.edit-variation select:disabled {
+    background: var(--hover);
+    cursor: not-allowed
+}
+
+.variation-status {
+    margin-left: 8px;
+    color: var(--mut);
+    font: 400 10px 'Inter', sans-serif;
+    letter-spacing: .1em;
+    text-transform: uppercase
+}
+
+.edit-variation.is-editing {
+    border-color: var(--ink)
+}
+
+.variation-empty {
+    padding: 14px;
+    border: 1px dashed var(--line);
+    color: var(--mut);
+    font-size: 13px
+}
+
+.edit-variation img {
+    display: block;
+    max-width: 120px;
+    max-height: 150px;
+    margin-top: 8px;
+    object-fit: cover
+}
+
+.edit-variation img[hidden] {
+    display: none
 }
 
 .variation-preview {

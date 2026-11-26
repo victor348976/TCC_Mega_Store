@@ -18,7 +18,20 @@ if ($idProduto > 0) {
 }
 
 $produtosSql = mysqli_query($con, "SELECT * FROM tb_produto ORDER BY id_produto DESC");
-$produtos = mysqli_fetch_all($produtosSql, MYSQLI_ASSOC);
+$produtos = $produtosSql ? mysqli_fetch_all($produtosSql, MYSQLI_ASSOC) : [];
+
+$variacoes = [];
+if ($produto) {
+    $variacoesSql = mysqli_query(
+        $con,
+        "SELECT vp.id_variacao, vp.cor, vp.tamanho, vp.estoque,
+                (SELECT ip.caminho_imagem FROM tb_imagem_produto ip WHERE ip.id_variacao = vp.id_variacao ORDER BY ip.id_imagem LIMIT 1) AS caminho_imagem
+         FROM tb_variacao_produto vp
+         WHERE vp.id_produto = $idProduto
+         ORDER BY vp.cor, vp.tamanho, vp.id_variacao"
+    );
+    $variacoes = $variacoesSql ? mysqli_fetch_all($variacoesSql, MYSQLI_ASSOC) : [];
+}
 
 $mensagem = '';
 if (isset($_GET['sucesso'])) {
@@ -82,7 +95,7 @@ if (isset($_GET['erro'])) {
         </div>
 
         <?php if ($produto): ?>
-            <form class="grid" action="atualizar_produto.php" method="post" id="f">
+            <form class="grid" action="atualizar_produto.php" method="post" id="f" enctype="multipart/form-data">
                 <input type="hidden" name="id_produto" value="<?= (int) $produto['id_produto'] ?>">
                 <div>
                     <div class="card">
@@ -105,18 +118,52 @@ if (isset($_GET['erro'])) {
                                 </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="f"><label>Preço (R$)</label><input name="preco" type="number" step="0.01" value="<?= number_format((float) $produto['preco'], 2, '.', '') ?>"></div>
-                            <div class="f"><label>Estoque</label>
-                                <?php
-                                $variacaoSql = mysqli_query($con, "SELECT SUM(estoque) AS total FROM tb_variacao_produto WHERE id_produto = " . (int)$produto['id_produto']);
-                                $variacao = mysqli_fetch_assoc($variacaoSql);
-                                $estoqueTotal = isset($variacao['total']) ? (int) $variacao['total'] : 0;
-                                ?>
-                                <input name="estoque" type="number" value="<?= $estoqueTotal ?>">
-                            </div>
-                        </div>
+                        <div class="f"><label>Preço (R$)</label><input name="preco" type="number" step="0.01" min="0" value="<?= number_format((float) $produto['preco'], 2, '.', '') ?>" required></div>
                         <div class="f"><label>Descrição</label><textarea name="descricao"><?= htmlspecialchars($produto['descricao_produto']) ?></textarea></div>
+                    </div>
+                    <div class="card">
+                        <h2>Variações: cor, tamanho e estoque</h2>
+                        <p class="variation-help">Edite cada variação individualmente. Para retirar uma opção de venda, deixe o estoque em zero; os registros são mantidos para preservar pedidos anteriores.</p>
+                        <button class="btn btn--o variation-toggle" type="button" id="visualizar-variacoes" aria-expanded="false" aria-controls="painel-variacoes">Visualizar variações</button>
+                        <div class="variation-panel" id="painel-variacoes" hidden>
+                        <div class="edit-variation-list" id="variacoes-existentes">
+                            <?php foreach ($variacoes as $variacao): ?>
+                                <?php
+                                $idVariacao = (int) $variacao['id_variacao'];
+                                $tamanhoAtual = (string) $variacao['tamanho'];
+                                $imagemAtual = (string) ($variacao['caminho_imagem'] ?? '');
+                                ?>
+                                <section class="edit-variation" data-variation>
+                                    <h3>Variação #<?= $idVariacao ?></h3>
+                                    <input type="hidden" name="variacoes[<?= $idVariacao ?>][id_variacao]" value="<?= $idVariacao ?>">
+                                    <div class="row">
+                                        <div class="f"><label for="cor-<?= $idVariacao ?>">Cor</label><input id="cor-<?= $idVariacao ?>" name="variacoes[<?= $idVariacao ?>][cor]" maxlength="55" value="<?= htmlspecialchars($variacao['cor']) ?>" required></div>
+                                        <div class="f"><label for="tamanho-<?= $idVariacao ?>">Tamanho</label>
+                                            <select id="tamanho-<?= $idVariacao ?>" name="variacoes[<?= $idVariacao ?>][tamanho]" required>
+                                                <?php foreach (['PP', 'P', 'M', 'G', 'GG', 'XG'] as $tamanho): ?>
+                                                    <option value="<?= htmlspecialchars($tamanho) ?>" <?= $tamanhoAtual === $tamanho ? 'selected' : '' ?>><?= htmlspecialchars($tamanho) ?></option>
+                                                <?php endforeach; ?>
+                                                <?php if (!in_array($tamanhoAtual, ['PP', 'P', 'M', 'G', 'GG', 'XG'], true)): ?>
+                                                    <option value="<?= htmlspecialchars($tamanhoAtual) ?>" selected><?= htmlspecialchars($tamanhoAtual) ?></option>
+                                                <?php endif; ?>
+                                            </select>
+                                        </div>
+                                        <div class="f"><label for="estoque-<?= $idVariacao ?>">Quantidade</label><input id="estoque-<?= $idVariacao ?>" name="variacoes[<?= $idVariacao ?>][estoque]" type="number" min="0" value="<?= (int) $variacao['estoque'] ?>" required></div>
+                                    </div>
+                                    <div class="f">
+                                        <label for="imagem-<?= $idVariacao ?>">Foto desta variação (opcional)</label>
+                                        <input id="imagem-<?= $idVariacao ?>" name="variacoes[<?= $idVariacao ?>][imagem]" type="file" accept="image/jpeg,image/png,image/webp,image/gif" data-image-input>
+                                        <?php if ($imagemAtual !== ''): ?>
+                                            <img src="../produtos/<?= htmlspecialchars($imagemAtual) ?>" alt="Foto atual da variação <?= htmlspecialchars($variacao['cor'] . ' ' . $tamanhoAtual) ?>" data-image-preview>
+                                        <?php else: ?>
+                                            <img alt="Prévia da nova foto" data-image-preview hidden>
+                                        <?php endif; ?>
+                                    </div>
+                                </section>
+                            <?php endforeach; ?>
+                        </div>
+                        <button class="btn btn--o" type="button" id="adicionar-variacao">Adicionar variação</button>
+                        </div>
                     </div>
                 </div>
 
@@ -137,6 +184,95 @@ if (isset($_GET['erro'])) {
         <?php endif; ?>
     </main>
 
+    <template id="modelo-nova-variacao">
+        <section class="edit-variation" data-variation>
+            <h3>Nova variação</h3>
+            <div class="row">
+                <div class="f"><label data-cor-label>Cor</label><input type="text" data-cor-input maxlength="55" required></div>
+                <div class="f"><label data-tamanho-label>Tamanho</label>
+                    <select data-tamanho-input required>
+                        <option value="">Selecione</option>
+                        <option value="PP">PP</option><option value="P">P</option><option value="M">M</option>
+                        <option value="G">G</option><option value="GG">GG</option><option value="XG">XG</option>
+                    </select>
+                </div>
+                <div class="f"><label data-estoque-label>Quantidade</label><input type="number" data-estoque-input min="0" value="0" required></div>
+            </div>
+            <div class="f">
+                <label data-imagem-label>Foto da variação (opcional)</label>
+                <input type="file" data-imagem-input accept="image/jpeg,image/png,image/webp,image/gif" data-image-input>
+                <img alt="Prévia da foto" data-image-preview hidden>
+            </div>
+            <button type="button" class="btn btn--d" data-remove-variation>Remover nova variação</button>
+        </section>
+    </template>
+    <script>
+        (() => {
+            const form = document.getElementById('f');
+            const list = document.getElementById('variacoes-existentes');
+            const template = document.getElementById('modelo-nova-variacao');
+            const addButton = document.getElementById('adicionar-variacao');
+            const toggleButton = document.getElementById('visualizar-variacoes');
+            const panel = document.getElementById('painel-variacoes');
+            if (!form || !list || !template || !addButton || !toggleButton || !panel) return;
+
+            let nextIndex = 0;
+            toggleButton.addEventListener('click', () => {
+                panel.hidden = !panel.hidden;
+                toggleButton.setAttribute('aria-expanded', String(!panel.hidden));
+                toggleButton.textContent = panel.hidden ? 'Visualizar variações' : 'Ocultar variações';
+            });
+
+            function watchImage(card) {
+                const input = card.querySelector('[data-image-input]');
+                const preview = card.querySelector('[data-image-preview]');
+                input.addEventListener('change', () => {
+                    if (input.files[0]) {
+                        preview.src = URL.createObjectURL(input.files[0]);
+                        preview.hidden = false;
+                    }
+                });
+            }
+
+            list.querySelectorAll('[data-variation]').forEach(watchImage);
+            addButton.addEventListener('click', () => {
+                const card = template.content.firstElementChild.cloneNode(true);
+                const index = nextIndex++;
+                const fields = [
+                    ['[data-cor-input]', `novas_variacoes[${index}][cor]`, '[data-cor-label]', `nova-cor-${index}`],
+                    ['[data-tamanho-input]', `novas_variacoes[${index}][tamanho]`, '[data-tamanho-label]', `novo-tamanho-${index}`],
+                    ['[data-estoque-input]', `novas_variacoes[${index}][estoque]`, '[data-estoque-label]', `novo-estoque-${index}`],
+                    ['[data-imagem-input]', `novas_variacoes[${index}][imagem]`, '[data-imagem-label]', `nova-imagem-${index}`]
+                ];
+                fields.forEach(([selector, name, labelSelector, id]) => {
+                    const input = card.querySelector(selector);
+                    const label = card.querySelector(labelSelector);
+                    input.name = name;
+                    input.id = id;
+                    label.htmlFor = id;
+                });
+                card.querySelector('[data-remove-variation]').addEventListener('click', () => card.remove());
+                watchImage(card);
+                list.appendChild(card);
+            });
+
+            form.addEventListener('submit', (event) => {
+                const keys = new Set();
+                for (const card of list.querySelectorAll('[data-variation]')) {
+                    const color = card.querySelector('[name$="[cor]"]').value.trim().toLocaleLowerCase('pt-BR');
+                    const size = card.querySelector('[name$="[tamanho]"]').value;
+                    if (!color || !size) continue;
+                    const key = JSON.stringify([color, size]);
+                    if (keys.has(key)) {
+                        event.preventDefault();
+                        window.alert(`A variação ${color} / ${size} está duplicada.`);
+                        return;
+                    }
+                    keys.add(key);
+                }
+            });
+        })();
+    </script>
     <div class="foot">&copy; 2026 Mega Store. Painel administrativo.</div>
 </body>
 </html>
