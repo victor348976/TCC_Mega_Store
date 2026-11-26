@@ -1,5 +1,4 @@
 <?php
-// Faz a conexão com o banco de dados
 include("../geral/conexao.php");
 
 // Importa o cabeçalho padrão do sistema
