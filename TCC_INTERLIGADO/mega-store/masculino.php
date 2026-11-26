@@ -1,6 +1,34 @@
 <?php
+<<<<<<< Updated upstream
 // Produtos dinâmicos não são necessários para o cabeçalho compartilhado.
 $resultado = false;
+=======
+include("../geral/conexao.php");
+
+$sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
+                    FROM  tb_produto p, 
+                          tb_imagem_produto ip, 
+                          tb_categoria ct, 
+                          tb_genero gen, 
+                          tb_variacao_produto vp
+                    WHERE p.id_produto = vp.id_produto 
+                      AND vp.id_variacao = ip.id_variacao 
+                      AND gen.id_genero = p.id_genero 
+                      AND gen.id_genero = 1 
+                      AND ct.id_categoria = p.id_categoria
+                      -- filtramos apenas a primeira variação encontrada
+                      AND vp.id_variacao = (
+                         SELECT MIN(id_variacao) 
+                         FROM tb_variacao_produto 
+                         WHERE id_produto = p.id_produto
+                     )
+                    GROUP BY p.id_produto;
+                    ";
+          
+
+$resultado = mysqli_query($con, $sql);
+
+>>>>>>> Stashed changes
 ?>
 
 
