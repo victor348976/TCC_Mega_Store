@@ -1,3 +1,31 @@
+<?php
+include("../geral/conexao.php");
+
+$sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
+                    FROM  tb_produto p, 
+                          tb_imagem_produto ip, 
+                          tb_categoria ct, 
+                          tb_genero gen, 
+                          tb_variacao_produto vp
+                    WHERE p.id_produto = vp.id_produto 
+                      AND vp.id_variacao = ip.id_variacao 
+                      AND gen.id_genero = p.id_genero 
+                      AND ct.id_categoria = p.id_categoria
+                      -- filtramos apenas a primeira variação encontrada
+                      AND vp.id_variacao = (
+                         SELECT MIN(id_variacao) 
+                         FROM tb_variacao_produto 
+                         WHERE id_produto = p.id_produto
+                     )
+                    GROUP BY p.id_produto;
+                    ";
+          
+
+$resultado = mysqli_query($con, $sql);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -9,10 +37,13 @@
     />
     <title>Masculino | Mega Store</title>
     <link rel="stylesheet" href="css/style.css" />
+    
     <script defer src="js/produtos.js"></script>
     <script defer src="js/script.js"></script>
+    
   </head>
   <body data-page="masculino">
+
     <div data-site-header></div>
     <main>
       <section class="hero">
@@ -27,19 +58,41 @@
           <a class="button" href="#produtos">Explorar sessão</a>
         </div>
       </section>
-      <section class="container" id="produtos">
+       <section class="container" id="produtos">
         <div class="catalog-intro">
           <span class="eyebrow">A coleção</span>
-          <h1>Masculino</h1>
+          <h1>Masculino</h1> 
           <p>
             Peças essenciais e detalhes precisos para uma elegância que
             acompanha seu ritmo.
           </p>
         </div>
-        <div class="filter-row">
+        <div class="filter-row">;~ç.
           <span>Seleção masculina</span><span id="product-count"></span>
         </div>
-        <div class="product-grid" id="category-products"></div>
+        <div class='products__grid'>
+    <?php
+while($x = mysqli_fetch_assoc($resultado)) {
+    echo"<form method='get' action='../mega-store/tela_produto.php'>
+                    <input type='hidden' name='id_produto' value='".$x['id_produto']."'>
+                    <button type='submit' class='button-produto' style='background: none; border: none; padding: 0; cursor: pointer;'>
+                    <article class='product-card reveal' id='product-1'>
+                <div class='product-card__image-wrapper'>
+                    <img src='../produtos/uploads/".$x['caminho_imagem']."' alt='Vestido Noir Éternel' class='product-card__image'>
+                    <span class='product-card__badge'>Novo</span>
+                </div>
+                <div class='product-card__info'>
+                    <h3 class='product-card__name'>".$x['nome_produto']."</h3>
+                    <p class='product-card__category'>".$x['nome_categoria']."</p>
+                    <p class='product-card__price'>R$ ".$x['preco']."</p>
+                </div>
+            </article>
+            </button>
+                    </form>
+                    ";
+                }
+             ?>
+             </div>
       </section>
       <section class="section">
         <div class="editorial">

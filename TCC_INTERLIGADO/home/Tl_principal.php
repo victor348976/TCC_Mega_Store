@@ -52,7 +52,7 @@
             <!-- Nav Links -->
             <nav class='header__nav' id='main-nav' aria-label='Navegação principal'>
                 <ul class='header__nav-list'>
-                    <li><a href='#colecoes' class='header__nav-link'>Coleções</a></li>
+                    <li><a href='../mega-store' class='header__nav-link'>Coleções</a></li>
                     <li><a href='#tecidos' class='header__nav-link'>Tecidos</a></li>
                     <li><a href='#sobre' class='header__nav-link'>Sobre</a></li>
                     <li><a href='#contato' class='header__nav-link'>Contato</a></li>
@@ -96,7 +96,7 @@
         <!-- Mobile Nav Overlay -->
         <div class='mobile-nav' id='mobile-nav'>
             <ul class='mobile-nav__list'>
-                <li><a href='#colecoes' class='mobile-nav__link'>Coleções</a></li>
+                <li><a href='../mega-store' class='mobile-nav__link'>Coleções</a></li>
                 <li><a href='#tecidos' class='mobile-nav__link'>Tecidos</a></li>
                 <li><a href='#sobre' class='mobile-nav__link'>Sobre</a></li>
                 <li><a href='#contato' class='mobile-nav__link'>Contato</a></li>
@@ -114,7 +114,7 @@
             <p class='hero__subtitle'>Alta Costura & Tecidos Finos</p>
             <h1 class='hero__title'>A Arte da Trama,<br>a Elegância do Vestir</h1>
             <div class='hero__divider'></div>
-            <a href='#colecoes' class='hero__cta' id='hero-cta'>Explorar Coleção</a>
+            <a href='../mega-store' class='hero__cta' id='hero-cta'>Explorar Coleção</a>
         </div>
     </section>
 
@@ -328,7 +328,7 @@
                 <div class='footer__col'>
                     <h4 class='footer__col-title'>Navegação</h4>
                     <ul>
-                        <li><a href='#colecoes'>Coleções</a></li>
+                        <li><a href='../mega-store'>Coleções</a></li>
                         <li><a href='#tecidos'>Tecidos</a></li>
                         <li><a href='#destaques'>Destaques</a></li>
                         <li><a href='#sobre'>Sobre</a></li>

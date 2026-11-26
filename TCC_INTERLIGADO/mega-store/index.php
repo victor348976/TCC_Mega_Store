@@ -38,7 +38,7 @@
           <p>Uma seleção feita para acompanhar cada momento.</p>
         </div>
         <div class="category-grid">
-          <a href="#/categoria/masculino" class="category-tile"
+          <a href="../mega-store/masculino.php" class="category-tile"
             ><img
               src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1300&q=85"
               alt="Editorial masculino em peças de alfaiataria"
@@ -52,7 +52,7 @@
               </p>
               <span class="text-link">Ver coleção →</span>
             </div></a
-          ><a href="#/categoria/feminino" class="category-tile"
+          ><a href="../mega-store/feminino.php" class="category-tile"
             ><img
               src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1300&q=85"
               alt="Editorial feminino contemporâneo"
@@ -67,7 +67,7 @@
               <span class="text-link">Ver coleção →</span>
             </div></a
           >
-          <a href="#/categoria/calcados" class="category-tile"
+          <a href="../mega-store/calcados.php" class="category-tile"
             ><img
               src="../home/img/product-blazer.png"
               alt="Seleção de calçados da Mega Store"
@@ -78,7 +78,7 @@
               <p>Conforto e acabamento para acompanhar cada passo.</p>
               <span class="text-link">Ver coleção →</span>
             </div></a
-          ><a href="acessorios.php" class="category-tile"
+          ><a href="../mega-store/acessorios.php" class="category-tile"
             ><img
               src="../home/img/product-silk.png"
               alt="Seleção de acessórios da Mega Store"
