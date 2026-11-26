@@ -12,7 +12,7 @@
 
 <h2>RESETAR BANCO DE DADOS</h2>
 <h4>Este arquivo serve que para quando terminar de testar as interações com o banco, vc possa deixa-lo "LIMPO", até que comecemos a parte visual</h4>
-<h4>Este arquivo, reseta apenas as tabelas'tb_usuario', 'tb_imagem_produto', 'tb_variacao_produto' 'tb_produto'</h4>
+<h4>Este arquivo, reseta apenas as tabelas'tb_usuario', 'tb_imagem_produto', 'tb_variacao_produto', 'tb_produto', 'tb_carrinho'</h4>
 <form action="resetar_banco.php" method="post"
       onsubmit="return confirm('TEM CERTEZA? ISSO APAGA TODOS OS DADOS!');">
 
@@ -39,7 +39,8 @@ $tabelas = [
     'tb_usuario',
     'tb_imagem_produto',
     'tb_produto',
-    'tb_variacao_produto'
+    'tb_variacao_produto',
+    'tb_carrinho'
 ];
 
 mysqli_query($con, "SET FOREIGN_KEY_CHECKS = 0");

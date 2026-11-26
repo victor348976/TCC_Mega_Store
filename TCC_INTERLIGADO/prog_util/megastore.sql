@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2026 at 02:59 AM
+-- Generation Time: Nov 26, 2026 at 11:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_carinho`
+-- Table structure for table `tb_carrinho`
 --
 
-CREATE TABLE `tb_carinho` (
+CREATE TABLE `tb_carrinho` (
   `id_carrinho` int(11) NOT NULL,
   `id_variacao` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
@@ -35,13 +35,14 @@ CREATE TABLE `tb_carinho` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tb_carinho`
+-- Dumping data for table `tb_carrinho`
 --
 
-INSERT INTO `tb_carinho` (`id_carrinho`, `id_variacao`, `id_usuario`, `qtd_carrinho`) VALUES
-(1, 4, 4, 5),
-(2, 2, 4, 10),
-(3, 3, 4, 10);
+INSERT INTO `tb_carrinho` (`id_carrinho`, `id_variacao`, `id_usuario`, `qtd_carrinho`) VALUES
+(1, 3, 1, 1),
+(2, 5, 1, 1),
+(3, 9, 1, 100),
+(4, 11, 1, 81);
 
 -- --------------------------------------------------------
 
@@ -86,7 +87,7 @@ CREATE TABLE `tb_endereco` (
   `id_usuario` int(11) NOT NULL,
   `rua` varchar(255) NOT NULL,
   `numero` int(9) NOT NULL,
-  `bairro` int(255) NOT NULL,
+  `bairro` varchar(255) NOT NULL,
   `cidade` varchar(255) NOT NULL,
   `estado` varchar(2) NOT NULL,
   `cep` varchar(8) NOT NULL,
@@ -154,13 +155,17 @@ CREATE TABLE `tb_imagem_produto` (
 --
 
 INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_variacao`, `caminho_imagem`) VALUES
-(1, 1, '6b043da2350f8.jpg'),
-(2, 2, '6b043da235eda.jpg'),
-(3, 3, '6b043da237e8d.jpg'),
-(4, 4, '6b045f2385723.jpg'),
-(5, 5, '6b045f238844e.jpg'),
-(6, 6, '6b045f23892ef.jpg'),
-(7, 7, '6b045f238a73d.jpg');
+(1, 1, '6b08a749c8e05.jpg'),
+(2, 2, '6b08a749c8e05.jpg'),
+(3, 3, '6b08a749c8e05.jpg'),
+(4, 4, '6b08a749cb9f5.jpg'),
+(5, 5, '6b08a749cb9f5.jpg'),
+(6, 6, '6b08a749cb9f5.jpg'),
+(7, 7, '6b08a886231d2.jpg'),
+(8, 8, '6b08a886231d2.jpg'),
+(9, 9, '6b08a886231d2.jpg'),
+(10, 10, '6b08a886274cc.jpg'),
+(11, 11, '6b08a886274cc.jpg');
 
 -- --------------------------------------------------------
 
@@ -198,8 +203,8 @@ CREATE TABLE `tb_produto` (
 --
 
 INSERT INTO `tb_produto` (`id_produto`, `nome_produto`, `descricao_produto`, `preco`, `id_categoria`, `id_genero`, `ativo`, `data_cadastro`) VALUES
-(1, 'SSS', 'Produto Teste', 12.30, 1, 1, 1, '2026-11-23'),
-(2, 'Z', 'Produto Teste2', 3.21, 3, 2, 1, '2026-11-23');
+(1, 'SSS', 'as', 123.00, 2, 1, 1, '2026-11-26'),
+(2, 'adsasdas', 'asdasdsa', 123.00, 1, 1, 1, '2026-11-26');
 
 -- --------------------------------------------------------
 
@@ -238,7 +243,7 @@ CREATE TABLE `tb_usuario` (
   `nome_usuario` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `senha` varchar(255) NOT NULL,
-  `cpf` int(11) DEFAULT NULL,
+  `cpf` varchar(14) DEFAULT NULL,
   `numero` varchar(11) DEFAULT NULL,
   `tipo` tinyint(1) NOT NULL,
   `data_cadastro` date NOT NULL,
@@ -250,10 +255,7 @@ CREATE TABLE `tb_usuario` (
 --
 
 INSERT INTO `tb_usuario` (`id_usuario`, `nome_usuario`, `email`, `senha`, `cpf`, `numero`, `tipo`, `data_cadastro`, `modo_tela`) VALUES
-(1, 'Nome Generico da Silva', 'teste@gmail.com', '$2y$10$nEslityd.3nL..RvRDXW/uk5UiQxi3lEH3o8IbgbwXSAhLH8bRsP6', NULL, '2147483647', 0, '2026-11-23', 0),
-(2, 'Nome Generico da Silva', 'victorluiz2504@gmail.com', '$2y$10$28uR4AJgg8fOs3oL9VkOGeJeCFX//avsZ/xpnJ9UIgLlO57CIX0su', NULL, '2147483647', 0, '2026-11-24', 0),
-(3, 'Nome Generico da Silva', 'victorluiz1234@gmail.com', '$2y$10$zxlRqcFqeIyVSKPpcO6lGeTTSeOwb3/dSCqA/CTaB8NGr.5VLOLEG', NULL, '2147483647', 0, '2026-11-25', 0),
-(4, 'Nome Generico da Silva', '123@gmail', '$2y$10$Uuz3hE10x/tAYC2uqs1xme161aU6i9/HflbKjtAFIP.ncFeO4PH9i', NULL, '14996480737', 1, '2026-11-25', 0);
+(1, 'Nome Generico da Silva', 'victorluiz2504@gmail.com', '$2y$10$i6RhUVxNfWAchHzQ.4ctCuvEk5hzcerKr2ylGju8E6XnxOwXPwCm6', NULL, '14996480737', 0, '2026-11-26', 0);
 
 -- --------------------------------------------------------
 
@@ -274,13 +276,17 @@ CREATE TABLE `tb_variacao_produto` (
 --
 
 INSERT INTO `tb_variacao_produto` (`id_variacao`, `id_produto`, `tamanho`, `cor`, `estoque`) VALUES
-(1, 1, 'P', 'Preto', 23),
-(2, 1, 'M', 'Preto', 23),
-(3, 1, 'P', 'Branco', 22),
-(4, 2, 'M', 'Preto', 17),
-(5, 2, 'G', 'Preto', 0),
-(6, 2, 'P', 'Branco', 52),
-(7, 2, 'M', 'Branco', 52);
+(1, 1, 'PP', 'Preto', 23),
+(2, 1, 'P', 'Preto', 23),
+(3, 1, 'M', 'Preto', 23),
+(4, 1, 'G', 'Branco', 23),
+(5, 1, 'GG', 'Branco', 23),
+(6, 1, 'XG', 'Branco', 23),
+(7, 2, 'P', 'Preto', 123),
+(8, 2, 'M', 'Preto', 123),
+(9, 2, 'G', 'Preto', 123),
+(10, 2, 'GG', 'Branco', 333),
+(11, 2, 'XG', 'Branco', 333);
 
 -- --------------------------------------------------------
 
@@ -301,9 +307,9 @@ CREATE TABLE `tb_venda` (
 --
 
 --
--- Indexes for table `tb_carinho`
+-- Indexes for table `tb_carrinho`
 --
-ALTER TABLE `tb_carinho`
+ALTER TABLE `tb_carrinho`
   ADD PRIMARY KEY (`id_carrinho`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_variacao` (`id_variacao`);
@@ -397,10 +403,10 @@ ALTER TABLE `tb_venda`
 --
 
 --
--- AUTO_INCREMENT for table `tb_carinho`
+-- AUTO_INCREMENT for table `tb_carrinho`
 --
-ALTER TABLE `tb_carinho`
-  MODIFY `id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `tb_carrinho`
+  MODIFY `id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_categoria`
@@ -430,7 +436,7 @@ ALTER TABLE `tb_genero`
 -- AUTO_INCREMENT for table `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tb_pagamento`
@@ -460,13 +466,13 @@ ALTER TABLE `tb_produto_venda`
 -- AUTO_INCREMENT for table `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_variacao_produto`
 --
 ALTER TABLE `tb_variacao_produto`
-  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tb_venda`
@@ -479,11 +485,11 @@ ALTER TABLE `tb_venda`
 --
 
 --
--- Constraints for table `tb_carinho`
+-- Constraints for table `tb_carrinho`
 --
-ALTER TABLE `tb_carinho`
-  ADD CONSTRAINT `tb_carinho_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`),
-  ADD CONSTRAINT `tb_carinho_ibfk_2` FOREIGN KEY (`id_variacao`) REFERENCES `tb_variacao_produto` (`id_variacao`);
+ALTER TABLE `tb_carrinho`
+  ADD CONSTRAINT `tb_carrinho_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`),
+  ADD CONSTRAINT `tb_carrinho_ibfk_2` FOREIGN KEY (`id_variacao`) REFERENCES `tb_variacao_produto` (`id_variacao`);
 
 --
 -- Constraints for table `tb_endereco`

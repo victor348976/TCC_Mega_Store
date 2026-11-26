@@ -1,4 +1,6 @@
 <?php
+include("includes/header.php");
+
 include("../geral/conexao.php");
 include("includes/header.php");
 

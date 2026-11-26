@@ -105,7 +105,7 @@ while($x = mysqli_fetch_assoc($resultado)) {
               Peças que valorizam a individualidade com linhas leves, matérias
               marcantes e atenção ao movimento.
             </p>
-            <a href="index.html#destaques" class="text-link"
+            <a href="index.php#destaques" class="text-link"
               >Descobrir destaques →</a
             >
           </div>
