@@ -1,4 +1,18 @@
 <?php
+$pageTitle = 'Vestido Noir Éternel';
+$product = [
+    'category' => 'Feminino',
+    'name' => 'Vestido Noir Éternel',
+    'price' => 'R$ 12.890,00',
+    'description' => 'Vestido de linhas elegantes, pensado para ocasiões especiais e feito para atravessar estações.',
+    'image' => 'assets/img/vestido-noir.svg',
+    'sizes' => ['PP', 'P', 'M', 'G','GG'],
+];
+
+require __DIR__ . '/includes/header.php';
+?>
+
+<?php
 include("../geral/conexao.php");
 
 $id_produto = isset($_GET['id_produto']) ? (int)$_GET['id_produto'] : 0;
@@ -61,12 +75,93 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Detalhes do produto Mega Store">
-    <link rel="stylesheet" href="css/style.css">
-    <script defer src="js/script.js"></script>
+    <title>Document</title>
+    <style>
+        .color-options,
+.size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0 20px;
+}
+
+.color-option,
+.size-btn {
+    cursor: pointer;
+}
+
+.color-option input {
+    display: none;
+}
+
+.color-option span,
+.tamanho-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+}
+
+.color-option input:checked + span,
+.tamanho-btn.ativo {
+    background: black;
+    color: white;
+    border-color: black;
+}
+
+.tamanho-btn.indisponivel {
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+#estoque-disponivel {
+    display: block;
+    margin-top: 8px;
+    color: #777;
+}
+    .product-card__image-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: var(--gray-50);
+    margin-bottom: 16px;
+}
+    .product-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-silk), opacity 0.5s ease;
+}
+
+.product-card:hover .product-card__image {
+    transform: scale(1.04);
+}
+.category-card__image-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.category-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-silk), filter 0.8s var(--ease-silk);
+    filter: brightness(0.85);
+}
+
+.category-card:hover .category-card__image {
+    transform: scale(1.05);
+    filter: brightness(0.7);
+}
+    </style>
+      
 </head>
 <body>
-<div data-site-header></div>
+    
+
 <main class="product-page">
     <section class="product-gallery" aria-label="Imagens do produto">
         <div class="product-card__image-wrapper">
@@ -164,7 +259,8 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
     }
     }
     ?>
-<div data-site-footer></div>
+<?php require __DIR__ . '/includes/footer.php'; ?>
+
 <script>
 const variacoes = <?= json_encode($variacoes, JSON_UNESCAPED_UNICODE) ?>;
 

@@ -1,4 +1,5 @@
    <?php
+        session_start();
         include("../geral/conexao.php");
 
         $mail = '';
