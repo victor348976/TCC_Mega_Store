@@ -1,232 +1,115 @@
 <?php
 include("../geral/conexao.php");
 
-// Importa o cabeçalho padrão do sistema
-include("../geral/head.php");
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-  <!-- Configurações básicas da página -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produto</title>
+  <title>Cadastrar produto | Mega Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../admin/admin.css">
+  <link rel="stylesheet" href="Cad_produto3.css">
 </head>
 
 <body>
+  <header class="header">
+    <div class="header__inner">
+      <a href="../home/Tl_principal.php" class="logo"><b>MEGA</b><span>STORE</span></a>
+      <ul class="nav">
+        <li><a href="../mega-store/index.php">Coleções</a></li>
+        <li><a href="../home/Tl_principal.php">Página inicial</a></li>
+        <li><a href="../admin/cadastro_produto.php">Painel administrativo</a></li>
+      </ul>
+      <span class="user">MEGA STORE</span>
+    </div>
+  </header>
 
-  <center>
+  <main class="page product-page">
+    <span class="label">Catálogo · Administração</span>
+    <h1>Cadastrar produto</h1>
+    <p class="sub">Adicione uma nova peça à coleção Mega Store.</p>
+    <div class="divider"></div>
 
-    <!-- Formulário principal de cadastro -->
-    <form
-      id="productForm"
-      method="POST"
-      style="width:40%"
-      action="Cad_Produto3.php"
-      enctype="multipart/form-data">
+    <form id="productForm" method="POST" action="Cad_produto3.php" enctype="multipart/form-data">
+      <section class="card product-card">
+        <span class="product-section-label">01 / Informações</span>
+        <h2>Detalhes do produto</h2>
 
-      <table border="0">
-
-        <!-- Título -->
-        <tr>
-          <td align="center" colspan="2">
-            <h2><strong>Cadastro Produto</strong></h2>
-          </td>
-        </tr>
-
-        <!-- Campo nome -->
-        <tr>
-          <td align="right" width="25%">Nome:</td>
-
-          <td align="left" width="57%">
-            <div name='user'>
-              <input
-                type="text"
-                value=""
-                name="produto"
-                placeholder="Digite o nome do Produto"
-                required>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Campo descrição -->
-        <tr>
-          <td align="right" width="25%">Descrição:</td>
-
-          <td align="left" width="57%">
-            <div name='user'>
-              <input
-                type="text"
-                value=""
-                name="desc"
-                placeholder="Digite a descrição do produto"
-                required>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Campo preço -->
-        <tr>
-          <td align="right" width="25%">Preço:</td>
-
-          <td align="left" width="57%">
-            <div name='user'>
-              R$
-
-              <input
-                type="number"
-                value=""
-                name="preco"
-                step="0.01"
-                min="0"
-                placeholder="Digite o preco do produto"
-                required>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Select de gênero -->
-        <tr>
-          <td align="right" width="25%">Genero:</td>
-
-          <td align="left" width="57%">
-            <div name="senha">
-
-              <select name="genero" required>
-
-                <option value="">Selecione o gênero</option>
-
-                <?php
-
-                // Busca os gêneros no banco
-                $sql = "SELECT *
-      FROM tb_genero";
-
-                $r = mysqli_query($con, $sql);
-
-                // Cria as opções do select
-                while ($x = mysqli_fetch_assoc($r)) {
-
-                  echo "<option value=" . $x["id_genero"] . ">" . $x["nome_genero"] . "</option>";
-                }
-
-                ?>
-
-              </select>
-
-            </div>
-          </td>
-        </tr>
-
-        <!-- Select de categoria -->
-        <tr>
-          <td align="right" width="25%">Categoria:</td>
-
-          <td align="left" width="57%">
-            <div>
-
-              <select name="categoria" required>
-
-                <option value="">Selecione a categoria</option>
-
-                <?php
-
-                // Busca categorias no banco
-                $sql = "SELECT *
-      FROM tb_categoria";
-
-                $r = mysqli_query($con, $sql);
-
-                // Cria as opções do select
-                while ($x = mysqli_fetch_assoc($r)) {
-
-                  echo "<option value=" . $x["id_categoria"] . ">" . $x["nome_categoria"] . "</option>";
-                }
-
-                ?>
-
-              </select>
-
-            </div>
-          </td>
-        </tr>
-
-      </table>
-
-      <!-- Área das variações -->
-      <div
-        style="
-background-color:lavenderblush;
-padding:15px;
-border-radius:10px;
-">
-
-        <label>
-
-          Variações do produto
-
-          <small style="color:#c02020">
-            (todas devem ser preenchidas)
-          </small>
-
-        </label>
-
-        <!-- Local onde as variações serão adicionadas -->
-        <div id="variationsContainer"></div>
-
-        <!-- Botões de controle -->
-        <div style="margin-top:12px; display:flex; gap:8px;">
-
-          <!-- Quantidade de variações -->
-          <input
-            id="generateCount"
-            type="number"
-            min="1"
-            placeholder="N° variações"
-            style="width:120px; padding:6px;">
-
-          <!-- Gera várias variações -->
-          <button type="button" id="btnGenerate">
-            Gerar
-          </button>
-
-          <!-- Adiciona uma variação -->
-          <button type="button" id="btnAdd">
-            Adicionar variação
-          </button>
-
-          <!-- Remove todas as variações -->
-          <button type="button" id="btnReset">
-            Excluir variações
-          </button>
-
+        <div class="f">
+          <label for="produto">Nome do produto</label>
+          <input id="produto" type="text" name="produto" placeholder="Ex.: Camisa de linho clássica" required>
         </div>
 
+        <div class="f">
+          <label for="desc">Descrição</label>
+          <textarea id="desc" name="desc" placeholder="Descreva os detalhes, materiais e características do produto." required></textarea>
+        </div>
+
+        <div class="row">
+          <div class="f">
+            <label for="preco">Preço (R$)</label>
+            <input id="preco" type="number" name="preco" step="0.01" min="0" placeholder="0,00" required>
+          </div>
+
+          <div class="f">
+            <label for="genero">Gênero</label>
+            <select id="genero" name="genero" required>
+              <option value="">Selecione o gênero</option>
+              <?php
+              $sql = "SELECT * FROM tb_genero";
+              $r = mysqli_query($con, $sql);
+              while ($x = mysqli_fetch_assoc($r)) {
+                echo "<option value=\"" . $x["id_genero"] . "\">" . htmlspecialchars($x["nome_genero"], ENT_QUOTES, "UTF-8") . "</option>";
+              }
+              ?>
+            </select>
+          </div>
+        </div>
+
+        <div class="f">
+          <label for="categoria">Categoria</label>
+          <select id="categoria" name="categoria" required>
+            <option value="">Selecione a categoria</option>
+            <?php
+            $sql = "SELECT * FROM tb_categoria";
+            $r = mysqli_query($con, $sql);
+            while ($x = mysqli_fetch_assoc($r)) {
+              echo "<option value=\"" . $x["id_categoria"] . "\">" . htmlspecialchars($x["nome_categoria"], ENT_QUOTES, "UTF-8") . "</option>";
+            }
+            ?>
+          </select>
+        </div>
+      </section>
+
+      <section class="card product-card product-variations">
+        <span class="product-section-label">02 / Opções</span>
+        <h2>Variações do produto</h2>
+        <p class="variation-help">Configure cada cor, estoque, imagem e ao menos um tamanho.</p>
+
+        <div id="variationsContainer" class="variation-list"></div>
+
+        <div class="variation-toolbar">
+          <div class="variation-count">
+            <label class="variation-label" for="generateCount">Quantidade</label>
+            <input id="generateCount" type="number" min="1" placeholder="Nº">
+          </div>
+          <button class="btn btn--o" type="button" id="btnGenerate">Gerar variações</button>
+          <button class="btn btn--o" type="button" id="btnAdd">Adicionar variação</button>
+          <button class="btn btn--d" type="button" id="btnReset">Excluir todas</button>
+        </div>
+      </section>
+
+      <div class="actions product-actions">
+        <button class="btn" type="submit" name="cadastrar" value="Cadastrar">Cadastrar produto</button>
+        <button class="btn btn--o" type="reset">Limpar formulário</button>
       </div>
-
-      <br>
-
-      <!-- Botão cadastrar -->
-      <input
-        type="submit"
-        value="Cadastrar"
-        name="cadastrar">
-
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-      <!-- Botão limpar -->
-      <input
-        type="button"
-        onclick="location.replace('Cad_user.php');"
-        value="Limpar">
-
     </form>
-
-  </center>
-
+  </main>
 </body>
 
 <!-- Template usado para criar novas variações -->
@@ -234,27 +117,13 @@ border-radius:10px;
 
   <div
     class="var-block"
+  >
 
-    style="
-border:1px solid #ccc;
-padding:10px;
-margin-top:10px;
-border-radius:10px;
-background:white;
-">
-
-    <div
-      style="
-display:flex;
-gap:10px;
-align-items:center;
-flex-wrap:wrap;
-">
+    <div class="variation-fields">
 
       <!-- Select de cor -->
       <select
         name="var_cor[]"
-        style="padding:6px;"
         required>
 
         <option value="">
@@ -289,7 +158,6 @@ flex-wrap:wrap;
         type="number"
         placeholder="Estoque"
         min="0"
-        style="width:100px; padding:6px;"
         required>
 
       <!-- Upload de imagens -->
@@ -298,31 +166,24 @@ flex-wrap:wrap;
         type="file"
         multiple
         accept="image/*"
-        style="width:220px;"
         required>
 
       <!-- Remove a variação -->
       <button
         type="button"
-        class="removeBtn">
+        class="removeBtn"
+        aria-label="Remover variação">
         X
       </button>
 
     </div>
 
     <!-- Área dos tamanhos -->
-    <div style="margin-top:10px;">
+    <div class="variation-size-area">
 
       <strong>Tamanhos:</strong>
 
-      <div
-        style="
-display:flex;
-justify-content: center;
-gap:10px;
-margin-top:6px;
-flex-wrap:wrap;
-">
+      <div class="size-options">
 
         <!-- Checkboxes de tamanhos -->
         <label>
@@ -592,8 +453,6 @@ block
 // Pega a data atual
 $data = date('Y/m/d');
 
-echo $data;
-
 // Verifica se clicou no botão cadastrar
 if (isset($_POST["cadastrar"])) {
 
@@ -782,20 +641,12 @@ VALUES
     }
 
     // Mensagem de sucesso
-    echo "
-<font color=green size=4>
-Produto Cadastrado com Sucesso
-</font>
-";
+    echo '<div class="alert-box product-result">Produto cadastrado com sucesso.</div>';
 
-  } else {
+  } 
+  else {
 
-    // Exibe os erros encontrados
-    echo "
-<font color=red size=4>
-$erro
-</font>
-";
+    echo '<div class="product-error">' . $erro . '</div>';
 
   }
 }
