@@ -112,7 +112,7 @@
           <p>
             Peças feitas para acompanhar o ritmo e a alegria de cada momento.
           </p>
-          <a class="button" href="#/categoria/infantil">Explorar sessão</a>
+          <a class="button" href="../mega-store/infantil.php">Explorar sessão</a>
         </div>
       </section>
       <section class="section container" id="sobre">

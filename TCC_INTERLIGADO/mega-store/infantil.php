@@ -60,7 +60,7 @@
               Materiais gentis e formas confortáveis para deixar a imaginação ir
               mais longe.
             </p>
-            <a href="index.html" class="text-link">Voltar ao início →</a>
+            <a href="index.php" class="text-link">Voltar ao início →</a>
           </div>
         </div>
       </section>
