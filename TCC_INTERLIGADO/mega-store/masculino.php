@@ -10,6 +10,7 @@ $sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
                     WHERE p.id_produto = vp.id_produto 
                       AND vp.id_variacao = ip.id_variacao 
                       AND gen.id_genero = p.id_genero 
+                      AND gen.id_genero = 1
                       AND ct.id_categoria = p.id_categoria
                       -- filtramos apenas a primeira variação encontrada
                       AND vp.id_variacao = (
@@ -31,10 +32,7 @@ $resultado = mysqli_query($con, $sql);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Explore a coleção masculina Mega Store."
-    />
+    <meta name="description" content="Explore a coleção masculina Mega Store."/>
     <title>Masculino | Mega Store</title>
     <link rel="stylesheet" href="css/style.css" />
     
