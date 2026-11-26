@@ -43,7 +43,7 @@ declare(strict_types=1);
             </button>
         </form>
 
-        <a class="icon-link cart-icon" href="carrinho.php" aria-label="Carrinho">
+        <a class="icon-link cart-icon" href="../carrinho/carrinho.php" aria-label="Carrinho">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3 4h2l2.1 11.1a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 1.9-1.5L21 8H6"></path>
                 <circle cx="10" cy="20" r="1"></circle>

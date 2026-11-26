@@ -105,7 +105,7 @@ while($x = mysqli_fetch_assoc($resultado)) {
               Design descomplicado e conforto em cada passo, com a atenção aos
               detalhes que faz diferença.
             </p>
-            <a href="index.html#destaques" class="text-link">Ver destaques →</a>
+            <a href="index.php" class="text-link">Ver destaques →</a>
           </div>
         </div>
       </section>
