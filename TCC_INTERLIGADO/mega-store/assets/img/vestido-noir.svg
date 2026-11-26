@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900" role="img" aria-label="Ilustração de vestido preto longo">
+<rect width="600" height="900" fill="#fafafa"/>
+<ellipse cx="300" cy="840" rx="145" ry="13" fill="#e8e8e8"/>
+<path d="M258 104 Q300 82 342 104 L365 208 Q394 250 390 315 L454 785 Q461 820 426 830 Q300 850 174 830 Q139 820 146 785 L210 315 Q206 250 235 208Z" fill="#151515"/>
+<path d="M258 104 Q300 129 342 104 L352 193 Q300 218 248 193Z" fill="#202020"/>
+<path d="M210 315 Q300 347 390 315" fill="none" stroke="#303030" stroke-width="4"/>
+<path d="M245 220 Q210 430 190 760 M355 220 Q390 430 410 760" fill="none" stroke="#292929" stroke-width="5"/>
+<path d="M175 830 Q300 849 425 830" fill="none" stroke="#333" stroke-width="3"/>
+</svg>
