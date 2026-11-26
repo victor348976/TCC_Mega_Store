@@ -1,8 +1,4 @@
 <?php
-<<<<<<< Updated upstream
-// Produtos dinâmicos não são necessários para o cabeçalho compartilhado.
-$resultado = false;
-=======
 include("../geral/conexao.php");
 
 $sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
@@ -28,7 +24,6 @@ $sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
 
 $resultado = mysqli_query($con, $sql);
 
->>>>>>> Stashed changes
 ?>
 
 
@@ -77,8 +72,28 @@ $resultado = mysqli_query($con, $sql);
           <span>Seleção masculina</span><span id="product-count"></span>
         </div>
         <div class='products__grid'>
-          <p>Nenhum produto dinâmico carregado no momento.</p>
-        </div>
+    <?php
+while($x = mysqli_fetch_assoc($resultado)) {
+    echo"<form method='get' action='../mega-store/tela_produto.php'>
+                    <input type='hidden' name='id_produto' value='".$x['id_produto']."'>
+                    <button type='submit' class='button-produto' style='background: none; border: none; padding: 0; cursor: pointer;'>
+                    <article class='product-card reveal' id='product-1'>
+                <div class='product-card__image-wrapper'>
+                    <img src='../produtos/uploads/".$x['caminho_imagem']."' alt='Vestido Noir Éternel' class='product-card__image'>
+                    <span class='product-card__badge'>Novo</span>
+                </div>
+                <div class='product-card__info'>
+                    <h3 class='product-card__name'>".$x['nome_produto']."</h3>
+                    <p class='product-card__category'>".$x['nome_categoria']."</p>
+                    <p class='product-card__price'>R$ ".$x['preco']."</p>
+                </div>
+            </article>
+            </button>
+                    </form>
+                    ";
+                }
+             ?>
+             </div>
       </section>
       <section class="section">
         <div class="editorial">
