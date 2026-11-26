@@ -1,5 +1,6 @@
 <?php
 include("../geral/conexao.php");
+include("includes/header.php");
 
 $sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
                     FROM  tb_produto p, 
