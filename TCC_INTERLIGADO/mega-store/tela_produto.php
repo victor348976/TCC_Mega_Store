@@ -1,16 +1,3 @@
-<?php
-$pageTitle = 'Vestido Noir Éternel';
-$product = [
-    'category' => 'Feminino',
-    'name' => 'Vestido Noir Éternel',
-    'price' => 'R$ 12.890,00',
-    'description' => 'Vestido de linhas elegantes, pensado para ocasiões especiais e feito para atravessar estações.',
-    'image' => 'assets/img/vestido-noir.svg',
-    'sizes' => ['PP', 'P', 'M', 'G','GG'],
-];
-
-require __DIR__ . '/includes/header.php';
-?>
 
 <?php
 include("../geral/conexao.php");
