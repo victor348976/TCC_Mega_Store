@@ -10,6 +10,7 @@ $sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
                     WHERE p.id_produto = vp.id_produto 
                       AND vp.id_variacao = ip.id_variacao 
                       AND gen.id_genero = p.id_genero 
+                      AND gen.id_genero = 1
                       AND ct.id_categoria = p.id_categoria
                       -- filtramos apenas a primeira variação encontrada
                       AND vp.id_variacao = (
