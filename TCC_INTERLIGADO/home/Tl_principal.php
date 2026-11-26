@@ -12,6 +12,7 @@
     <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@200;300;400;500;600&display=swap' rel='stylesheet'>
 
     <link rel='stylesheet' href='Tl_princip.css'>
+    
 </head>
 <body>
     <?php
@@ -141,7 +142,7 @@
                 <span class='story__label'>Nossa Essência</span>
                 <h2 class='story__title'>Tradição, Artesania<br>& Inovação</h2>
                 <p class='story__desc'>Desde 1987, a Mega Store cultiva a arte de vestir com excelência. Cada peça é um encontro entre a tradição da alfaiataria europeia e a ousadia do design contemporâneo. Nossos tecidos são selecionados nas melhores tecelagens do mundo — de Como a Kyoto — para oferecer uma experiência sensorial única.</p>
-                <a href='#contato' class='story__cta'>Conheça Nossa História &rarr;</a>
+                <a href="../SOBRENOS/sobre_nos.php" '#contato' class='story__cta'>Conheça Nossa História &rarr;</a>
             </div>
             <div class='story__visual reveal'>
                 <div class='story__image-frame'>
