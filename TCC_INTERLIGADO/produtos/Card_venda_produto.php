@@ -322,7 +322,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 
         $id_usuario = $_SESSION['id_usuario'];
 
-        $sql_carrinho = "INSERT INTO tb_carinho
+        $sql_carrinho = "INSERT INTO tb_carrinho
                 (id_variacao,id_usuario,qtd_carrinho)
                 VALUES
                 ('$id_variacao','$id_usuario','$quantidade')";

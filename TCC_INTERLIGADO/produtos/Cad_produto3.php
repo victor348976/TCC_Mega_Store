@@ -535,111 +535,86 @@ if(count($cores) != count(array_unique($cores))) {
   }
 
   // Se não houver erros
-  if ($erro == '') {
+ if ($erro == '') {
 
     // Insere o produto no banco
-    $sql = "INSERT INTO tb_produto
-(nome_produto,descricao_produto,preco,id_categoria,id_genero,ativo,data_cadastro)
+$sql = "INSERT INTO tb_produto
+(nome_produto, descricao_produto, preco, id_categoria, id_genero, ativo, data_cadastro)
 VALUES
-('$produto','$desc','$preco','$categoria','$genero','1','$data')";
+('$produto', '$desc', '$preco', '$categoria', '$genero', '1', '$data')";
 
-    mysqli_query($con, $sql);
+mysqli_query($con, $sql);
 
-    // Pega o ID do produto inserido
-    $id_produto = mysqli_insert_id($con);
+$id_produto = mysqli_insert_id($con);
 
-    // Pasta de uploads
-    $pasta = "uploads/produtos/";
+// Pasta de imagens
+$pasta = "../produtos/uploads/";
 
-    // Cria a pasta se não existir
-    if (!is_dir($pasta)) {
-      mkdir($pasta, 0777, true);
+if (!is_dir($pasta)) {
+    mkdir($pasta, 0777, true);
+}
+
+// Percorre as variações
+for ($i = 0; $i < count($cores); $i++) {
+
+    $cor = trim($cores[$i]);
+    $stock = (int)$stocks[$i];
+    $tamanhosSelecionados = $tamanhos[$i] ?? [];
+
+    // Armazena os nomes das imagens dessa cor
+    $imagensCor = [];
+
+    // Envia cada imagem apenas uma vez
+    if (!empty($images['name'][$i])) {
+
+        foreach ($images['name'][$i] as $idx => $filename) {
+
+            if ($filename == '') {
+                continue;
+            }
+
+            $tmp_name = $images['tmp_name'][$i][$idx];
+
+            $extensao = pathinfo($filename, PATHINFO_EXTENSION);
+
+            // Gera um único nome para essa imagem
+            $novoNome = uniqid() . "." . $extensao;
+
+            $destino = $pasta . $novoNome;
+
+            if (move_uploaded_file($tmp_name, $destino)) {
+                $imagensCor[] = $novoNome;
+            }
+        }
     }
 
-    // Percorre as variações
-    for ($i = 0; $i < count($cores); $i++) {
-
-      $cor = trim($cores[$i]);
-
-      $stock = (int)$stocks[$i];
-
-      $tamanhosSelecionados =
-        $tamanhos[$i] ?? [];
-
-      // Cria uma variação para cada tamanho
-      foreach ($tamanhosSelecionados as $tamanho) {
+    // Cria uma variação para cada tamanho
+    foreach ($tamanhosSelecionados as $tamanho) {
 
         $tamanho = trim($tamanho);
 
-        // Insere variação no banco
         $sql = "INSERT INTO tb_variacao_produto
-
-(id_produto,tamanho,cor,estoque)
-VALUES
-('$id_produto','$tamanho','$cor',$stock)";
+                (id_produto, tamanho, cor, estoque)
+                VALUES
+                ('$id_produto', '$tamanho', '$cor', $stock)";
 
         mysqli_query($con, $sql);
 
-        // Pega ID da variação
         $id_variacao = mysqli_insert_id($con);
 
-        // Verifica se existem imagens
-        if (!empty($images['name'][$i])) {
+        // Vincula as mesmas imagens à variação de cada tamanho
+        foreach ($imagensCor as $nomeImagem) {
 
-          // Percorre as imagens
-          foreach (
-            $images['name'][$i]
-            as $idx => $filename
-          ) {
+            $sqlImagem = "INSERT INTO tb_imagem_produto
+                          (id_variacao, caminho_imagem)
+                          VALUES
+                          ('$id_variacao', '$nomeImagem')";
 
-            // Caminho temporário
-            $tmp_name =
-              $images['tmp_name'][$i][$idx];
-
-            // Pega extensão
-            $extensao =
-              pathinfo(
-                $filename,
-                PATHINFO_EXTENSION
-              );
-
-            // Cria nome único
-            $novoNome =
-              uniqid() . "." . $extensao;
-
-            // Caminho final
-            $destino =
-              "../produtos/uploads/" . $novoNome;
-
-            // Cria pasta uploads
-            if (!is_dir("uploads")) {
-
-              mkdir(
-                "uploads/",
-                0777,
-                true
-              );
-            }
-
-            // Move imagem
-            move_uploaded_file(
-              $tmp_name,
-              $destino
-            );
-
-            // Salva imagem no banco
-            $sql = "INSERT INTO tb_imagem_produto
-
-(id_variacao,caminho_imagem)
-VALUES
-('$id_variacao','$novoNome')";
-
-            mysqli_query($con, $sql);
-          }
+            mysqli_query($con, $sqlImagem);
         }
-      }
     }
-
+}
+    }
     // Mensagem de sucesso
     echo '<div class="alert-box product-result">Produto cadastrado com sucesso.</div>';
 
@@ -649,7 +624,7 @@ VALUES
     echo '<div class="product-error">' . $erro . '</div>';
 
   }
-}
+
 ?>
 
 </html>

@@ -1,7 +1,18 @@
+<?php
+$pageTitle = 'Vestido Noir Éternel';
+$product = [
+    'category' => 'Feminino',
+    'name' => 'Vestido Noir Éternel',
+    'price' => 'R$ 12.890,00',
+    'description' => 'Vestido de linhas elegantes, pensado para ocasiões especiais e feito para atravessar estações.',
+    'image' => 'assets/img/vestido-noir.svg',
+    'sizes' => ['PP', 'P', 'M', 'G','GG'],
+];
+
+require __DIR__ . '/includes/header.php';
+?>
 
 <?php
-include("includes/header.php");
-
 include("../geral/conexao.php");
 
 $id_produto = isset($_GET['id_produto']) ? (int)$_GET['id_produto'] : 0;
@@ -233,17 +244,17 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 
         $id_usuario = $_SESSION['id_usuario'];
 
-        $sql_carrinho = "INSERT INTO tb_carinho
+        $sql_carrinho = "INSERT INTO tb_carrinho
                 (id_variacao,id_usuario,qtd_carrinho)
                 VALUES
                 ('$id_variacao','$id_usuario','$quantidade')";
                 $r= mysqli_query($con,$sql_carrinho);
-        $sql_estoque = "UPDATE tb_variacao_produto
-               SET estoque = estoque - $quantidade
-                WHERE id_variacao = $id_variacao
-                AND id_produto = $id_produto
-                AND estoque >= $quantidade";        
-        $r= mysqli_query($con,$sql_estoque);
+        //$sql_estoque = "UPDATE tb_variacao_produto
+        //       SET estoque = estoque - $quantidade
+        //        WHERE id_variacao = $id_variacao
+        //        AND id_produto = $id_produto
+        //        AND estoque >= $quantidade";        
+        //$r= mysqli_query($con,$sql_estoque);
             
     }
     }
