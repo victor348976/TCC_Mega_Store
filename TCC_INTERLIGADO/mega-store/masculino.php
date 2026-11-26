@@ -106,7 +106,7 @@ while($x = mysqli_fetch_assoc($resultado)) {
               Texturas naturais, proporções equilibradas e acabamentos que
               revelam cuidado em cada escolha.
             </p>
-            <a href="index.html#destaques" class="text-link"
+            <a href="index.php#destaques" class="text-link"
               >Descobrir destaques →</a
             >
           </div>

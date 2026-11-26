@@ -35,74 +35,15 @@
                          FROM tb_variacao_produto 
                          WHERE id_produto = p.id_produto
                      )
-                    GROUP BY p.id_produto;
+                    GROUP BY p.id_produto
+                    LIMIT 15;
                     ';
             $r= mysqli_query($con,$sql); 
     ?>
 
     <!-- ═══════════════ HEADER / NAVBAR ═══════════════ -->
-    <header id='main-header' class='header'>
-        <div class='header__inner'>
-            <!-- Logo -->
-            <a href='#' class='header__logo' id='logo'>
-                <span class='header__logo-text'>MEGA</span>
-                <span class='header__logo-sub'>STORE</span>
-            </a>
-
-            <!-- Nav Links -->
-            <nav class='header__nav' id='main-nav' aria-label='Navegação principal'>
-                <ul class='header__nav-list'>
-                    <li><a href='../mega-store' class='header__nav-link'>Coleções</a></li>
-                    <li><a href='#tecidos' class='header__nav-link'>Tecidos</a></li>
-                    <li><a href='#sobre' class='header__nav-link'>Sobre</a></li>
-                    <li><a href='#contato' class='header__nav-link'>Contato</a></li>
-                </ul>
-            </nav>
-
-            <!-- Icons -->
-            <div class='header__icons'>
-                <button class='header__icon-btn' id='search-btn' aria-label='Buscar'>
-                    <!-- Search SVG -->
-                    <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
-                        <circle cx='11' cy='11' r='8'></circle>
-                        <line x1='21' y1='21' x2='16.65' y2='16.65'></line>
-                    </svg> 
-                </button>
-                
-                <button class='header__icon-btn' id='perfil-btn' aria-label='Perfil'>
-                    <!-- Cart SVG -->
-                    <a href='../mega-store/carrinho.html'><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>
-                        <path d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z'></path>
-                        <line x1='3' y1='6' x2='21' y2='6'></line>
-                        <path d='M16 10a4 4 0 0 1-8 0'></path>
-                    </svg></a>
-                    <span class='header__cart-count' id='cart-count'>0</span>
-                </button>
-                    <button class='header__icon-btn' id='cart-btn' aria-label='Carrinho'>
-                    <a href='> @PERFIL </a>
-                    </button>
-                     <button class='header__icon-btn' id='cart-btn' aria-label='Carrinho'>
-                    <a href='../auth/Cadastro_mega_store.php'> LOGIN </a>
-                    </button>
-                <!-- Mobile Menu Toggle -->
-                <button class='header__hamburger' id='hamburger-btn' aria-label='Abrir menu'>d
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Nav Overlay -->
-        <div class='mobile-nav' id='mobile-nav'>
-            <ul class='mobile-nav__list'>
-                <li><a href='../mega-store' class='mobile-nav__link'>Coleções</a></li>
-                <li><a href='#tecidos' class='mobile-nav__link'>Tecidos</a></li>
-                <li><a href='#sobre' class='mobile-nav__link'>Sobre</a></li>
-                <li><a href='#contato' class='mobile-nav__link'>Contato</a></li>
-            </ul>
-        </div>
-    </header>
+    <?php include('../geral/head.php');?>
+        
 
     
     <section class='hero' id='hero'>
@@ -165,97 +106,11 @@
         </div>
 
         <div class='products__grid'>
-            <!-- Product 1 -->
-            <article class='product-card reveal' id='product-1'>
-                <div class='product-card__image-wrapper'>
-                    <img src='img/product-dress.png' alt='Vestido Noir Éternel' class='product-card__image'>
-                    <span class='product-card__badge'>Novo</span>
-                </div>
-                <div class='product-card__info'>
-                    <h3 class='product-card__name'>Vestido Noir Éternel</h3>
-                    <p class='product-card__category'>Alta Costura</p>
-                    <p class='product-card__price'>R$ 12.890</p>
-                </div>
-            </article>
-
-            <!-- Product 2 -->
-            <article class='product-card reveal' id='product-2'>
-                <div class='product-card__image-wrapper'>
-                    <img src='img/product-silk.png' alt='Seda Italiana Branca' class='product-card__image'>
-                </div>
-                <div class='product-card__info'>
-                    <h3 class='product-card__name'>Seda Italiana Pura</h3>
-                    <p class='product-card__category'>Tecidos Premium</p>
-                    <p class='product-card__price'>R$ 890 /metro</p>
-                </div>
-            </article>
-
-            <!-- Product 3 -->
-            <article class='product-card reveal' id='product-3'>
-                <div class='product-card__image-wrapper'>
-                    <img src='img/product-blazer.png' alt='Blazer Grafite Tailored' class='product-card__image'>
-                    <span class='product-card__badge'>Exclusivo</span>
-                </div>
-                <div class='product-card__info'>
-                    <h3 class='product-card__name'>Blazer Grafite Tailored</h3>
-                    <p class='product-card__category'>Ready-to-Wear</p>
-                    <p class='product-card__price'>R$ 4.590</p>
-                </div>
-            </article>
-
-            <!-- Product 4 -->
-            <article class='product-card reveal' id='product-4'>
-                <div class='product-card__image-wrapper'>
-                    <img src='img/tecidos-nobres.png' alt='Cashmere Mongol' class='product-card__image'>
-                </div>
-                <div class='product-card__info'>
-                    <h3 class='product-card__name'>Cashmere Mongol</h3>
-                    <p class='product-card__category'>Tecidos Premium</p>
-                    <p class='product-card__price'>R$ 1.290 /metro</p>
-                </div>
-            </article>
-
-            <!-- Product 5 -->
-            <article class='product-card reveal' id='product-5'>
-                <div class='product-card__image-wrapper'>
-                    <img src='img/ready-to-wear.png' alt='Trench Coat Ivoire' class='product-card__image'>
-                    <span class='product-card__badge'>Novo</span>
-                </div>
-                <div class='product-card__info'>
-                    <h3 class='product-card__name'>Trench Coat Ivoire</h3>
-                    <p class='product-card__category'>Alta Costura</p>
-                    <p class='product-card__price'>R$ 8.750</p>
-                </div>
-            </article>
-
-            <!-- Product 6 -->
-            <article class='product-card reveal' id='product-6'>
-                <div class='product-card__image-wrapper'>
-                    <img src='img/product-silk.png' alt='Linho Belga Natural' class='product-card__image'>
-                </div>
-                <div class='product-card__info'>
-                    <h3 class='product-card__name'>Linho Belga Natural</h3>
-                    <p class='product-card__category'>Tecidos Premium</p>
-                    <p class='product-card__price'>R$ 690 /metro</p>
-                </div>
-            </article>
+            
             <!-- Product 7 -->
              <?php
                 while($x = mysqli_fetch_assoc($r)){
                     echo "
-                    <form method='get' action='Card_venda_produto.php'>
-                    <input type='hidden' name='id_produto' value='".$x['id_produto']."'>
-                    <button type='submit'>
-                    <div class='card-produto'>
-                        <img src='../produtos/uploads/".$x['caminho_imagem']."' alt='Imagem do produto'>
-
-                        <h3>".$x['nome_produto']."</h3>
-
-                        <p class='preco'>R$ ".$x['preco']."</p>
-                    </div>
-                    </button>
-                    </form>
-                    
                     <form method='get' action='Card_venda_produto.php'>
                     <input type='hidden' name='id_produto' value='".$x['id_produto']."'>
                     <button type='submit'>
@@ -313,50 +168,9 @@
         </div>
     </section>
 
-    <!-- ═══════════════ FOOTER ═══════════════ -->
-    <footer class='footer' id='footer'>
-        <div class='footer__inner'>
-            <div class='footer__brand'>
-                <div class='footer__logo'>
-                    <span class='footer__logo-text'>MEGA</span>
-                    <span class='footer__logo-sub'>STORE</span>
-                </div>
-                <p class='footer__tagline'>A Arte da Trama, a Elegância do Vestir.</p>
-            </div>
-
-            <div class='footer__links'>
-                <div class='footer__col'>
-                    <h4 class='footer__col-title'>Navegação</h4>
-                    <ul>
-                        <li><a href='../mega-store'>Coleções</a></li>
-                        <li><a href='#tecidos'>Tecidos</a></li>
-                        <li><a href='#destaques'>Destaques</a></li>
-                        <li><a href='#sobre'>Sobre</a></li>
-                    </ul>
-                </div>
-                <div class='footer__col'>
-                    <h4 class='footer__col-title'>Atendimento</h4>
-                    <ul>
-                        <li><a href='#'>FAQ</a></li>
-                        <li><a href='#'>Entregas</a></li>
-                        <li><a href='#'>Trocas & Devoluções</a></li>
-                        <li><a href='#'>Contato</a></li>
-                    </ul>
-                </div>
-                <div class='footer__col'>
-                    <h4 class='footer__col-title'>Social</h4>
-                    <ul>
-                        <li><a href='#'>Instagram</a></li>
-                        <li><a href='#'>Pinterest</a></li>
-                        <li><a href='#'>LinkedIn</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class='footer__bottom'>
-            <p>&copy; 2026 Mega Store. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+    <?php
+        include('../geral/footer.php');
+    ?>
 
     <script src='Tl_princip.js'>
         
