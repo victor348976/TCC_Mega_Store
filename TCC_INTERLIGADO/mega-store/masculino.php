@@ -1,4 +1,6 @@
 <?php
+include("includes/header.php");
+
 include("../geral/conexao.php");
 
 $sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*

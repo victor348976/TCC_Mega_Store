@@ -1,5 +1,7 @@
 
 <?php
+include("includes/header.php");
+
 include("../geral/conexao.php");
 
 $id_produto = isset($_GET['id_produto']) ? (int)$_GET['id_produto'] : 0;
