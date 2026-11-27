@@ -1,6 +1,5 @@
 
 <?php
-include("includes/header.php");
 include("../geral/conexao.php");
 
 if (session_status() === PHP_SESSION_NONE) {
