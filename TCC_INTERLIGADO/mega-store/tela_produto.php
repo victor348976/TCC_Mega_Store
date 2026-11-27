@@ -319,7 +319,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
     }
     }
     ?>
-<?php require __DIR__ . '/includes/footer.php'; ?>
+  <?php include __DIR__ . '/../geral/footer.php'; ?>
 
 <script>
 const variacoes = <?= json_encode($variacoes, JSON_UNESCAPED_UNICODE) ?>;
