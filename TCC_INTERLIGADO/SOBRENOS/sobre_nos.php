@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Layout Estilo Lunya</title>
 <link rel="stylesheet" href="../geral/css/cabecalho.css">
-
+<link rel='stylesheet' href='../home/Tl_princip.css'>
 <style>
 *{
     margin:0;
@@ -219,6 +219,6 @@
     </div>
 
 </section>
-
+<?php  include('../geral/footer.php'); ?>
 </body>
 </html>
