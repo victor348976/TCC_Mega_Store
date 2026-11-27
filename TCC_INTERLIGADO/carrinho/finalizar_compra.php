@@ -276,33 +276,70 @@ if ($erro === '' && in_array($formaPagamento, [2, 3])) {
              * Cria um novo registro de endereço para esta compra.
              * Assim, o endereço utilizado em uma venda fica preservado.
              */
-            $sql = "INSERT INTO tb_endereco
-                    (id_usuario, rua, numero, bairro, cidade,
-                     estado, cep, complemento)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+           /* Verifica se o endereço já está cadastrado */
+$sql = "SELECT id_endereco, rua, numero, bairro, cidade,
+               estado, cep, complemento
+        FROM tb_endereco
+        WHERE id_usuario = ?";
 
-            $stmt = mysqli_prepare($con, $sql);
+$stmt = mysqli_prepare($con, $sql);
 
-            $numeroEndereco = (int) $numero;
+mysqli_stmt_bind_param($stmt, "i", $id_usuario);
+mysqli_stmt_execute($stmt);
 
-            mysqli_stmt_bind_param(
-                $stmt,
-                "isisssss",
-                $id_usuario,
-                $rua,
-                $numeroEndereco,
-                $bairro,
-                $cidade,
-                $estado,
-                $cep,
-                $complemento
-            );
+$resultadoEnderecos = mysqli_stmt_get_result($stmt);
 
-            mysqli_stmt_execute($stmt);
+$id_endereco = null;
 
-            $id_endereco = mysqli_insert_id($con);
+$numeroEndereco = (int) $numero;
 
-            mysqli_stmt_close($stmt);
+while ($enderecoCadastrado = mysqli_fetch_assoc($resultadoEnderecos)) {
+
+    if (
+        strcasecmp(trim($enderecoCadastrado['rua']), $rua) === 0 &&
+        (int) $enderecoCadastrado['numero'] === $numeroEndereco &&
+        strcasecmp(trim($enderecoCadastrado['bairro']), $bairro) === 0 &&
+        strcasecmp(trim($enderecoCadastrado['cidade']), $cidade) === 0 &&
+        strtoupper(trim($enderecoCadastrado['estado'])) === $estado &&
+        preg_replace('/\D/', '', $enderecoCadastrado['cep']) === $cep &&
+        strcasecmp(trim($enderecoCadastrado['complemento'] ?? ''), $complemento) === 0
+    ) {
+        $id_endereco = (int) $enderecoCadastrado['id_endereco'];
+        break;
+    }
+}
+
+mysqli_stmt_close($stmt);
+
+/* Se não encontrou um endereço igual, cadastra um novo */
+if ($id_endereco === null) {
+
+    $sql = "INSERT INTO tb_endereco
+            (id_usuario, rua, numero, bairro, cidade,
+             estado, cep, complemento)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = mysqli_prepare($con, $sql);
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "isisssss",
+        $id_usuario,
+        $rua,
+        $numeroEndereco,
+        $bairro,
+        $cidade,
+        $estado,
+        $cep,
+        $complemento
+    );
+
+    mysqli_stmt_execute($stmt);
+
+    $id_endereco = mysqli_insert_id($con);
+
+    mysqli_stmt_close($stmt);
+}
 
             /* Registra a venda */
             $dataPedido = date('Y-m-d');
@@ -416,17 +453,15 @@ $dadosPagamento = null;
 if ($pagamento > 0) {
 
     $sql = "SELECT
-                v.id_venda,
-                v.valor_total,
-                v.status_venda,
-                pg.id_forma_pagamento,
-                pg.status_pagamento
-            FROM tb_venda v
-            INNER JOIN tb_pagamento pg
-                ON pg.id_venda = v.id_venda
-            WHERE v.id_venda = ?
-            AND v.id_usuario = ?
-            LIMIT 1";
+            v.status_venda,
+            v.valor_total,
+            pg.id_forma_pagamento
+        FROM tb_venda v
+        INNER JOIN tb_pagamento pg
+            ON pg.id_venda = v.id_venda
+        WHERE v.id_venda = ?
+        AND v.id_usuario = ?
+        LIMIT 1";
 
     $stmt = mysqli_prepare($con, $sql);
 
@@ -636,7 +671,7 @@ include("../geral/head.php");
 
 
 <?php if ($pagamento && $dadosPagamento): ?>
-        <?php if ((int) $dadosPagamento['status_pagamento'] === 1): ?>
+       <?php if (strtoupper(trim($dadosPagamento['status_venda'])) === 'PAGO'): ?>
 
     <div class="sucesso">
 
@@ -648,7 +683,7 @@ include("../geral/head.php");
 
         <p>Você será redirecionado para o carrinho em alguns segundos.</p>
 
-        <a href="NOME_DA_TELA_DO_CARRINHO.php">
+        <a href="carrinho.php">
             Voltar ao carrinho
         </a>
 
@@ -656,7 +691,7 @@ include("../geral/head.php");
 
     <script>
         setTimeout(function () {
-            window.location.href = "NOME_DA_TELA_DO_CARRINHO.php";
+            window.location.href = "carrinho.php";
         }, 5000);
     </script>
 

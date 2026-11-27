@@ -55,7 +55,7 @@ declare(strict_types=1);
             <span class="cart-count">0</span>
         </a>
 
-        <a class="icon-link user-icon" href="login.php" aria-label="Minha conta">
+        <a class="icon-link user-icon" href="perfil.php" aria-label="Minha conta">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="8" r="3.5"></circle>
                 <path d="M5 21c.5-4 3-6 7-6s6.5 2 7 6"></path>

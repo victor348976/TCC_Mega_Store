@@ -36,11 +36,14 @@ if (!isset($_POST['confirmacao'])) {
 }
 
 $tabelas = [
-    'tb_usuario',
-    'tb_imagem_produto',
-    'tb_produto',
-    'tb_variacao_produto',
-    'tb_carrinho'
+    //'tb_usuario',
+    //'tb_imagem_produto',
+    //'tb_produto',
+    //'tb_variacao_produto',
+    //'tb_carrinho'
+    'tb_endereco',
+    'tb_venda',
+    'tb_produto_venda',
 ];
 
 mysqli_query($con, "SET FOREIGN_KEY_CHECKS = 0");
