@@ -187,13 +187,14 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 .product-details {
     width: 100%;
     max-width: 520px;
-    justify-self: center;
+    margin: 0 auto;
 }
 
-.category-card__image {
+.product-details {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 520px;
+    margin: 0 auto;
+    transform: translate(30px, 90px);
 }
 
 @media (max-width: 768px) {
@@ -230,7 +231,8 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 </div>
     </section>
 
-    <section class="product-details">
+    <section class="product-details ">
+        
         <span class="eyebrow"><?= htmlspecialchars($prod['nome_categoria'], ENT_QUOTES, 'UTF-8') ?></span>
 
         <h1><?= htmlspecialchars($prod['nome_produto'], ENT_QUOTES, 'UTF-8') ?></h1>
@@ -287,6 +289,8 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
         Adicionar ao carrinho
     </button>
 </form>
+                <?php echo"\n"?>
+                <small><a href="index.php">Continuar comprando</a></small>
     </section>
 </main>
 <?php 
