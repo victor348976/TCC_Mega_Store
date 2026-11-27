@@ -129,26 +129,105 @@ include("../geral/conexao.php");
         <option value="">
           Selecione a cor
         </option>
+<option value="Azul">
+  Azul
+</option>
 
-        <option value="Preto">
-          Preto
-        </option>
+<option value="Azul-claro">
+  Azul-claro
+</option>
 
-        <option value="Branco">
-          Branco
-        </option>
+<option value="Azul-marinho">
+  Azul-marinho
+</option>
 
-        <option value="Azul">
-          Azul
-        </option>
+<option value="Bege">
+  Bege
+</option>
 
-        <option value="Vermelho">
-          Vermelho
-        </option>
+<option value="Branco">
+  Branco
+</option>
 
-        <option value="Verde">
-          Verde
-        </option>
+<option value="Caqui">
+  Caqui
+</option>
+
+<option value="Caramelo">
+  Caramelo
+</option>
+
+<option value="Cinza">
+  Cinza
+</option>
+
+<option value="Creme">
+  Creme
+</option>
+
+<option value="Dourado">
+  Dourado
+</option>
+
+<option value="Jeans">
+  Jeans
+</option>
+
+<option value="Jeans escuro">
+  Jeans escuro
+</option>
+
+<option value="Laranja">
+  Laranja
+</option>
+
+<option value="Lilás">
+  Lilás
+</option>
+
+<option value="Marrom">
+  Marrom
+</option>
+
+<option value="Off-white">
+  Off-white
+</option>
+
+<option value="Prata">
+  Prata
+</option>
+
+<option value="Preto">
+  Preto
+</option>
+
+<option value="Rosa">
+  Rosa
+</option>
+
+<option value="Roxo">
+  Roxo
+</option>
+
+<option value="Verde">
+  Verde
+</option>
+
+<option value="Verde-oliva">
+  Verde-oliva
+</option>
+
+<option value="Vermelho">
+  Vermelho
+</option>
+
+<option value="Vinho">
+  Vinho
+</option>
+
+<option value="Amarelo">
+  Amarelo
+</option>
 
       </select>
 
