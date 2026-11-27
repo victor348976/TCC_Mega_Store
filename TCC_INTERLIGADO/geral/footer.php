@@ -32,9 +32,9 @@
                 <div class='footer__col'>
                     <h4 class='footer__col-title'>Social</h4>
                     <ul>
-                        <li><a href='#'>Instagram</a></li>
-                        <li><a href='#'>Pinterest</a></li>
-                        <li><a href='#'>LinkedIn</a></li>
+                        <li><a href='https://www.instagram.com/?hl=pt'>Instagram</a></li>
+                        <li><a href='https://br.pinterest.com/'>Pinterest</a></li>
+                        <li><a href='https://www.linkedin.com/'>LinkedIn</a></li>
                     </ul>
                 </div>
             </div>
