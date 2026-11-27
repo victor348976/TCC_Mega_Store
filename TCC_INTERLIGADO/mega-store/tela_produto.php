@@ -9,7 +9,6 @@ $product = [
     'sizes' => ['PP', 'P', 'M', 'G','GG'],
 ];
 
-require __DIR__ . '/includes/header.php';
 ?>
 
 <?php
@@ -71,11 +70,12 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../geral/css/cabecalho.css">
     <style>
         .color-options,
 .size-options {
@@ -160,7 +160,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
       
 </head>
 <body>
-    
+<?php require __DIR__ . '/includes/header.php'; ?>
 
 <main class="product-page">
     <section class="product-gallery" aria-label="Imagens do produto">

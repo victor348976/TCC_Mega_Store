@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel='stylesheet' href='finalizar.css'>
+    <link rel="stylesheet" href="../geral/css/cabecalho.css">
 </head>
 <body>
-    
+<?php include __DIR__ . '/../mega-store/includes/header.php'; ?>
+
 <div style="background-color: #f0f0f000; padding: 10px">
     <h1>Finalizar Compra</h1>
 </div>
@@ -459,7 +461,6 @@ foreach ($itens as $item) {
     $total += (float) $item['preco'] * (int) $item['qtd_carrinho'];
 }
 
-include("../geral/head.php");
 ?>
 
 <style>

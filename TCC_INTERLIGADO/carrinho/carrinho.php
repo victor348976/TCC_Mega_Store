@@ -5,7 +5,7 @@ include("../geral/conexao.php");
 $erro = '';
 
 if (empty($_SESSION['id_usuario'])) {
-    header("Location: ../auth/Cadastro_mega_store.php");
+    header("Location: ../auth/Cadastro_mega_store.php?modo=login");
     exit;
 }
 
@@ -169,6 +169,7 @@ while ($x = mysqli_fetch_assoc($resultado)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seu carrinho | Mega Store</title>
     <link rel="stylesheet" href="carrinho.css">
+    <link rel="stylesheet" href="../geral/css/cabecalho.css">
     <script defer src="js/produtos.js"></script>
     <script defer src="js/script.js"></script>
 
@@ -363,7 +364,7 @@ while ($x = mysqli_fetch_assoc($resultado)) {
 
 <body data-page="carrinho">
 
-<div data-site-header></div>
+<?php include __DIR__ . '/../mega-store/includes/header.php'; ?>
 
 <main class="cart-container">
 

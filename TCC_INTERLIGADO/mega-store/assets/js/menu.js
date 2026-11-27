@@ -1,6 +1,6 @@
 (() => {
-    const button = document.querySelector('.mobile-menu-toggle');
-    const navigation = document.querySelector('.main-navigation');
+    const button = document.querySelector('.store-menu-toggle');
+    const navigation = document.querySelector('.store-navigation');
 
     if (!button || !navigation) {
         return;

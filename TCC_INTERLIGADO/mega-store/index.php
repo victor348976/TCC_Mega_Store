@@ -1,6 +1,3 @@
-<?php
-include("includes/header.php");
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -13,6 +10,7 @@ include("includes/header.php");
     />
     <title>Mega Store | A arte da trama, a elegância do vestir</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="../geral/css/cabecalho.css" />
     <script defer src="js/produtos.js"></script>
     <script defer src="js/script.js"></script>
   </head>
@@ -29,7 +27,7 @@ include("includes/header.php");
 
 
 
-    <div data-site-header></div>
+    <?php include __DIR__ . '/includes/header.php'; ?>
     <main id="app-main">
       <section class="hero" aria-label="Coleção Mega Store">
         <img

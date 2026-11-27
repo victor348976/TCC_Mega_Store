@@ -1,6 +1,5 @@
 <?php
   include("../geral/conexao.php");
-  include("../geral/head.php");
   //include("../INTERLIGADO/principal.php");          
         
             $sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
@@ -26,6 +25,13 @@
                 
         
     ?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos | Mega Store</title>
+    <link rel="stylesheet" href="../geral/css/cabecalho.css">
     <style>
 .container-produtos {
     display: grid;
@@ -77,6 +83,9 @@
     }
 }
 </style>
+</head>
+<body>
+<?php include __DIR__ . '/../mega-store/includes/header.php'; ?>
 
 <?php
 echo "<div class='container-produtos'>";
@@ -101,5 +110,5 @@ while($x = mysqli_fetch_assoc($r)){
 echo "</div>";
 
 ?>
-
+</body>
 </html>

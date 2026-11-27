@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Layout Estilo Lunya</title>
+<link rel="stylesheet" href="../geral/css/cabecalho.css">
 
 <style>
 *{
@@ -122,6 +123,7 @@
 
 </head>
 <body>
+<?php include __DIR__ . '/../mega-store/includes/header.php'; ?>
 
 <!-- HERO -->
 
