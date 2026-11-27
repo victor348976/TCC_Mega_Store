@@ -1,6 +1,6 @@
 
 <header class="store-header">
-    <a class="store-brand" href="../mega-store/index.php" aria-label="MEGA STORE - página inicial">
+    <a class="store-brand" href="../home/Tl_principal.php" aria-label="MEGA STORE - página inicial">
         <span class="store-brand-name">MEGA</span>
         <span class="store-brand-subtitle">STORE</span>
     </a>
