@@ -23,7 +23,7 @@
             <span class="store-cart-count">0</span>
         </a>
 
-        <a class="icon-link user-icon" href="perfil.php" aria-label="Minha conta">
+        <a class="icon-link user-icon" href="../mega-store/perfil.php" aria-label="Minha conta">
             a
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="8" r="3.5"></circle>

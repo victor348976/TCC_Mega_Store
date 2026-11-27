@@ -232,7 +232,7 @@ foreach ($resultadoPedidos as $pedido) {
             </button>
         </nav>
 
-        <a href="../index.php" class="voltar">Voltar à loja</a>
+        <a href="index.php" class="voltar">Voltar à loja</a>
     </aside>
 
     <main class="conteudo">
