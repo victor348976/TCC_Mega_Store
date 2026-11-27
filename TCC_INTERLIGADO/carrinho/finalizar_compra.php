@@ -47,12 +47,15 @@ $ids = array_values(array_unique(array_filter(
 )));
 
 /* Busca os produtos selecionados no carrinho */
+
+
 function buscarItensCarrinho($con, $id_usuario, $ids)
 {
     if (empty($ids)) {
         return [];
     }
 
+    $ids = array_unique(array_map('intval', $ids));
     $listaIds = implode(',', $ids);
 
     $sql = "SELECT
@@ -64,7 +67,7 @@ function buscarItensCarrinho($con, $id_usuario, $ids)
                 vp.id_variacao,
                 vp.cor,
                 vp.tamanho,
-                c.qtd_carrinho,
+                SUM(c.qtd_carrinho) AS qtd_carrinho,
                 (
                     SELECT ip.caminho_imagem
                     FROM tb_imagem_produto ip
@@ -81,6 +84,15 @@ function buscarItensCarrinho($con, $id_usuario, $ids)
             LEFT JOIN tb_genero gen
                 ON gen.id_genero = p.id_genero
             WHERE c.id_usuario = ?
+            GROUP BY
+    p.id_produto,
+    p.nome_produto,
+    p.preco,
+    ct.nome_categoria,
+    gen.nome_genero,
+    vp.id_variacao,
+    vp.cor,
+    vp.tamanho
             AND vp.id_variacao IN ($listaIds)";
 
     $stmt = mysqli_prepare($con, $sql);
@@ -94,6 +106,8 @@ function buscarItensCarrinho($con, $id_usuario, $ids)
 
     return $itens;
 }
+
+
 
 /* Carrega os dados do usuário */
 $sqlUsuario = "SELECT nome_usuario, email, cpf, numero
@@ -227,9 +241,9 @@ if ($erro === '' && in_array($formaPagamento, [2, 3])) {
     if ($erro === '') {
         $itens = buscarItensCarrinho($con, $id_usuario, $ids);
 
-        if (count($itens) !== count($ids)) {
-            $erro = "Um ou mais produtos não estão mais disponíveis no carrinho.";
-        }
+       if (count($itens) !== count($ids)) {
+    $erro = "Um ou mais produtos não estão mais disponíveis no carrinho.";
+}
     }
 
     /* Calcula o total usando os valores do banco */
