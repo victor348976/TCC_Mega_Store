@@ -76,6 +76,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../geral/css/cabecalho.css">
+    <link rel="stylesheet" href="css/style.css">
     <style>
         .color-options,
 .size-options {
@@ -156,11 +157,66 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
     transform: scale(1.05);
     filter: brightness(0.7);
 }
+    .product-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 40px;
+    width: 100%;
+    max-width: 1150px;
+    margin: 50px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.product-gallery {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.product-card__image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    margin: 0;
+}
+
+.product-details {
+    width: 100%;
+    max-width: 520px;
+    justify-self: center;
+}
+
+.category-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .product-page {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin: 30px auto;
+    }
+
+    .product-gallery,
+    .product-details {
+        max-width: 100%;
+    }
+
+    .product-card__image-wrapper {
+        max-width: 100%;
+    }
+}
     </style>
       
 </head>
 <body>
-<?php require __DIR__ . '/includes/header.php'; ?>
+<?php include('includes/header.php'); ?>
 
 <main class="product-page">
     <section class="product-gallery" aria-label="Imagens do produto">
