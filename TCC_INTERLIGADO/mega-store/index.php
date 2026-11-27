@@ -141,6 +141,6 @@
         </div>
       </section>
     </main>
-    <?php include __DIR__ . '/includes/footer.php'; ?>
+    <?php  include('../geral/footer.php'); ?>
   </body>
 </html>
