@@ -1,22 +1,20 @@
-<?php
-$siteRootPath = $siteRootPath ?? '../';
-?>
+
 <header class="store-header">
-    <a class="store-brand" href="<?= $siteRootPath ?>mega-store/index.php" aria-label="MEGA STORE - página inicial">
+    <a class="store-brand" href="../mega-store/index.php" aria-label="MEGA STORE - página inicial">
         <span class="store-brand-name">MEGA</span>
         <span class="store-brand-subtitle">STORE</span>
     </a>
 
     <nav class="store-navigation" aria-label="Menu principal">
-        <a href="<?= $siteRootPath ?>mega-store/feminino.php">Feminino</a>
-        <a href="<?= $siteRootPath ?>mega-store/masculino.php">Masculino</a>
-        <a href="<?= $siteRootPath ?>mega-store/infantil.php">Infantil</a>
-        <a href="<?= $siteRootPath ?>mega-store/calcados.php">Calçados</a>
-        <a href="<?= $siteRootPath ?>mega-store/acessorios.php">Acessórios</a>
+        <a href="../mega-store/feminino.php">Feminino</a>
+        <a href="../mega-store/masculino.php">Masculino</a>
+        <a href="../mega-store/infantil.php">Infantil</a>
+        <a href="../mega-store/calcados.php">Calçados</a>
+        <a href="../mega-store/acessorios.php">Acessórios</a>
     </nav>
 
     <div class="store-header-tools">
-        <a class="store-icon-link" href="<?= $siteRootPath ?>carrinho/carrinho.php" aria-label="Carrinho">
+        <a class="store-icon-link" href="../carrinho/carrinho.php" aria-label="Carrinho">
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M3 4h2l2.1 11.1a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 1.9-1.5L21 8H6"></path>
                 <circle cx="10" cy="20" r="1"></circle>
@@ -32,11 +30,11 @@ $siteRootPath = $siteRootPath ?? '../';
                 <path d="M5 21c.5-4 3-6 7-6s6.5 2 7 6"></path>
             </svg>
         </a>
-        <a class="store-create-account" href="<?= $siteRootPath ?>auth/Cadastro_mega_store.php">Criar conta</a>
+        <a class="store-create-account" href="../auth/Cadastro_mega_store.php">Criar conta</a>
     </div>
 
     <button class="store-menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
         <span></span><span></span><span></span>
     </button>
 </header>
-<script src="<?= $siteRootPath ?>mega-store/assets/js/menu.js" defer></script>
+<script src="../mega-store/assets/js/menu.js" defer></script>
