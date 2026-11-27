@@ -140,6 +140,6 @@
         </div>
       </section>
     </main>
-    <div data-site-footer></div>
+    <?php include __DIR__ . '/includes/footer.php'; ?>
   </body>
 </html>

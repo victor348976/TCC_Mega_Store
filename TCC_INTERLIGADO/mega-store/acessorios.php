@@ -116,8 +116,6 @@ while($x = mysqli_fetch_assoc($resultado)) {
         </div>
       </section>
     </main>
-    <?php
-        include('../geral/footer.php');
-    ?>
+    <?php include __DIR__ . '/includes/footer.php'; ?>
   </body>
 </html>
