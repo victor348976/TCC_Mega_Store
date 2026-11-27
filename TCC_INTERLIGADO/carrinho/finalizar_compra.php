@@ -10,9 +10,6 @@
 <body>
 <?php include __DIR__ . '/../mega-store/includes/header.php'; ?>
 
-<div style="background-color: #f0f0f000; padding: 10px">
-    <h1>Finalizar Compra</h1>
-</div>
 <?php
 include("../geral/conexao.php");
 
@@ -438,15 +435,12 @@ mysqli_stmt_close($stmtPagamento);
            header("Location: finalizar_compra.php?pagamento=" . $id_venda);
             exit;
 
-        } catch (Throwable $e) {
+        }  catch (Throwable $e) {
 
-            mysqli_rollback($con);
+    mysqli_rollback($con);
 
-            $erro = "Não foi possível finalizar a compra. Tente novamente.";
-
-            // Para depuração durante o desenvolvimento:
-            // $erro = $e->getMessage();
-        }
+    $erro = "Erro ao finalizar compra: " . $e->getMessage();
+}
     }
 }
 

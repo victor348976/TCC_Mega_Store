@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2026 at 11:12 PM
+-- Generation Time: Nov 27, 2026 at 12:34 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,16 +33,6 @@ CREATE TABLE `tb_carrinho` (
   `id_usuario` int(11) NOT NULL,
   `qtd_carrinho` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tb_carrinho`
---
-
-INSERT INTO `tb_carrinho` (`id_carrinho`, `id_variacao`, `id_usuario`, `qtd_carrinho`) VALUES
-(1, 3, 1, 1),
-(2, 5, 1, 1),
-(3, 9, 1, 100),
-(4, 11, 1, 81);
 
 -- --------------------------------------------------------
 
@@ -93,6 +83,13 @@ CREATE TABLE `tb_endereco` (
   `cep` varchar(8) NOT NULL,
   `complemento` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_endereco`
+--
+
+INSERT INTO `tb_endereco` (`id_endereco`, `id_usuario`, `rua`, `numero`, `bairro`, `cidade`, `estado`, `cep`, `complemento`) VALUES
+(3, 1, 'Cerqueira Cesar', 23, 'Vila Sao Vicente', 'Taquarituba', 'SP', '18743184', 'ad');
 
 -- --------------------------------------------------------
 
@@ -155,17 +152,12 @@ CREATE TABLE `tb_imagem_produto` (
 --
 
 INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_variacao`, `caminho_imagem`) VALUES
-(1, 1, '6b08a749c8e05.jpg'),
-(2, 2, '6b08a749c8e05.jpg'),
-(3, 3, '6b08a749c8e05.jpg'),
-(4, 4, '6b08a749cb9f5.jpg'),
-(5, 5, '6b08a749cb9f5.jpg'),
-(6, 6, '6b08a749cb9f5.jpg'),
-(7, 7, '6b08a886231d2.jpg'),
-(8, 8, '6b08a886231d2.jpg'),
-(9, 9, '6b08a886231d2.jpg'),
-(10, 10, '6b08a886274cc.jpg'),
-(11, 11, '6b08a886274cc.jpg');
+(1, 1, '6b0968ed869ca.jpg'),
+(2, 2, '6b0968ed869ca.jpg'),
+(3, 3, '6b0968ed869ca.jpg'),
+(4, 4, '6b0968ed89476.png'),
+(5, 5, '6b0968ed89476.png'),
+(6, 6, '6b0968ed89476.png');
 
 -- --------------------------------------------------------
 
@@ -178,8 +170,15 @@ CREATE TABLE `tb_pagamento` (
   `id_venda` int(11) NOT NULL,
   `id_forma_pagamento` int(11) NOT NULL,
   `status_pagamento` tinyint(1) NOT NULL,
-  `data_pagamento` date NOT NULL
+  `data_pagamento` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_pagamento`
+--
+
+INSERT INTO `tb_pagamento` (`id_pagamento`, `id_venda`, `id_forma_pagamento`, `status_pagamento`, `data_pagamento`) VALUES
+(1, 1, 4, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -203,8 +202,7 @@ CREATE TABLE `tb_produto` (
 --
 
 INSERT INTO `tb_produto` (`id_produto`, `nome_produto`, `descricao_produto`, `preco`, `id_categoria`, `id_genero`, `ativo`, `data_cadastro`) VALUES
-(1, 'SSS', 'as', 123.00, 2, 1, 1, '2026-11-26'),
-(2, 'adsasdas', 'asdasdsa', 123.00, 1, 1, 1, '2026-11-26');
+(1, 'Etec', 'E uma bosta', 1.00, 1, 1, 1, '2026-11-27');
 
 -- --------------------------------------------------------
 
@@ -229,8 +227,16 @@ CREATE TABLE `tb_produto_venda` (
   `id_produto_venda` int(11) NOT NULL,
   `id_venda` int(11) NOT NULL,
   `id_variacao` int(11) NOT NULL,
-  `quantidade` int(11) NOT NULL
+  `quantidade` int(11) NOT NULL,
+  `preco_unitario` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_produto_venda`
+--
+
+INSERT INTO `tb_produto_venda` (`id_produto_venda`, `id_venda`, `id_variacao`, `quantidade`, `preco_unitario`) VALUES
+(1, 1, 3, 10, 1.00);
 
 -- --------------------------------------------------------
 
@@ -255,7 +261,7 @@ CREATE TABLE `tb_usuario` (
 --
 
 INSERT INTO `tb_usuario` (`id_usuario`, `nome_usuario`, `email`, `senha`, `cpf`, `numero`, `tipo`, `data_cadastro`, `modo_tela`) VALUES
-(1, 'Nome Generico da Silva', 'victorluiz2504@gmail.com', '$2y$10$i6RhUVxNfWAchHzQ.4ctCuvEk5hzcerKr2ylGju8E6XnxOwXPwCm6', NULL, '14996480737', 0, '2026-11-26', 0);
+(1, 'Nome Generico da Silva', 'victorluiz2504@gmail.com', '$2y$10$QHHFzR4zYCcnhxSSK4DwyOGDoRSoAu3INKURxBr0opse3POJhK/vm', '11111111111', '14996480737', 0, '2026-11-27', 0);
 
 -- --------------------------------------------------------
 
@@ -276,17 +282,12 @@ CREATE TABLE `tb_variacao_produto` (
 --
 
 INSERT INTO `tb_variacao_produto` (`id_variacao`, `id_produto`, `tamanho`, `cor`, `estoque`) VALUES
-(1, 1, 'PP', 'Preto', 23),
-(2, 1, 'P', 'Preto', 23),
-(3, 1, 'M', 'Preto', 23),
-(4, 1, 'G', 'Branco', 23),
-(5, 1, 'GG', 'Branco', 23),
-(6, 1, 'XG', 'Branco', 23),
-(7, 2, 'P', 'Preto', 123),
-(8, 2, 'M', 'Preto', 123),
-(9, 2, 'G', 'Preto', 123),
-(10, 2, 'GG', 'Branco', 333),
-(11, 2, 'XG', 'Branco', 333);
+(1, 1, 'PP', 'Azul', 19),
+(2, 1, 'P', 'Azul', 19),
+(3, 1, 'M', 'Azul', 19),
+(4, 1, 'G', 'Branco', 19),
+(5, 1, 'GG', 'Branco', 19),
+(6, 1, 'XG', 'Branco', 19);
 
 -- --------------------------------------------------------
 
@@ -299,8 +300,16 @@ CREATE TABLE `tb_venda` (
   `id_usuario` int(11) NOT NULL,
   `data_pedido` date NOT NULL,
   `status_venda` varchar(55) NOT NULL,
-  `valor_total` double(12,2) NOT NULL
+  `valor_total` double(12,2) NOT NULL,
+  `id_endereco` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_venda`
+--
+
+INSERT INTO `tb_venda` (`id_venda`, `id_usuario`, `data_pedido`, `status_venda`, `valor_total`, `id_endereco`) VALUES
+(1, 1, '2026-11-27', 'Aguardando pagamento', 10.00, 3);
 
 --
 -- Indexes for dumped tables
@@ -396,7 +405,8 @@ ALTER TABLE `tb_variacao_produto`
 --
 ALTER TABLE `tb_venda`
   ADD PRIMARY KEY (`id_venda`),
-  ADD KEY `id_usuario` (`id_usuario`);
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `fk_venda_endereco` (`id_endereco`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -406,7 +416,7 @@ ALTER TABLE `tb_venda`
 -- AUTO_INCREMENT for table `tb_carrinho`
 --
 ALTER TABLE `tb_carrinho`
-  MODIFY `id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_categoria`
@@ -418,7 +428,7 @@ ALTER TABLE `tb_categoria`
 -- AUTO_INCREMENT for table `tb_endereco`
 --
 ALTER TABLE `tb_endereco`
-  MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_forma_pagamento`
@@ -436,19 +446,19 @@ ALTER TABLE `tb_genero`
 -- AUTO_INCREMENT for table `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tb_pagamento`
 --
 ALTER TABLE `tb_pagamento`
-  MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_produto`
 --
 ALTER TABLE `tb_produto`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_produto_salvo`
@@ -460,7 +470,7 @@ ALTER TABLE `tb_produto_salvo`
 -- AUTO_INCREMENT for table `tb_produto_venda`
 --
 ALTER TABLE `tb_produto_venda`
-  MODIFY `id_produto_venda` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_produto_venda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_usuario`
@@ -472,13 +482,13 @@ ALTER TABLE `tb_usuario`
 -- AUTO_INCREMENT for table `tb_variacao_produto`
 --
 ALTER TABLE `tb_variacao_produto`
-  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tb_venda`
 --
 ALTER TABLE `tb_venda`
-  MODIFY `id_venda` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_venda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -541,6 +551,7 @@ ALTER TABLE `tb_variacao_produto`
 -- Constraints for table `tb_venda`
 --
 ALTER TABLE `tb_venda`
+  ADD CONSTRAINT `fk_venda_endereco` FOREIGN KEY (`id_endereco`) REFERENCES `tb_endereco` (`id_endereco`),
   ADD CONSTRAINT `tb_venda_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `tb_usuario` (`id_usuario`);
 COMMIT;
 
