@@ -62,12 +62,13 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
 <head>
     <meta charset="UTF-8">
     <title>Produto</title>
+    <link rel="stylesheet" href="../geral/css/cabecalho.css">
 
     <style>
         body {
             font-family: Arial;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
 
         .container {
@@ -246,7 +247,7 @@ if ($imagemInicial === '' && !empty($coresDisponiveis)) {
     </style>
 </head>
 
-<body>
+<?php include __DIR__ . '/../mega-store/includes/header.php'; ?>
 <center>
 
 <?php if ($prod): ?>

@@ -1,5 +1,4 @@
 <?php
-include("includes/header.php");
 include("../geral/conexao.php");
 
 $sql = "SELECT p.*, ip.*, ct.*, gen.*, vp.*
@@ -37,11 +36,12 @@ $resultado = mysqli_query($con, $sql);
     />
     <title>Acessórios | Mega Store</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="../geral/css/cabecalho.css" />
     <script defer src="js/produtos.js"></script>
     <script defer src="js/script.js"></script>
   </head>
   <body data-page="acessorios">
-    <div data-site-header></div>
+    <?php include __DIR__ . '/includes/header.php'; ?>
     <main>
       <section class="hero">
         <img
@@ -116,8 +116,6 @@ while($x = mysqli_fetch_assoc($resultado)) {
         </div>
       </section>
     </main>
-    <?php
-        include('../geral/footer.php');
-    ?>
+    <?php include __DIR__ . '/includes/footer.php'; ?>
   </body>
 </html>

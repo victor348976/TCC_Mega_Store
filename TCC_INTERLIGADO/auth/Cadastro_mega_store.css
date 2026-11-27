@@ -31,7 +31,7 @@ body {
 .container {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 84px);
   background: var(--bg-color);
   display: flex;
 }

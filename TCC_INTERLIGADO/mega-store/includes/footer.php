@@ -14,13 +14,12 @@
         <a href="masculino.php">Masculino</a>
         <a href="infantil.php">Infantil</a>
         <a href="calcados.php">Calçados</a>
+        <a href="acessorios.php">Acessórios</a>
     </div>
 
     <div class="footer-column">
         <h2>Atendimento</h2>
         <a href="perguntas-frequentes.php">Perguntas frequentes</a>
-        <a href="entregas.php">Entregas</a>
-        <a href="trocas-devolucoes.php">Trocas &amp; devoluções</a>
         <a href="contato.php">Contato</a>
     </div>
 
@@ -38,5 +37,3 @@
 </footer>
 
 <script src="assets/js/menu.js" defer></script>
-</body>
-</html>

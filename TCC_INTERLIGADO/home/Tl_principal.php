@@ -12,12 +12,12 @@
     <link href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@200;300;400;500;600&display=swap' rel='stylesheet'>
 
     <link rel='stylesheet' href='Tl_princip.css'>
+    <link rel='stylesheet' href='../geral/css/cabecalho.css'>
     
 </head>
 <body>
     <?php
   include('../geral/conexao.php');
-  include('../geral/head.php');
   //include('../INTERLIGADO/principal.php');          
         
             $sql = 'SELECT p.*, ip.*, ct.*, gen.*, vp.*
@@ -43,7 +43,7 @@
     ?>
 
     <!-- ═══════════════ HEADER / NAVBAR ═══════════════ -->
-    <?php include('../geral/head.php');?>
+    <?php include('../mega-store/includes/header.php'); ?>
         
 
     

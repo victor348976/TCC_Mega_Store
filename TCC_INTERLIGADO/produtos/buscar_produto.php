@@ -1,6 +1,5 @@
 <?php
 include("../geral/conexao.php");
-include("../geral/head.php");
 ?>
 
 <!DOCTYPE html>
@@ -9,8 +8,10 @@ include("../geral/head.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produtos</title>
+    <link rel="stylesheet" href="../geral/css/cabecalho.css">
 </head>
 <body>
+    <?php include __DIR__ . '/../mega-store/includes/header.php'; ?>
     <center>
         <form method="post" action="buscar_produto.php">
             <table border="0">
