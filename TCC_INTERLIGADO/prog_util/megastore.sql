@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2026 at 02:01 PM
+-- Generation Time: Nov 28, 2026 at 06:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -140,6 +140,18 @@ CREATE TABLE `tb_imagem_produto` (
   `caminho_imagem` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tb_imagem_produto`
+--
+
+INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_variacao`, `caminho_imagem`) VALUES
+(1, 1, '6b0b0f5a00069.jpeg'),
+(2, 2, '6b0b0f5a00069.jpeg'),
+(3, 3, '6b0b0f5a00069.jpeg'),
+(4, 4, '6b0b0f98afac0.png'),
+(5, 5, '6b0b0f98afac0.png'),
+(6, 6, '6b0b0f98afac0.png');
+
 -- --------------------------------------------------------
 
 --
@@ -183,6 +195,14 @@ CREATE TABLE `tb_produto` (
   `data_cadastro` date NOT NULL,
   `selo` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_produto`
+--
+
+INSERT INTO `tb_produto` (`id_produto`, `nome_produto`, `descricao_produto`, `preco`, `id_categoria`, `id_genero`, `ativo`, `data_cadastro`, `selo`) VALUES
+(1, 'NOERMAL', 'TESTE', 123.00, 10, 3, 1, '2026-11-28', 'Nenhum'),
+(2, 'SSS', 'adasd', 123.00, 2, 3, 1, '2026-11-28', 'Nenhum');
 
 -- --------------------------------------------------------
 
@@ -242,6 +262,18 @@ CREATE TABLE `tb_variacao_produto` (
   `cor` varchar(55) NOT NULL,
   `estoque` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_variacao_produto`
+--
+
+INSERT INTO `tb_variacao_produto` (`id_variacao`, `id_produto`, `tamanho`, `cor`, `estoque`) VALUES
+(1, 1, '2', 'Azul', 123),
+(2, 1, '4', 'Azul', 123),
+(3, 1, '5', 'Azul', 123),
+(4, 2, '2', 'Azul-claro', 65),
+(5, 2, '3', 'Azul-claro', 65),
+(6, 2, '4', 'Azul-claro', 65);
 
 -- --------------------------------------------------------
 
@@ -393,7 +425,7 @@ ALTER TABLE `tb_genero`
 -- AUTO_INCREMENT for table `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tb_pagamento`
@@ -405,7 +437,7 @@ ALTER TABLE `tb_pagamento`
 -- AUTO_INCREMENT for table `tb_produto`
 --
 ALTER TABLE `tb_produto`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_produto_salvo`
@@ -429,7 +461,7 @@ ALTER TABLE `tb_usuario`
 -- AUTO_INCREMENT for table `tb_variacao_produto`
 --
 ALTER TABLE `tb_variacao_produto`
-  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tb_venda`
