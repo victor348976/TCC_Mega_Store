@@ -18,16 +18,6 @@
   <body data-page="home">
 
 
-
-
-
-
-
-
-
-
-
-
     <?php include __DIR__ . '/includes/header.php'; ?>
     <main id="app-main">
       <section class="hero" aria-label="Coleção Mega Store">
@@ -116,7 +106,7 @@
       </section>
       <section class="kids-banner" id="tecidos">
         <img
-          src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=1900&q=85"
+          src="../imagens_design/pivetes2.png"
           alt="Moda infantil em um momento de descoberta"
           loading="lazy"
         />

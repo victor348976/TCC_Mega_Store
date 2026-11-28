@@ -180,11 +180,9 @@
     <!-- Importing FontAwesome -->
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="Cadastro_mega_store.css">
-    <link rel="stylesheet" href="../geral/css/cabecalho.css">
 </head>
 
 <body>
-    <?php include __DIR__ . '/../mega-store/includes/header.php'; ?>
     <div class="container<?= (($_GET['modo'] ?? '') === 'login') ? ' sign-in-mode' : '' ?>" id="container">
 
         <!-- lado esquerdo: area de cadastro -->

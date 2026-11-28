@@ -45,7 +45,7 @@ $resultado = mysqli_query($con, $sql);
     <main>
       <section class="hero">
         <img
-          src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=2100&q=90"
+          src="../imagens_design/pivetes.png"
           alt="Moda infantil confortável para brincar e descobrir"
         />
         <div class="hero-copy">
