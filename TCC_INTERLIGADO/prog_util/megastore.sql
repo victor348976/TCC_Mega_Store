@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2026 at 12:34 PM
+-- Generation Time: Nov 28, 2026 at 02:01 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -84,13 +84,6 @@ CREATE TABLE `tb_endereco` (
   `complemento` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tb_endereco`
---
-
-INSERT INTO `tb_endereco` (`id_endereco`, `id_usuario`, `rua`, `numero`, `bairro`, `cidade`, `estado`, `cep`, `complemento`) VALUES
-(3, 1, 'Cerqueira Cesar', 23, 'Vila Sao Vicente', 'Taquarituba', 'SP', '18743184', 'ad');
-
 -- --------------------------------------------------------
 
 --
@@ -147,18 +140,6 @@ CREATE TABLE `tb_imagem_produto` (
   `caminho_imagem` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tb_imagem_produto`
---
-
-INSERT INTO `tb_imagem_produto` (`id_imagem`, `id_variacao`, `caminho_imagem`) VALUES
-(1, 1, '6b0968ed869ca.jpg'),
-(2, 2, '6b0968ed869ca.jpg'),
-(3, 3, '6b0968ed869ca.jpg'),
-(4, 4, '6b0968ed89476.png'),
-(5, 5, '6b0968ed89476.png'),
-(6, 6, '6b0968ed89476.png');
-
 -- --------------------------------------------------------
 
 --
@@ -178,7 +159,12 @@ CREATE TABLE `tb_pagamento` (
 --
 
 INSERT INTO `tb_pagamento` (`id_pagamento`, `id_venda`, `id_forma_pagamento`, `status_pagamento`, `data_pagamento`) VALUES
-(1, 1, 4, 0, NULL);
+(1, 1, 4, 0, NULL),
+(2, 2, 4, 0, NULL),
+(3, 3, 1, 0, NULL),
+(4, 4, 1, 0, NULL),
+(5, 5, 1, 0, NULL),
+(6, 1, 1, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -194,15 +180,9 @@ CREATE TABLE `tb_produto` (
   `id_categoria` int(11) NOT NULL,
   `id_genero` int(11) NOT NULL,
   `ativo` tinyint(1) NOT NULL,
-  `data_cadastro` date NOT NULL
+  `data_cadastro` date NOT NULL,
+  `selo` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tb_produto`
---
-
-INSERT INTO `tb_produto` (`id_produto`, `nome_produto`, `descricao_produto`, `preco`, `id_categoria`, `id_genero`, `ativo`, `data_cadastro`) VALUES
-(1, 'Etec', 'E uma bosta', 1.00, 1, 1, 1, '2026-11-27');
 
 -- --------------------------------------------------------
 
@@ -228,15 +208,8 @@ CREATE TABLE `tb_produto_venda` (
   `id_venda` int(11) NOT NULL,
   `id_variacao` int(11) NOT NULL,
   `quantidade` int(11) NOT NULL,
-  `preco_unitario` decimal(10,2) NOT NULL DEFAULT 0.00
+  `preco_unitario` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tb_produto_venda`
---
-
-INSERT INTO `tb_produto_venda` (`id_produto_venda`, `id_venda`, `id_variacao`, `quantidade`, `preco_unitario`) VALUES
-(1, 1, 3, 10, 1.00);
 
 -- --------------------------------------------------------
 
@@ -256,13 +229,6 @@ CREATE TABLE `tb_usuario` (
   `modo_tela` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tb_usuario`
---
-
-INSERT INTO `tb_usuario` (`id_usuario`, `nome_usuario`, `email`, `senha`, `cpf`, `numero`, `tipo`, `data_cadastro`, `modo_tela`) VALUES
-(1, 'Nome Generico da Silva', 'victorluiz2504@gmail.com', '$2y$10$QHHFzR4zYCcnhxSSK4DwyOGDoRSoAu3INKURxBr0opse3POJhK/vm', '11111111111', '14996480737', 0, '2026-11-27', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -276,18 +242,6 @@ CREATE TABLE `tb_variacao_produto` (
   `cor` varchar(55) NOT NULL,
   `estoque` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tb_variacao_produto`
---
-
-INSERT INTO `tb_variacao_produto` (`id_variacao`, `id_produto`, `tamanho`, `cor`, `estoque`) VALUES
-(1, 1, 'PP', 'Azul', 19),
-(2, 1, 'P', 'Azul', 19),
-(3, 1, 'M', 'Azul', 19),
-(4, 1, 'G', 'Branco', 19),
-(5, 1, 'GG', 'Branco', 19),
-(6, 1, 'XG', 'Branco', 19);
 
 -- --------------------------------------------------------
 
@@ -303,13 +257,6 @@ CREATE TABLE `tb_venda` (
   `valor_total` double(12,2) NOT NULL,
   `id_endereco` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tb_venda`
---
-
-INSERT INTO `tb_venda` (`id_venda`, `id_usuario`, `data_pedido`, `status_venda`, `valor_total`, `id_endereco`) VALUES
-(1, 1, '2026-11-27', 'Aguardando pagamento', 10.00, 3);
 
 --
 -- Indexes for dumped tables
@@ -416,7 +363,7 @@ ALTER TABLE `tb_venda`
 -- AUTO_INCREMENT for table `tb_carrinho`
 --
 ALTER TABLE `tb_carrinho`
-  MODIFY `id_carrinho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_carrinho` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_categoria`
@@ -428,7 +375,7 @@ ALTER TABLE `tb_categoria`
 -- AUTO_INCREMENT for table `tb_endereco`
 --
 ALTER TABLE `tb_endereco`
-  MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_forma_pagamento`
@@ -446,19 +393,19 @@ ALTER TABLE `tb_genero`
 -- AUTO_INCREMENT for table `tb_imagem_produto`
 --
 ALTER TABLE `tb_imagem_produto`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_pagamento`
 --
 ALTER TABLE `tb_pagamento`
-  MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pagamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tb_produto`
 --
 ALTER TABLE `tb_produto`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_produto_salvo`
@@ -470,25 +417,25 @@ ALTER TABLE `tb_produto_salvo`
 -- AUTO_INCREMENT for table `tb_produto_venda`
 --
 ALTER TABLE `tb_produto_venda`
-  MODIFY `id_produto_venda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_produto_venda` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_variacao_produto`
 --
 ALTER TABLE `tb_variacao_produto`
-  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_variacao` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_venda`
 --
 ALTER TABLE `tb_venda`
-  MODIFY `id_venda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_venda` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables

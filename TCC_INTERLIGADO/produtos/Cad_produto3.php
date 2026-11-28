@@ -51,8 +51,9 @@ $erro      = '';
         </div>
         <div class="f">
     <label for="buscarSelo">Selo do produto</label>
-
+<div class="f">
     <div class="autocomplete">
+      
         <input
             type="text"
             id="buscarSelo"
@@ -68,6 +69,7 @@ $erro      = '';
     <option value="Novo">Novo</option>
     <option value="Exclusivo">Exclusivo</option>
 </select>
+</div>
 </div>
         <div class="row">
           <div class="f">
