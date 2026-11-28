@@ -1,6 +1,6 @@
 <?php
 include("../geral/conexao.php");
-
+$erro      = '';
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +49,26 @@ include("../geral/conexao.php");
           <label for="desc">Descrição</label>
           <textarea id="desc" name="desc" placeholder="Descreva os detalhes, materiais e características do produto." required></textarea>
         </div>
+        <div class="f">
+    <label for="buscarSelo">Selo do produto</label>
 
+    <div class="autocomplete">
+        <input
+            type="text"
+            id="buscarSelo"
+            placeholder="Digite ou selecione um selo..."
+            autocomplete="off"
+        >
+
+        <div class="autocomplete-list"></div>
+    </div>
+
+    <select id="selo" name="selo" style="display:none;">
+    <option value="Nenhum">Nenhum</option>
+    <option value="Novo">Novo</option>
+    <option value="Exclusivo">Exclusivo</option>
+</select>
+</div>
         <div class="row">
           <div class="f">
             <label for="preco">Preço (R$)</label>
@@ -57,33 +76,62 @@ include("../geral/conexao.php");
           </div>
 
           <div class="f">
-            <label for="genero">Gênero</label>
-            <select id="genero" name="genero" required>
-              <option value="">Selecione o gênero</option>
-              <?php
-              $sql = "SELECT * FROM tb_genero";
-              $r = mysqli_query($con, $sql);
-              while ($x = mysqli_fetch_assoc($r)) {
-                echo "<option value=\"" . $x["id_genero"] . "\">" . htmlspecialchars($x["nome_genero"], ENT_QUOTES, "UTF-8") . "</option>";
-              }
-              ?>
-            </select>
-          </div>
-        </div>
+    <label for="buscarGenero">Gênero</label>
+
+    <div class="autocomplete">
+        <input
+            type="text"
+            id="buscarGenero"
+            placeholder="Digite ou selecione um gênero..."
+            autocomplete="off"
+            required
+        >
+
+        <div class="autocomplete-list"></div>
+    </div>
+
+    <select id="genero" name="genero" style="display:none;">
+        <option value="">Selecione o gênero</option>
+        <?php
+        $sql = "SELECT * FROM tb_genero";
+        $r = mysqli_query($con, $sql);
+
+        while ($x = mysqli_fetch_assoc($r)) {
+            echo "<option value=\"" . $x["id_genero"] . "\">" .
+                htmlspecialchars($x["nome_genero"], ENT_QUOTES, "UTF-8") .
+                "</option>";
+        }
+        ?>
+    </select>
+</div>
 
         <div class="f">
-          <label for="categoria">Categoria</label>
-          <select id="categoria" name="categoria" required>
-            <option value="">Selecione a categoria</option>
-            <?php
-            $sql = "SELECT * FROM tb_categoria";
-            $r = mysqli_query($con, $sql);
-            while ($x = mysqli_fetch_assoc($r)) {
-              echo "<option value=\"" . $x["id_categoria"] . "\">" . htmlspecialchars($x["nome_categoria"], ENT_QUOTES, "UTF-8") . "</option>";
-            }
-            ?>
-          </select>
-        </div>
+    <label for="buscarCategoria">Categoria</label>
+
+    <div class="autocomplete">
+        <input
+            type="text"
+            id="buscarCategoria"
+            placeholder="Digite ou selecione uma categoria..."
+            autocomplete="off"
+            required
+        >
+
+        <div class="autocomplete-list"></div>
+    </div>
+
+    <select id="categoria" name="categoria" style="display:none;">
+        <option value="">Selecione</option>
+        <?php
+        $sql = "SELECT * FROM tb_categoria";
+        $r = mysqli_query($con, $sql);
+
+        while ($x = mysqli_fetch_assoc($r)) {
+            echo "<option value=\"" . $x["id_categoria"] . "\">" . htmlspecialchars($x["nome_categoria"], ENT_QUOTES, "UTF-8") . "</option>";
+        }
+        ?>
+    </select>
+</div>
       </section>
 
       <section class="card product-card product-variations">
@@ -121,116 +169,48 @@ include("../geral/conexao.php");
 
     <div class="variation-fields">
 
-      <!-- Select de cor -->
-      <select
-        name="var_cor[]"
-        required>
+      <div class="color-field">
+    <div class="autocomplete">
+        <input
+            type="text"
+            class="buscarCor"
+            placeholder="Digite ou selecione uma cor..."
+            autocomplete="off"
+            required
+        >
 
-        <option value="">
-          Selecione a cor
-        </option>
-<option value="Azul">
-  Azul
-</option>
+        <div class="autocomplete-list"></div>
+    </div>
 
-<option value="Azul-claro">
-  Azul-claro
-</option>
-
-<option value="Azul-marinho">
-  Azul-marinho
-</option>
-
-<option value="Bege">
-  Bege
-</option>
-
-<option value="Branco">
-  Branco
-</option>
-
-<option value="Caqui">
-  Caqui
-</option>
-
-<option value="Caramelo">
-  Caramelo
-</option>
-
-<option value="Cinza">
-  Cinza
-</option>
-
-<option value="Creme">
-  Creme
-</option>
-
-<option value="Dourado">
-  Dourado
-</option>
-
-<option value="Jeans">
-  Jeans
-</option>
-
-<option value="Jeans escuro">
-  Jeans escuro
-</option>
-
-<option value="Laranja">
-  Laranja
-</option>
-
-<option value="Lilás">
-  Lilás
-</option>
-
-<option value="Marrom">
-  Marrom
-</option>
-
-<option value="Off-white">
-  Off-white
-</option>
-
-<option value="Prata">
-  Prata
-</option>
-
-<option value="Preto">
-  Preto
-</option>
-
-<option value="Rosa">
-  Rosa
-</option>
-
-<option value="Roxo">
-  Roxo
-</option>
-
-<option value="Verde">
-  Verde
-</option>
-
-<option value="Verde-oliva">
-  Verde-oliva
-</option>
-
-<option value="Vermelho">
-  Vermelho
-</option>
-
-<option value="Vinho">
-  Vinho
-</option>
-
-<option value="Amarelo">
-  Amarelo
-</option>
-
-      </select>
-
+    <select name="var_cor[]" style="display:none;">
+        <option value="">Selecione a cor</option>
+        <option value="Azul">Azul</option>
+        <option value="Azul-claro">Azul-claro</option>
+        <option value="Azul-marinho">Azul-marinho</option>
+        <option value="Bege">Bege</option>
+        <option value="Branco">Branco</option>
+        <option value="Caqui">Caqui</option>
+        <option value="Caramelo">Caramelo</option>
+        <option value="Cinza">Cinza</option>
+        <option value="Creme">Creme</option>
+        <option value="Dourado">Dourado</option>
+        <option value="Jeans">Jeans</option>
+        <option value="Jeans escuro">Jeans escuro</option>
+        <option value="Laranja">Laranja</option>
+        <option value="Lilás">Lilás</option>
+        <option value="Marrom">Marrom</option>
+        <option value="Off-white">Off-white</option>
+        <option value="Prata">Prata</option>
+        <option value="Preto">Preto</option>
+        <option value="Rosa">Rosa</option>
+        <option value="Roxo">Roxo</option>
+        <option value="Verde">Verde</option>
+        <option value="Verde-oliva">Verde-oliva</option>
+        <option value="Vermelho">Vermelho</option>
+        <option value="Vinho">Vinho</option>
+        <option value="Amarelo">Amarelo</option>
+    </select>
+</div>
       <!-- Campo estoque -->
       <input
         name="var_estoque[]"
@@ -246,7 +226,7 @@ include("../geral/conexao.php");
         multiple
         accept="image/*"
         required>
-
+        <div class="preview-imagens"></div>
       <!-- Remove a variação -->
       <button
         type="button"
@@ -259,71 +239,159 @@ include("../geral/conexao.php");
 
     <!-- Área dos tamanhos -->
     <div class="variation-size-area">
+    <strong>Tamanhos:</strong>
 
-      <strong>Tamanhos:</strong>
-
-      <div class="size-options">
-
-        <!-- Checkboxes de tamanhos -->
+    <div class="size-options">
         <label>
-          <input
-            type="checkbox"
-            name="var_tamanho[__IDX__][]"
-            value="PP">
-          PP
+            <input type="checkbox" name="var_tamanho[__IDX__][]" value="PP">
+            PP
         </label>
-
         <label>
-          <input
-            type="checkbox"
-            name="var_tamanho[__IDX__][]"
-            value="P">
-          P
+            <input type="checkbox" name="var_tamanho[__IDX__][]" value="P">
+            P
         </label>
-
         <label>
-          <input
-            type="checkbox"
-            name="var_tamanho[__IDX__][]"
-            value="M">
-          M
+            <input type="checkbox" name="var_tamanho[__IDX__][]" value="M">
+            M
         </label>
-
         <label>
-          <input
-            type="checkbox"
-            name="var_tamanho[__IDX__][]"
-            value="G">
-          G
+            <input type="checkbox" name="var_tamanho[__IDX__][]" value="G">
+            G
         </label>
-
         <label>
-          <input
-            type="checkbox"
-            name="var_tamanho[__IDX__][]"
-            value="GG">
-          GG
+            <input type="checkbox" name="var_tamanho[__IDX__][]" value="GG">
+            GG
         </label>
-
         <label>
-          <input
-            type="checkbox"
-            name="var_tamanho[__IDX__][]"
-            value="XG">
-          XG
+            <input type="checkbox" name="var_tamanho[__IDX__][]" value="XG">
+            XG
         </label>
-
-      </div>
     </div>
+
+    <div class="size-numeric" style="display:none;">
+        <label>Digite os tamanhos separados por vírgula</label>
+        <input type="text" name="var_tamanho_num[__IDX__]" placeholder="Ex.: 2, 4, 6, 8">
+        <small class="size-limit"></small>
+    </div>
+</div>
 
   </div>
 
 </template>
 
 <script>
-
+  
   // Índice usado para identificar cada variação
   let varIndex = 0;
+
+  function configurarAutocomplete(input, select) {
+    const lista = input.parentElement.querySelector('.autocomplete-list');
+
+    // Move a lista para fora do grid
+    document.body.appendChild(lista);
+
+    // Guarda a referência para permitir removê-la depois
+    input._autocompleteList = lista;
+
+    function normalizar(texto) {
+        return texto
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+    }
+
+    // Posiciona a lista em relação ao campo
+    function posicionarLista() {
+        if (!lista.classList.contains('visivel')) return;
+
+        const campo = input.getBoundingClientRect();
+
+        lista.style.left = campo.left + 'px';
+        lista.style.width = campo.width + 'px';
+
+        const altura = Math.min(lista.scrollHeight, 160);
+        const espacoAbaixo = window.innerHeight - campo.bottom;
+        const espacoAcima = campo.top;
+
+        if (espacoAbaixo < altura + 10 && espacoAcima > espacoAbaixo) {
+            lista.style.top = (campo.top - altura - 4) + 'px';
+        } else {
+            lista.style.top = (campo.bottom + 4) + 'px';
+        }
+    }
+
+    function atualizarLista() {
+        const termo = normalizar(input.value.trim());
+
+        lista.innerHTML = '';
+
+        const opcoes = Array.from(select.options).filter(opcao => {
+            if (opcao.value === '') return false;
+
+            return normalizar(opcao.text).startsWith(termo);
+        });
+
+        if (opcoes.length === 0) {
+            lista.classList.remove('visivel');
+            select.value = '';
+            return;
+        }
+
+        opcoes.forEach(opcao => {
+            const item = document.createElement('div');
+
+            item.className = 'autocomplete-item';
+            item.textContent = opcao.text;
+
+            item.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+
+                input.value = opcao.text;
+                select.value = opcao.value;
+
+                lista.classList.remove('visivel');
+                lista.innerHTML = '';
+
+                input.blur();
+
+                if (select.id === 'categoria' || select.id === 'genero') {
+                  atualizarTamanhos();
+                } else if (select.name === 'var_cor[]') {
+                  validarCores();
+                }
+            });
+
+            lista.appendChild(item);
+        });
+
+        lista.classList.add('visivel');
+        posicionarLista();
+    }
+
+    input.addEventListener('input', function() {
+        const nome = normalizar(this.value.trim());
+
+        const opcao = Array.from(select.options).find(
+            o => normalizar(o.text) === nome
+        );
+
+        select.value = opcao ? opcao.value : '';
+
+        atualizarLista();
+    });
+
+    input.addEventListener('focus', atualizarLista);
+
+    input.addEventListener('blur', function() {
+        setTimeout(() => {
+            lista.classList.remove('visivel');
+        }, 150);
+    });
+
+    // Mantém a lista alinhada ao campo durante a rolagem
+    window.addEventListener('scroll', posicionarLista, true);
+    window.addEventListener('resize', posicionarLista);
+}
 // Verifica se existem cores repetidas
 function validarCores() {
 
@@ -347,6 +415,9 @@ function validarCores() {
 
       select.value = "";
 
+      const campoCor = select.closest('.var-block').querySelector('.buscarCor');
+      campoCor.value = '';
+
       return false;
 
     }
@@ -358,9 +429,65 @@ function validarCores() {
   return true;
 
 }
+  function tipoTamanho() {
+    const genero = document.getElementById('genero');
+    const categoria = document.getElementById('categoria');
+
+    const nomeGenero = genero.options[genero.selectedIndex]?.text.toLowerCase() || '';
+    const nomeCategoria = categoria.options[categoria.selectedIndex]?.text.toLowerCase() || '';
+
+    if (nomeGenero.includes('infantil')) {
+        return 'infantil';
+    }
+
+    if (
+        nomeCategoria.includes('calçado') ||
+        nomeCategoria.includes('calcado') ||
+        nomeCategoria.includes('sapato')
+    ) {
+        return 'calcado';
+    }
+
+    return 'normal';
+}
+
+  function atualizarTamanhos() {
+    const tipo = tipoTamanho();
+
+    document.querySelectorAll('.var-block').forEach(block => {
+        const normal = block.querySelector('.size-options');
+        const numerico = block.querySelector('.size-numeric');
+        const campo = numerico.querySelector('input');
+        const limite = numerico.querySelector('.size-limit');
+
+        if (tipo === 'normal') {
+            normal.style.display = '';
+            numerico.style.display = 'none';
+            campo.required = false;
+        } else {
+            normal.style.display = 'none';
+            numerico.style.display = 'block';
+            campo.required = true;
+
+            if (tipo === 'infantil') {
+                campo.placeholder = 'Ex.: 2, 4, 6, 8';
+                limite.textContent = 'Tamanhos numéricos de 1 a 20.';
+            } else {
+                campo.placeholder = 'Ex.: 35, 36, 37, 38';
+                limite.textContent = 'Tamanhos numéricos de 1 a 50.';
+            }
+        }
+    });
+}
   // Cria uma nova variação
   function addVariation() {
+    const buscarSelo = document.getElementById('buscarSelo');
 
+buscarSelo.addEventListener('focus', function() {
+    if (this.value === 'Nenhum') {
+        this.value = '';
+    }
+});
     const tpl =
       document.getElementById('varTemplate').innerHTML;
 
@@ -375,11 +502,33 @@ function validarCores() {
     tmp.innerHTML = html;
 
     const block = tmp.firstElementChild;
+    const inputImagens = block.querySelector('input[type="file"]');
+    const preview = block.querySelector('.preview-imagens');
 
+    inputImagens.addEventListener('change', function() {
+    preview.innerHTML = '';
+
+    Array.from(this.files).forEach(arquivo => {
+        if (!arquivo.type.startsWith('image/')) return;
+
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(arquivo);
+        img.classList.add('preview-img');
+
+        preview.appendChild(img);
+    });
+});
+    const buscaCor = block.querySelector('.buscarCor');
+    const selectCor = block.querySelector('select[name="var_cor[]"]');
+
+    configurarAutocomplete(buscaCor, selectCor);
     // Botão para remover variação
 block
   .querySelector('.removeBtn')
-  .addEventListener('click', () => block.remove());
+  .addEventListener('click', () => {
+      buscaCor._autocompleteList.remove();
+      block.remove();
+  });
 
 
 // Verifica se a cor já foi usada
@@ -393,12 +542,15 @@ block
     document
       .getElementById('variationsContainer')
       .appendChild(block);
-
+    atualizarTamanhos();
   }
-
+  document.getElementById('categoria').addEventListener('change', atualizarTamanhos);
+document.getElementById('genero').addEventListener('change', atualizarTamanhos);
   // Remove todas as variações
   function resetVariations() {
-
+  document.querySelectorAll('#variationsContainer .buscarCor').forEach(input => {
+    input._autocompleteList.remove();
+});
     document.getElementById(
       'variationsContainer'
     ).innerHTML = '';
@@ -449,17 +601,25 @@ block
           'input[type="file"]'
         ).files.length;
 
-      const tamanhos =
-        b.querySelectorAll(
-          'input[type="checkbox"]:checked'
-        );
+      let tamanhosValidos = false;
+
+      if (tipoTamanho() === 'normal') {
+          tamanhosValidos = b.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+      } else {
+      const campo = b.querySelector('.size-numeric input');
+      const numeros = campo.value.split(',').map(n => n.trim()).filter(n => n !== '');
+      const limite = tipoTamanho() === 'infantil' ? 20 : 50;
+
+    tamanhosValidos = numeros.length > 0 &&
+        numeros.every(n => /^\d+$/.test(n) && Number(n) >= 1 && Number(n) <= limite);
+}
 
       // Verifica se os campos foram preenchidos
       if (
         cor === '' ||
         !Number.isFinite(stock) ||
         stock <= 0 ||
-        tamanhos.length === 0 ||
+        !tamanhosValidos ||
         files === 0
       ) {
         return false;
@@ -515,16 +675,30 @@ block
         e.preventDefault();
 
         alert(
-          "Erro: todas as variações devem possuir cor, estoque, imagem e ao menos um tamanho."
+          "Erro: todas as variações devem possuir cor, estoque, imagem e tamanhos válidos."
         );
 
       }
 
     });
+  const buscaCategoria = document.getElementById('buscarCategoria');
+  const selectCategoria = document.getElementById('categoria');
 
+  configurarAutocomplete(buscaCategoria, selectCategoria);
+
+  const buscaGenero = document.getElementById('buscarGenero');
+  const selectGenero = document.getElementById('genero');
+
+  configurarAutocomplete(buscaGenero, selectGenero);
+
+  const buscaSelo = document.getElementById('buscarSelo');
+  const selectSelo = document.getElementById('selo');
+
+  configurarAutocomplete(buscaSelo, selectSelo);
   // Cria uma variação inicial automaticamente
   addVariation();
 
+  
 </script>
 
 <?php
@@ -536,63 +710,85 @@ $data = date('Y/m/d');
 if (isset($_POST["cadastrar"])) {
 
   // Recebe os dados do formulário
-  $produto   = $_POST["produto"] ?? '';
-  $desc      = $_POST["desc"] ?? '';
-  $preco     = $_POST["preco"] ?? '';
-  $genero    = $_POST["genero"] ?? '';
-  $categoria = $_POST["categoria"] ?? '';
+$produto   = $_POST["produto"] ?? '';
+$desc      = $_POST["desc"] ?? '';
+$preco     = $_POST["preco"] ?? '';
+$genero    = $_POST["genero"] ?? '';
+$categoria = $_POST["categoria"] ?? '';
+$selo      = $_POST["selo"] ?? '';
 
-  // Recebe as variações
-  $tamanhos  = $_POST['var_tamanho'] ?? [];
-  $cores     = $_POST['var_cor'] ?? [];
-  $stocks    = $_POST['var_estoque'] ?? [];
+$tamanhos      = $_POST['var_tamanho'] ?? [];
+$tamanhosNum   = $_POST['var_tamanho_num'] ?? [];
+$cores         = $_POST['var_cor'] ?? [];
+$stocks        = $_POST['var_estoque'] ?? [];
+$images        = $_FILES['variation_images'] ?? [];
 
-  // Verifica cores repetidas
-if(count($cores) != count(array_unique($cores))) {
+$erro = '';
 
-  $erro .=
-    "Não é permitido utilizar a mesma cor em duas variações.<br>";
+// Busca o nome do gênero
+$sqlGenero = "SELECT nome_genero FROM tb_genero WHERE id_genero = '$genero'";
+$resultGenero = mysqli_query($con, $sqlGenero);
+$nomeGenero = strtolower(mysqli_fetch_assoc($resultGenero)['nome_genero'] ?? '');
 
+// Busca o nome da categoria
+$sqlCategoria = "SELECT nome_categoria FROM tb_categoria WHERE id_categoria = '$categoria'";
+$resultCategoria = mysqli_query($con, $sqlCategoria);
+$nomeCategoria = strtolower(mysqli_fetch_assoc($resultCategoria)['nome_categoria'] ?? '');
+
+if (strpos($nomeGenero, 'infantil') !== false) {
+    $tipoTamanhoPHP = 'infantil';
+} elseif (
+    strpos($nomeCategoria, 'calçado') !== false ||
+    strpos($nomeCategoria, 'calcado') !== false ||
+    strpos($nomeCategoria, 'sapato') !== false
+) {
+    $tipoTamanhoPHP = 'calcado';
+} else {
+    $tipoTamanhoPHP = 'normal';
 }
-  // Recebe as imagens
-  $images = $_FILES['variation_images'] ?? [];
 
-  // Variável de erros
-  $erro = '';
+// Verifica cores repetidas
+if (count($cores) != count(array_unique($cores))) {
+    $erro .= "Não é permitido utilizar a mesma cor em duas variações.<br>";
+}
 
   // Validação das variações
-  for ($i = 0; $i < count($cores); $i++) {
+for ($i = 0; $i < count($cores); $i++) {
 
     $cor = trim($cores[$i]);
+    $stock = (int)($stocks[$i] ?? 0);
 
-    $stock = (int)$stocks[$i];
+    if ($tipoTamanhoPHP === 'normal') {
+        $tamanhosSelecionados = $tamanhos[$i] ?? [];
+    } else {
+        $textoTamanhos = $tamanhosNum[$i] ?? '';
+        $tamanhosSelecionados = array_map('trim', explode(',', $textoTamanhos));
+        $tamanhosSelecionados = array_filter($tamanhosSelecionados, fn($t) => $t !== '');
 
-    $tamanhosSelecionados =
-      $tamanhos[$i] ?? [];
+        $limite = $tipoTamanhoPHP === 'infantil' ? 20 : 50;
 
-    // Verifica tamanhos
+        foreach ($tamanhosSelecionados as $tamanhoNum) {
+            if (!ctype_digit($tamanhoNum) || (int)$tamanhoNum < 1 || (int)$tamanhoNum > $limite) {
+                $erro .= "Tamanho inválido na variação [$i].<br>";
+                break;
+            }
+        }
+
+        $tamanhosSelecionados = array_unique($tamanhosSelecionados);
+    }
+
     if (count($tamanhosSelecionados) === 0) {
-
-      $erro .=
-        "Selecione ao menos um tamanho na variação [$i]<br>";
+        $erro .= "Selecione ou digite ao menos um tamanho na variação [$i].<br>";
     }
 
-    // Verifica cor
     if ($cor === '') {
-
-      $erro .=
-        "Selecione uma cor na variação [$i]<br>";
+        $erro .= "Selecione uma cor na variação [$i].<br>";
     }
 
-    // Verifica estoque
     if ($stock <= 0) {
-
-      $erro .=
-        "Digite um estoque válido na variação [$i]<br>";
+        $erro .= "Digite um estoque válido na variação [$i].<br>";
     }
-  }
-
-  // Validações do produto
+}
   if ($produto == '') {
     $erro .= "Digite o nome do produto<br>";
   }
@@ -618,9 +814,9 @@ if(count($cores) != count(array_unique($cores))) {
 
     // Insere o produto no banco
 $sql = "INSERT INTO tb_produto
-(nome_produto, descricao_produto, preco, id_categoria, id_genero, ativo, data_cadastro)
+(nome_produto, descricao_produto, preco, id_categoria, id_genero, ativo, data_cadastro, selo)
 VALUES
-('$produto', '$desc', '$preco', '$categoria', '$genero', '1', '$data')";
+('$produto', '$desc', '$preco', '$categoria', '$genero', '1', '$data', '$selo')";
 
 mysqli_query($con, $sql);
 
@@ -638,7 +834,13 @@ for ($i = 0; $i < count($cores); $i++) {
 
     $cor = trim($cores[$i]);
     $stock = (int)$stocks[$i];
+    if ($tipoTamanhoPHP === 'normal') {
     $tamanhosSelecionados = $tamanhos[$i] ?? [];
+} else {
+    $tamanhosSelecionados = array_map('trim', explode(',', $tamanhosNum[$i] ?? ''));
+    $tamanhosSelecionados = array_filter($tamanhosSelecionados, fn($t) => $t !== '');
+    $tamanhosSelecionados = array_unique($tamanhosSelecionados);
+}
 
     // Armazena os nomes das imagens dessa cor
     $imagensCor = [];
